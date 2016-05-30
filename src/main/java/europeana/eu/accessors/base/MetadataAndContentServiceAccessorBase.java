@@ -3,7 +3,9 @@ package europeana.eu.accessors.base;
 import europeana.eu.accessors.MetadataAndContentServiceAccessor;
 import europeana.eu.commons.Tools;
 import europeana.eu.exceptions.BadRequest;
+import europeana.eu.exceptions.DoesNotExistException;
 import europeana.eu.model.Constants;
+import europeana.eu.model.RepresentationVersion;
 import europeana.eu.model.Result;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,6 +17,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.NoContentException;
 import javax.ws.rs.core.Response;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -75,5 +78,184 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
             }
         }
         return null;
+    }
+
+    @Override
+    public String getRepresentations(String cloudId) throws NoContentException, DoesNotExistException {
+        WebTarget target = client.target(accessorUrl.toString());
+        target = target.path(Constants.RECORDS_PATH.getConstant()).path(cloudId).path(Constants.REPRESENTATIONS_PATH.getConstant());
+        Response response = target.request(MediaType.APPLICATION_JSON).get();
+
+        short status = (short) response.getStatus();
+        System.out.println(response.readEntity(String.class));
+
+        // TODO: 30-5-16 Implement correctly
+        if (status == 200) {
+//            dataProvider = response.readEntity(DataProvider.class);
+            System.out.println(response.readEntity(String.class));
+            logger.info("getRepresentations: " + target.getUri() + ", response: " + status + ", Returned a list of results!");
+            return null;
+        }
+        else{
+            Result result = response.readEntity(Result.class);
+            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            logger.error(errorString);
+            switch (status)
+            {
+                case 204:
+                    throw new NoContentException(errorString);
+                case 404:
+                    throw new DoesNotExistException(errorString);
+                case 500:
+                    throw new InternalServerErrorException(errorString);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public String getRepresentation(String cloudId, String representationName) throws NoContentException, DoesNotExistException {
+        WebTarget target = client.target(accessorUrl.toString());
+        target = target.path(Constants.RECORDS_PATH.getConstant()).path(cloudId).path(Constants.REPRESENTATIONS_PATH.getConstant()).path(representationName);
+        Response response = target.request(MediaType.APPLICATION_JSON).get();
+
+        short status = (short) response.getStatus();
+        System.out.println(status);
+        System.out.println(response.readEntity(String.class));
+        // TODO: 30-5-16 Implement correctly
+        if (status == 200) {
+            System.out.println(response.readEntity(String.class));
+            logger.info("getRepresentation: " + target.getUri() + ", response: " + status + ", Representation with name: " + representationName + " exists!");
+            return null;
+        }
+        else{
+            Result result = response.readEntity(Result.class);
+            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            logger.error(errorString);
+            switch (status)
+            {
+                case 204:
+                    throw new NoContentException(errorString);
+                case 404:
+                    throw new DoesNotExistException(errorString);
+                case 500:
+                    throw new InternalServerErrorException(errorString);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public RepresentationVersion[] getRepresentationVersions(String cloudId, String representationName) throws DoesNotExistException {
+        WebTarget target = client.target(accessorUrl.toString());
+        target = target.path(Constants.RECORDS_PATH.getConstant()).path(cloudId).path(Constants.REPRESENTATIONS_PATH.getConstant()).path(representationName)
+                .path(Constants.VERSIONS_PATH.getConstant());
+        Response response = target.request(MediaType.APPLICATION_JSON).get();
+
+        short status = (short) response.getStatus();
+
+        if (status == 200) {
+            RepresentationVersion[] representationVersions = response.readEntity(RepresentationVersion[].class);
+            logger.info("getRepresentationVersions: " + target.getUri() + ", response: " + status + ", Returned a list of results!");
+            return representationVersions;
+        }
+        else{
+            Result result = response.readEntity(Result.class);
+            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            logger.error(errorString);
+            switch (status)
+            {
+                case 404:
+                    throw new DoesNotExistException(errorString);
+                case 500:
+                    throw new InternalServerErrorException(errorString);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public RepresentationVersion getRepresentationVersion(String cloudId, String representationName, String version) throws DoesNotExistException {
+        WebTarget target = client.target(accessorUrl.toString());
+        target = target.path(Constants.RECORDS_PATH.getConstant()).path(cloudId).path(Constants.REPRESENTATIONS_PATH.getConstant()).path(representationName)
+                .path(Constants.VERSIONS_PATH.getConstant()).path(version);
+        Response response = target.request(MediaType.APPLICATION_JSON).get();
+
+        short status = (short) response.getStatus();
+
+        if (status == 200) {
+            RepresentationVersion representationVersion = response.readEntity(RepresentationVersion.class);
+            logger.info("getRepresentationVersion: " + target.getUri() + ", response: " + status + ", Returned a list of results!");
+            return representationVersion;
+        }
+        else{
+            System.out.println(response.readEntity(String.class));
+            Result result = response.readEntity(Result.class);
+            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Representation version with version: " + version + " exists!";
+            logger.error(errorString);
+            switch (status)
+            {
+                case 404:
+                    throw new DoesNotExistException(errorString);
+                case 500:
+                    throw new InternalServerErrorException(errorString);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public short deleteRepresentation(String cloudId, String representationName) throws DoesNotExistException {
+        WebTarget target = client.target(accessorUrl.toString());
+        target = target.path(Constants.RECORDS_PATH.getConstant()).path(cloudId).path(Constants.REPRESENTATIONS_PATH.getConstant()).path(representationName);
+        Response response = target.request(MediaType.APPLICATION_JSON).delete();
+
+        short status = (short) response.getStatus();
+
+        System.out.println(response.readEntity(String.class));
+        if (status == 204) {
+            logger.info("deleteRepresentation: " + target.getUri() + ", response: " + status + ", representationName: " + representationName + " deleted!");
+        }
+        else{
+            Result result = response.readEntity(Result.class);
+            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            logger.error(errorString);
+            switch (status)
+            {
+                case 404:
+                    throw new DoesNotExistException(errorString);
+                case 500:
+                    throw new InternalServerErrorException(errorString);
+            }
+        }
+        return status;
+    }
+
+    @Override
+    public short deleteRepresentationVersion(String cloudId, String representationName, String version) throws DoesNotExistException {
+        WebTarget target = client.target(accessorUrl.toString());
+        target = target.path(Constants.RECORDS_PATH.getConstant()).path(cloudId).path(Constants.REPRESENTATIONS_PATH.getConstant()).path(representationName)
+                .path(Constants.VERSIONS_PATH.getConstant()).path(version);
+        Response response = target.request(MediaType.APPLICATION_JSON).delete();
+
+        short status = (short) response.getStatus();
+
+        if (status == 204) {
+            logger.info("deleteRepresentationVersion: " + target.getUri() + ", response: " + status + ", representationName: " + representationName + ", version: " + version + " deleted!");
+        }
+        else{
+            System.out.println(response.readEntity(String.class));
+            Result result = response.readEntity(Result.class);
+            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            logger.error(errorString);
+            switch (status)
+            {
+                case 404:
+                    throw new DoesNotExistException(errorString);
+                case 500:
+                    throw new InternalServerErrorException(errorString);
+            }
+        }
+        return status;
     }
 }

@@ -9,6 +9,7 @@ public enum Constants {
     CLOUDIDS_PATH("cloudIds"),
     RECORDS_PATH("records"),
     REPRESENTATIONS_PATH("representations"),
+    VERSIONS_PATH("versions"),
     PROVIDERID("providerId"),
     RECORDID("recordId"),
     LOCATION_HEADER("Location"),

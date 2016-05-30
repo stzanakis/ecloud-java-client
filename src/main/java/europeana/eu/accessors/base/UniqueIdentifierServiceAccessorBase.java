@@ -130,7 +130,7 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
 
         Response response = target.request(MediaType.APPLICATION_JSON).get();
 
-        System.out.println(target.getUri());
+//        System.out.println(target.getUri());
 //        System.out.println(response.readEntity(String.class));
         short status = (short) response.getStatus();
 

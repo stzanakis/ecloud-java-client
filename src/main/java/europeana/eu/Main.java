@@ -58,6 +58,12 @@ public class Main {
 //        System.out.println(accessorsManager.getUniqueIdentifierServiceAccessorBase()
 //                .deleteCloudId("JFCBS7OOB3PKQBO7DV7SMMHRJDOJ47JKFVVJIMDQID5VEHRROQPQ"));
 
+//        CloudIdsSlice cloudIdsSlice = accessorsManager.getUniqueIdentifierServiceAccessorBase()
+//                .getCloudIdsOfProvider("STempProvider5");
+//        for (CloudId cloudId : cloudIdsSlice.getCloudIds()) {
+//            System.out.println(cloudId.getId());
+//        }
+
 //        for (CloudId cloudId : cloudIdsSlice.getCloudIds()) {
 //            Tools.marshallAny(cloudId);
 //            System.out.println(cloudId.getId());
@@ -70,6 +76,27 @@ public class Main {
 
 //        RECORDS START
 //        String representationVersion = accessorsManager.getMetadataAndContentServiceAccessor().createRepresentationVersion("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA", "TEST", "STempProvider5");
+//        System.out.println(representationVersion);
+
+//          accessorsManager.getMetadataAndContentServiceAccessor().getRepresentations("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA");
+        accessorsManager.getMetadataAndContentServiceAccessor().getRepresentation("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA", "TEST");
+
+
+//        RepresentationVersion[] representationVersions = accessorsManager.getMetadataAndContentServiceAccessor().getRepresentationVersions("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA", "TEST");
+//        for (RepresentationVersion representationVersion: representationVersions
+//             ) {
+//            System.out.println(representationVersion.getVersion());
+//        }
+
+//        RepresentationVersion representationVersion = accessorsManager.getMetadataAndContentServiceAccessor()
+//                .getRepresentationVersion("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA", "TEST", "1b12a390-2659-11e6-9e71-fa163e64bb83");
+//        System.out.println(representationVersion.getVersion());
+
+//        accessorsManager.getMetadataAndContentServiceAccessor()
+//                .deleteRepresentationVersion("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA", "TEST", "1b12a390-2659-11e6-9e71-fa163e64bb83");
+
+//        accessorsManager.getMetadataAndContentServiceAccessor().deleteRepresentation("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA", "TEST");
+
 //        RECORDS END
 
         logger.info("Ended in Main");
