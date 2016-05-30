@@ -2,8 +2,10 @@ package europeana.eu.accessors.base;
 
 import europeana.eu.accessors.MetadataAndContentServiceAccessor;
 import europeana.eu.commons.Tools;
+import europeana.eu.exceptions.AlreadyExistsException;
 import europeana.eu.exceptions.BadRequest;
 import europeana.eu.exceptions.DoesNotExistException;
+import europeana.eu.exceptions.MethodNotAllowedException;
 import europeana.eu.model.Constants;
 import europeana.eu.model.RepresentationVersion;
 import europeana.eu.model.Result;
@@ -11,6 +13,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
+import org.glassfish.jersey.media.multipart.FormDataBodyPart;
+import org.glassfish.jersey.media.multipart.MultiPart;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
+import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
 
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.client.Client;
@@ -19,6 +25,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.NoContentException;
 import javax.ws.rs.core.Response;
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
@@ -62,8 +69,9 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
         short status = (short) response.getStatus();
 
         if (status == 201) {
-            logger.info("createRepresentationVersion: " + target.getUri() + ", response: " + status + ", Representation with name: " + representationName + " created successfully!");
-            return response.getHeaderString(Constants.LOCATION_HEADER.getConstant());
+            String location = response.getHeaderString(Constants.LOCATION_HEADER.getConstant());
+            logger.info("createRepresentationVersion: " + target.getUri() + ", response: " + status + ", Representation version created with URI: " + location);
+            return location;
         }
         else{
             Result result = response.readEntity(Result.class);
@@ -257,5 +265,57 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
             }
         }
         return status;
+    }
+
+    @Override
+    public String addFileToRepresentationVersion(String cloudId, String representationName, String version, File file) throws BadRequest, DoesNotExistException, AlreadyExistsException, MethodNotAllowedException {
+        WebTarget target = client.register(MultiPartFeature.class).target(accessorUrl.toString());
+        target = target.path(Constants.RECORDS_PATH.getConstant()).path(cloudId).path(Constants.REPRESENTATIONS_PATH.getConstant()).path(representationName)
+                .path(Constants.VERSIONS_PATH.getConstant()).path(version).path(Constants.FILES_PATH.getConstant());
+
+        // MediaType of the body part will be derived from the file.
+        Map<String,String> map = new HashMap<>();
+        map.put("mimeType", "application/png");
+        String formURLEncoded = Tools.generateFormURLEncoded(map);
+
+        final FileDataBodyPart filePart =
+                new FileDataBodyPart("data", file, MediaType.APPLICATION_OCTET_STREAM_TYPE);
+        FormDataBodyPart formDataBodyPart = new FormDataBodyPart();
+        formDataBodyPart.setValue(MediaType.APPLICATION_FORM_URLENCODED_TYPE, formURLEncoded);
+        MultiPart multiPartEntity = new MultiPart();
+        multiPartEntity.bodyPart(formDataBodyPart);
+        multiPartEntity.bodyPart(filePart);
+
+        Response response =
+                target.request().post(Entity.entity(multiPartEntity, MediaType.MULTIPART_FORM_DATA),
+                        Response.class);
+
+        short status = (short) response.getStatus();
+
+        if (status == 201) {
+            String location = response.getHeaderString(Constants.LOCATION_HEADER.getConstant());
+            logger.info("addFileToRepresentationVersion: " + target.getUri() + ", response: " + status +
+                    ", Added file with URI: " + location);
+            return location;
+        }
+        else{
+            Result result = response.readEntity(Result.class);
+            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            logger.error(errorString);
+            switch (status)
+            {
+                case 400:
+                    throw new BadRequest(errorString);
+                case 404:
+                    throw new DoesNotExistException(errorString);
+                case 405:
+                    throw new MethodNotAllowedException(errorString);
+                case 409:
+                    throw new AlreadyExistsException(errorString);
+                case 500:
+                    throw new InternalServerErrorException(errorString);
+            }
+        }
+        return null;
     }
 }

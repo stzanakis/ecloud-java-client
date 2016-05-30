@@ -1,5 +1,8 @@
 package europeana.eu.model;
 
+import europeana.eu.commons.Tools;
+
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -23,12 +26,12 @@ public class RepresentationVersion {
     URI uri;
     String version;
     @XmlElement(name = "files")
-    List<File> files;
+    List<FileMetadata> filesMetadata;
 
     public RepresentationVersion() {
     }
 
-    public RepresentationVersion(URI allVersionsUri, String cloudId, String creationDate, String dataProvider, boolean persistent, String representationName, URI uri, String version, List<File> files) {
+    public RepresentationVersion(URI allVersionsUri, String cloudId, String creationDate, String dataProvider, boolean persistent, String representationName, URI uri, String version, List<FileMetadata> filesMetadata) {
         this.allVersionsUri = allVersionsUri;
         this.cloudId = cloudId;
         this.creationDate = creationDate;
@@ -37,7 +40,7 @@ public class RepresentationVersion {
         this.representationName = representationName;
         this.uri = uri;
         this.version = version;
-        this.files = files;
+        this.filesMetadata = filesMetadata;
     }
 
     public URI getAllVersionsUri() {
@@ -104,11 +107,21 @@ public class RepresentationVersion {
         this.version = version;
     }
 
-    public List<File> getFiles() {
-        return files;
+    public List<FileMetadata> getFilesMetadata() {
+        return filesMetadata;
     }
 
-    public void setFiles(List<File> files) {
-        this.files = files;
+    public void setFilesMetadata(List<FileMetadata> filesMetadata) {
+        this.filesMetadata = filesMetadata;
+    }
+
+    @Override
+    public String toString() {
+        try {
+            return Tools.marshallAny(this);
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }

@@ -7,6 +7,7 @@ import org.eclipse.persistence.jaxb.MarshallerProperties;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import java.io.StringWriter;
 import java.util.Map;
 
 /**
@@ -36,7 +37,7 @@ public class Tools {
         jaxbMarshaller.marshal(dataProvider, System.out);
     }
 
-    public static void marshallAny(Object object) throws JAXBException {
+    public static String marshallAny(Object object) throws JAXBException {
 
         JAXBContext jaxbContext =   JAXBContextFactory.createContext(new Class[]{object.getClass()}, null);
 
@@ -52,7 +53,10 @@ public class Tools {
 //        jaxbMarshaller.marshal(dataProvider, System.out);
 
         jaxbMarshaller.setProperty("eclipselink.media-type", "application/json");
-        jaxbMarshaller.marshal(object, System.out);
+        StringWriter stringWriter = new StringWriter();
+        jaxbMarshaller.marshal(object,stringWriter);
+
+        return stringWriter.toString();
     }
 
     public static String generateFormURLEncoded(Map<String, String> map)

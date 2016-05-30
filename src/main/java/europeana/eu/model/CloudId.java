@@ -1,5 +1,8 @@
 package europeana.eu.model;
 
+import europeana.eu.commons.Tools;
+
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -45,5 +48,15 @@ public class CloudId {
 
     public void setLocalId(LocalId localId) {
         this.localId = localId;
+    }
+
+    @Override
+    public String toString() {
+        try {
+            return Tools.marshallAny(this);
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }
