@@ -53,6 +53,32 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
         return generateCloudId(providerId, recordId);
     }
 
+    @Override
+    public short deleteCloudId(String cloudId) throws DoesNotExistException {
+        WebTarget target = client.target(accessorUrl.toString());
+        target = target.path(Constants.CLOUDIDS_PATH.getConstant()).path(cloudId);
+        Response response = target.request(MediaType.APPLICATION_JSON).delete();
+
+        short status = (short) response.getStatus();
+
+        if (status == 200) {
+            logger.info("deleteCloudId: " + target.getUri() + ", response: " + status + ", CloudId: " + cloudId + " deleted!");
+        }
+        else{
+            Result result = response.readEntity(Result.class);
+            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            logger.error(errorString);
+            switch (status)
+            {
+                case 404:
+                    throw new DoesNotExistException(errorString);
+                case 500:
+                    throw new InternalServerErrorException(errorString);
+            }
+        }
+        return status;
+    }
+
     private CloudId generateCloudId(String providerId, String recordId) throws DoesNotExistException, AlreadyExistsException {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.CLOUDIDS_PATH.getConstant()).queryParam(Constants.PROVIDERID.getConstant(), providerId)

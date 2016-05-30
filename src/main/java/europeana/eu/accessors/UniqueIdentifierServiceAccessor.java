@@ -18,6 +18,8 @@ public interface UniqueIdentifierServiceAccessor {
     CloudId createNewCloudId(String providerId) throws DoesNotExistException, AlreadyExistsException;
     CloudId createNewCloudId(String providerId, String recordId) throws DoesNotExistException, AlreadyExistsException;
 
+    short deleteCloudId(String cloudId) throws DoesNotExistException;
+
     CloudIdsSlice getCloudIdsOfProvider(String providerId) throws DoesNotExistException;
     CloudIdsSlice getCloudIdsOfProvider(String providerId, String from, int to) throws DoesNotExistException;
 

@@ -4,12 +4,18 @@ import europeana.eu.commons.AccessorsManager;
 import europeana.eu.exceptions.AlreadyExistsException;
 import europeana.eu.exceptions.BadRequest;
 import europeana.eu.exceptions.DoesNotExistException;
+import europeana.eu.model.CloudId;
 import europeana.eu.model.CloudIdsSlice;
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.configuration.PropertiesConfigurationLayout;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.ws.rs.core.NoContentException;
 import javax.xml.bind.JAXBException;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 
 /**
  * @author Simon Tzanakis (Simon.Tzanakis@europeana.eu)
@@ -17,14 +23,19 @@ import javax.xml.bind.JAXBException;
  */
 public class Main {
     private static final Logger logger = LogManager.getLogger();
-    public static void main(String[] args) throws AlreadyExistsException, BadRequest, DoesNotExistException, NoContentException, JAXBException {
+    public static void main(String[] args) throws AlreadyExistsException, BadRequest, DoesNotExistException, NoContentException, JAXBException, FileNotFoundException, ConfigurationException {
         System.out.println("Hello ECloud!");
         logger.info("Started in Main");
 
-        // TODO: 25-5-16 Read credentials from properties file.
+
+        PropertiesConfiguration propertiesConfiguration = new PropertiesConfiguration();
+        PropertiesConfigurationLayout configurationPropertiesLayout = new PropertiesConfigurationLayout(propertiesConfiguration);
+        configurationPropertiesLayout.load(new FileReader(Main.class.getClassLoader().getResource("credentials.properties").getFile()));
+
         AccessorsManager accessorsManager = new AccessorsManager();
 //        accessorsManager.InitializeAllAccessors("https://test-cloud.europeana.eu/api", "stzanakis", "Pom3ohco");
-        accessorsManager.InitializeAllAccessors("https://test-cloud.europeana.eu/api", "stzanakis_admin", "keg3zahV");
+        accessorsManager.InitializeAllAccessors("https://test-cloud.europeana.eu/api",
+                propertiesConfiguration.getProperty("username_admin").toString(), propertiesConfiguration.getProperty("password_admin").toString());
 
 //        DATA PROVIDERS START
 //        Create Data Provider
@@ -41,16 +52,18 @@ public class Main {
 //        DATA PROVIDERS END
 
 //        CLOUD IDS START
-//        CloudId cloudId = accessorsManager.getUniqueIdentifierServiceAccessorBase().createNewCloudId("STempProvider5");
+//        accessorsManager.getUniqueIdentifierServiceAccessorBase().createNewCloudId("STempProvider5");
         CloudIdsSlice cloudIdsSlice = accessorsManager.getUniqueIdentifierServiceAccessorBase()
                 .getCloudIdsOfProvider("STempProvider5");
-//        CloudIdsSlice cloudIdsSlice = accessorsManager.getCloudIdsAccessorBase()
-//                .getCloudIdsOfProvider("STempProvider5", "JFCBS7OOB3PKQBO7DV7SMMHRJDOJ47JKFVVJIMDQID5VEHRROQPQ", 6);
+//        System.out.println(accessorsManager.getUniqueIdentifierServiceAccessorBase()
+//                .deleteCloudId("JFCBS7OOB3PKQBO7DV7SMMHRJDOJ47JKFVVJIMDQID5VEHRROQPQ"));
 
-//        for (CloudId cloudId : cloudIdsSlice.getCloudIds()) {
+        for (CloudId cloudId : cloudIdsSlice.getCloudIds()) {
 //            Tools.marshallAny(cloudId);
-//            System.out.println(cloudId.getId());
-//        }
+            System.out.println(cloudId.getId());
+//            System.out.println(accessorsManager.getUniqueIdentifierServiceAccessorBase()
+//                    .deleteCloudId(cloudId.getId()));
+        }
 //        System.out.println(cloudIdsSlice.getCloudIds().size());
 //        System.out.println(cloudIdsSlice.getNextSlice());
 //        CLOUD IDS END
