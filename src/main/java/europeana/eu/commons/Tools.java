@@ -7,6 +7,7 @@ import org.eclipse.persistence.jaxb.MarshallerProperties;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import java.util.Map;
 
 /**
  * @author Simon Tzanakis (Simon.Tzanakis@europeana.eu)
@@ -52,5 +53,15 @@ public class Tools {
 
         jaxbMarshaller.setProperty("eclipselink.media-type", "application/json");
         jaxbMarshaller.marshal(object, System.out);
+    }
+
+    public static String generateFormURLEncoded(Map<String, String> map)
+    {
+        StringBuilder url_encoded = new StringBuilder("");
+        for (Map.Entry<String, String> entry: map.entrySet()
+             ) {
+            url_encoded.append(entry.getKey() + "=" + entry.getValue());
+        }
+        return url_encoded.toString();
     }
 }

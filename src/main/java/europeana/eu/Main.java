@@ -4,8 +4,6 @@ import europeana.eu.commons.AccessorsManager;
 import europeana.eu.exceptions.AlreadyExistsException;
 import europeana.eu.exceptions.BadRequest;
 import europeana.eu.exceptions.DoesNotExistException;
-import europeana.eu.model.CloudId;
-import europeana.eu.model.CloudIdsSlice;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.PropertiesConfigurationLayout;
@@ -28,6 +26,7 @@ public class Main {
         logger.info("Started in Main");
 
 
+//        INITIALIZE START
         PropertiesConfiguration propertiesConfiguration = new PropertiesConfiguration();
         PropertiesConfigurationLayout configurationPropertiesLayout = new PropertiesConfigurationLayout(propertiesConfiguration);
         configurationPropertiesLayout.load(new FileReader(Main.class.getClassLoader().getResource("credentials.properties").getFile()));
@@ -36,6 +35,7 @@ public class Main {
 //        accessorsManager.InitializeAllAccessors("https://test-cloud.europeana.eu/api", "stzanakis", "Pom3ohco");
         accessorsManager.InitializeAllAccessors("https://test-cloud.europeana.eu/api",
                 propertiesConfiguration.getProperty("username_admin").toString(), propertiesConfiguration.getProperty("password_admin").toString());
+//        INITIALIZE END
 
 //        DATA PROVIDERS START
 //        Create Data Provider
@@ -43,7 +43,7 @@ public class Main {
 //                "Semail@example.com", "Sdl-url-example.com", "SOrganizationName", "SRemarks", "SContactPersonName");
 
         //Get Data Provider
-//        accessorsManager.getDataProviderAccessorBase().getProvider("STempProvider");
+//        accessorsManager.getUniqueIdentifierServiceAccessorBase().getProvider("STempProvider");
 //        DataProvider dataProvider =accessorsManager.getDataProviderAccessorBase().getProvider("STempProvider8");
 //        System.out.println(dataProvider.getId());
 
@@ -53,21 +53,24 @@ public class Main {
 
 //        CLOUD IDS START
 //        accessorsManager.getUniqueIdentifierServiceAccessorBase().createNewCloudId("STempProvider5");
-        CloudIdsSlice cloudIdsSlice = accessorsManager.getUniqueIdentifierServiceAccessorBase()
-                .getCloudIdsOfProvider("STempProvider5");
+//        CloudIdsSlice cloudIdsSlice = accessorsManager.getUniqueIdentifierServiceAccessorBase()
+//                .getCloudIdsOfProvider("STempProvider5");
 //        System.out.println(accessorsManager.getUniqueIdentifierServiceAccessorBase()
 //                .deleteCloudId("JFCBS7OOB3PKQBO7DV7SMMHRJDOJ47JKFVVJIMDQID5VEHRROQPQ"));
 
-        for (CloudId cloudId : cloudIdsSlice.getCloudIds()) {
+//        for (CloudId cloudId : cloudIdsSlice.getCloudIds()) {
 //            Tools.marshallAny(cloudId);
-            System.out.println(cloudId.getId());
+//            System.out.println(cloudId.getId());
 //            System.out.println(accessorsManager.getUniqueIdentifierServiceAccessorBase()
 //                    .deleteCloudId(cloudId.getId()));
-        }
+//        }
 //        System.out.println(cloudIdsSlice.getCloudIds().size());
 //        System.out.println(cloudIdsSlice.getNextSlice());
 //        CLOUD IDS END
 
+//        RECORDS START
+//        String representationVersion = accessorsManager.getMetadataAndContentServiceAccessor().createRepresentationVersion("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA", "TEST", "STempProvider5");
+//        RECORDS END
 
         logger.info("Ended in Main");
     }

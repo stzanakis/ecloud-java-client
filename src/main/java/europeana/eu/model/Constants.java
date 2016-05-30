@@ -7,8 +7,11 @@ package europeana.eu.model;
 public enum Constants {
     DATAPROVIDERS_PATH("data-providers"),
     CLOUDIDS_PATH("cloudIds"),
+    RECORDS_PATH("records"),
+    REPRESENTATIONS_PATH("representations"),
     PROVIDERID("providerId"),
     RECORDID("recordId"),
+    LOCATION_HEADER("Location"),
     FROM("from"),
     TO("to");
 
