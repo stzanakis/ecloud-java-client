@@ -306,6 +306,47 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
     }
 
     @Override
+    public DataProviderSlice getProviders() throws DoesNotExistException {
+        return retrieveProviders(null);
+    }
+
+    @Override
+    public DataProviderSlice getProviders(String from) throws DoesNotExistException {
+        return retrieveProviders(from);
+    }
+
+    private DataProviderSlice retrieveProviders(String from) throws DoesNotExistException {
+        WebTarget target = client.target(accessorUrl.toString());
+        target = target.path(Constants.DATAPROVIDERS_PATH.getConstant());
+
+        if (from != null)
+            target = target.queryParam(Constants.FROM.getConstant(), from);
+
+        Response response = target.request(MediaType.APPLICATION_XML).get();
+
+        short status = (short) response.getStatus();
+
+        if (status == 200) {
+            DataProviderSlice dataProviderSlice = response.readEntity(DataProviderSlice.class);
+            logger.info("getProviders: " + target.getUri() + ", response: " + status + ", Returned a list of results!");
+            return dataProviderSlice;
+        }
+        else{
+            Result result = response.readEntity(Result.class);
+            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            logger.error(errorString);
+            switch (status)
+            {
+                case 404:
+                    throw new DoesNotExistException(errorString);
+                case 500:
+                    throw new InternalServerErrorException(errorString);
+            }
+        }
+        return null;
+    }
+
+    @Override
     public DataProvider getProvider(String providerId) throws BadRequest, DoesNotExistException, NoContentException {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.DATAPROVIDERS_PATH.getConstant()).path(providerId);

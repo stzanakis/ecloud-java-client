@@ -48,6 +48,14 @@ public class Main {
 //        DataProvider dataProvider =accessorsManager.getDataProviderAccessorBase().getProvider("STempProvider8");
 //        System.out.println(dataProvider.getId());
 
+//        DataProviderSlice dataProviders = accessorsManager.getUniqueIdentifierServiceAccessorBase().getProviders(null);
+//        for (DataProvider dp :
+//                dataProviders.getDataProviders()) {
+//            System.out.println(dp.getId());
+//        }
+//        System.out.println(dataProviders.getDataProviders().size());
+//        System.out.println(dataProviders.getNextSlice());
+
         //Delete Data Provider
 //        accessorsManager.getDataProviderAccessorBase().deleteDataProvider("STempProvider8");
 //        DATA PROVIDERS END

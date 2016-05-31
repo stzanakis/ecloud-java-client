@@ -6,6 +6,7 @@ import europeana.eu.exceptions.DoesNotExistException;
 import europeana.eu.model.CloudId;
 import europeana.eu.model.CloudIdsSlice;
 import europeana.eu.model.DataProvider;
+import europeana.eu.model.DataProviderSlice;
 
 import javax.ws.rs.core.NoContentException;
 
@@ -120,6 +121,21 @@ public interface UniqueIdentifierServiceAccessor {
      * @throws BadRequest
      */
     short createDataProvider(String providerId, String organizationUrl, String email, String digitalLibraryUrl, String organizationName, String remarks, String contactPersonName) throws AlreadyExistsException, BadRequest;
+
+    /**
+     * Get all existent Providers in slices.
+     * @return {@link europeana.eu.model.DataProviderSlice}
+     * @throws DoesNotExistException
+     */
+    DataProviderSlice getProviders() throws DoesNotExistException;
+
+    /**
+     * Get all existent Providers in slices from a specific Provider Id.
+     * @param from
+     * @return {@link europeana.eu.model.DataProviderSlice}
+     * @throws DoesNotExistException
+     */
+    DataProviderSlice getProviders(String from) throws DoesNotExistException;
 
     /**
      * Retrieve a Data Provider.
