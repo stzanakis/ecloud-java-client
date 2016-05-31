@@ -85,6 +85,75 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
     }
 
     @Override
+    public CloudIdsSlice getCloudIdWithRecordIds(String cloudId) throws DoesNotExistException {
+        WebTarget target = client.target(accessorUrl.toString());
+        target = target.path(Constants.CLOUDIDS_PATH.getConstant()).path(cloudId);
+
+        Response response = target.request(MediaType.APPLICATION_JSON).get();
+        short status = (short) response.getStatus();
+
+        if (status == 200) {
+            CloudIdsSlice cloudIdsSlice = response.readEntity(CloudIdsSlice.class);
+            logger.info("getCloudIdWithRecordIds: " + target.getUri() + ", response: " + status + ", Returned a list of results!");
+            return cloudIdsSlice;
+        }
+        else{
+            Result result = response.readEntity(Result.class);
+            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            logger.error(errorString);
+            switch (status)
+            {
+                case 404:
+                    throw new DoesNotExistException(errorString);
+                case 500:
+                    throw new InternalServerErrorException(errorString);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public CloudId createMappingRecordIdToCloudId(String providerId, String cloudId, String recordId) throws DoesNotExistException, AlreadyExistsException {
+        return mapRecordIdToCloudId(providerId, cloudId, recordId);
+    }
+
+    @Override
+    public CloudId createMappingRecordIdToCloudId(String providerId, String cloudId) throws DoesNotExistException, AlreadyExistsException {
+        return mapRecordIdToCloudId(providerId, cloudId, null);
+    }
+
+    private CloudId mapRecordIdToCloudId(String providerId, String cloudId, String recordId) throws DoesNotExistException, AlreadyExistsException {
+        WebTarget target = client.target(accessorUrl.toString());
+        target = target.path(Constants.DATAPROVIDERS_PATH.getConstant())
+                .path(providerId).path(Constants.CLOUDIDS_PATH.getConstant()).path(cloudId).queryParam(Constants.RECORDID.getConstant(), recordId);
+
+        Response response = target.request(MediaType.APPLICATION_JSON).post(Entity.entity(null, MediaType.APPLICATION_JSON), Response.class);
+
+        short status = (short) response.getStatus();
+
+        if (status == 200) {
+            CloudId cloudIdRepresentation = response.readEntity(CloudId.class);
+            logger.info("mapRecordIdToCloudId: " + target.getUri() + ", response: " + status + ", Cloud Id with id: " + cloudIdRepresentation.getId() + " and Record Id: " + recordId + " mapped successfully!");
+            return cloudIdRepresentation;
+        }
+        else{
+            Result result = response.readEntity(Result.class);
+            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            logger.error(errorString);
+            switch (status)
+            {
+                case 404:
+                    throw new DoesNotExistException(errorString);
+                case 409:
+                    throw new AlreadyExistsException(errorString);
+                case 500:
+                    throw new InternalServerErrorException(errorString);
+            }
+        }
+        return null;
+    }
+
+    @Override
     public short deleteCloudId(String cloudId) throws DoesNotExistException {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.CLOUDIDS_PATH.getConstant()).path(cloudId);

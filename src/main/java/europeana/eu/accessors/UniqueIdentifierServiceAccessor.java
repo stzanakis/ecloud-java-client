@@ -39,12 +39,42 @@ public interface UniqueIdentifierServiceAccessor {
 
     /**
      * Retrieve the Cloud Id of the specific combination of providerId and recordId.
+     * Analogous URL: GET base-url/cloudIds?providerId=exampleProvider&recordId=exampleLocalRecord
      * @param providerId
      * @param recordId
      * @return {@link europeana.eu.model.CloudId}
      * @throws DoesNotExistException
      */
     CloudId getCloudId(String providerId, String recordId) throws DoesNotExistException;
+
+    /**
+     * Returns a sliced list of the currently Record Ids that are mapped to a specific Cloud Id.
+     * @param cloudId
+     * @return {@link europeana.eu.model.CloudIdsSlice}
+     * @throws DoesNotExistException
+     */
+    CloudIdsSlice getCloudIdWithRecordIds(String cloudId) throws DoesNotExistException;
+
+    /**
+     * Create a new mapping for a Record Id to a Cloud Id.
+     * @param providerId
+     * @param cloudId
+     * @param recordId
+     * @return The new created mapping {@link europeana.eu.model.CloudId}
+     * @throws DoesNotExistException
+     * @throws AlreadyExistsException
+     */
+    CloudId createMappingRecordIdToCloudId(String providerId, String cloudId, String recordId) throws DoesNotExistException, AlreadyExistsException;
+
+    /**
+     * Create a new mapping with an auto generated Record Id to a Cloud Id.
+     * @param providerId
+     * @param cloudId
+     * @return The new created mapping {@link europeana.eu.model.CloudId}
+     * @throws DoesNotExistException
+     * @throws AlreadyExistsException
+     */
+    CloudId createMappingRecordIdToCloudId(String providerId, String cloudId) throws DoesNotExistException, AlreadyExistsException;
 
     /**
      * Delete a previously created Cloud Id.
