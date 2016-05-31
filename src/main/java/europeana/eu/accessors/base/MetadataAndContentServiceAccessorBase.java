@@ -13,8 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
-import org.glassfish.jersey.media.multipart.FormDataBodyPart;
-import org.glassfish.jersey.media.multipart.MultiPart;
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
 
@@ -268,23 +267,19 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
     }
 
     @Override
-    public String addFileToRepresentationVersion(String cloudId, String representationName, String version, File file) throws BadRequest, DoesNotExistException, AlreadyExistsException, MethodNotAllowedException {
+    public String addFileToRepresentationVersion(String cloudId, String representationName, String version, File file, String mimeType) throws BadRequest, DoesNotExistException, AlreadyExistsException, MethodNotAllowedException {
         WebTarget target = client.register(MultiPartFeature.class).target(accessorUrl.toString());
         target = target.path(Constants.RECORDS_PATH.getConstant()).path(cloudId).path(Constants.REPRESENTATIONS_PATH.getConstant()).path(representationName)
                 .path(Constants.VERSIONS_PATH.getConstant()).path(version).path(Constants.FILES_PATH.getConstant());
 
-        // MediaType of the body part will be derived from the file.
-        Map<String,String> map = new HashMap<>();
-        map.put("mimeType", "application/png");
-        String formURLEncoded = Tools.generateFormURLEncoded(map);
-
         final FileDataBodyPart filePart =
                 new FileDataBodyPart("data", file, MediaType.APPLICATION_OCTET_STREAM_TYPE);
-        FormDataBodyPart formDataBodyPart = new FormDataBodyPart();
-        formDataBodyPart.setValue(MediaType.APPLICATION_FORM_URLENCODED_TYPE, formURLEncoded);
-        MultiPart multiPartEntity = new MultiPart();
-        multiPartEntity.bodyPart(formDataBodyPart);
+
+
+        FormDataMultiPart multiPartEntity = new FormDataMultiPart();
+        multiPartEntity.field("mimeType", mimeType);
         multiPartEntity.bodyPart(filePart);
+
 
         Response response =
                 target.request().post(Entity.entity(multiPartEntity, MediaType.MULTIPART_FORM_DATA),
@@ -317,5 +312,35 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
             }
         }
         return null;
+    }
+
+    @Override
+    public short deleteFileFromRepresentationVersion(String cloudId, String representationName, String version, String fileName) throws DoesNotExistException, MethodNotAllowedException {
+        WebTarget target = client.register(MultiPartFeature.class).target(accessorUrl.toString());
+        target = target.path(Constants.RECORDS_PATH.getConstant()).path(cloudId).path(Constants.REPRESENTATIONS_PATH.getConstant()).path(representationName)
+                .path(Constants.VERSIONS_PATH.getConstant()).path(version).path(Constants.FILES_PATH.getConstant()).path(fileName);
+
+        Response response = target.request(MediaType.APPLICATION_JSON).delete();
+
+        short status = (short) response.getStatus();
+
+        if (status == 204) {
+            logger.info("deleteFileFromRepresentationVersion: " + target.getUri() + ", response: " + status + ", representationName: " + representationName + ", version: " + version + ", fileName: " + fileName + " deleted!");
+        }
+        else{
+            Result result = response.readEntity(Result.class);
+            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            logger.error(errorString);
+            switch (status)
+            {
+                case 404:
+                    throw new DoesNotExistException(errorString);
+                case 405:
+                    throw new MethodNotAllowedException(errorString);
+                case 500:
+                    throw new InternalServerErrorException(errorString);
+            }
+        }
+        return status;
     }
 }

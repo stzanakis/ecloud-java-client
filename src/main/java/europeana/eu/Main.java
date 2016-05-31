@@ -101,7 +101,20 @@ public class Main {
 
 //        File file = new File("/tmp/test.png");
 //        accessorsManager.getMetadataAndContentServiceAccessor()
-//                .addFileToRepresentationVersion("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA", "TEST", "476feab0-2668-11e6-8cf5-fa163e8d4ae3", file);
+//                .addFileToRepresentationVersion("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA", "TEST", "476feab0-2668-11e6-8cf5-fa163e8d4ae3", file, "wtf/png");
+
+
+//        accessorsManager.getMetadataAndContentServiceAccessor()
+//                .deleteFileFromRepresentationVersion("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA", "TEST",
+//                        "476feab0-2668-11e6-8cf5-fa163e8d4ae3", "6f06b354-3c5a-4fb8-be6a-5401497ad3d1");
+
+//        for (FileMetadata fm :
+//                representationVersion.getFilesMetadata()) {
+//            accessorsManager.getMetadataAndContentServiceAccessor()
+//                    .deleteFileFromRepresentationVersion("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA", "TEST",
+//                            "476feab0-2668-11e6-8cf5-fa163e8d4ae3", fm.getFileName());
+//        }
+
 //        RECORDS END
 
         logger.info("Ended in Main");

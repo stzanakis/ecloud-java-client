@@ -22,5 +22,6 @@ public interface MetadataAndContentServiceAccessor {
     short deleteRepresentation(String cloudId, String representationName) throws DoesNotExistException;
     short deleteRepresentationVersion(String cloudId, String representationName, String version) throws DoesNotExistException;
 
-    String addFileToRepresentationVersion(String cloudId, String representationName, String version, File file) throws BadRequest, DoesNotExistException, AlreadyExistsException, MethodNotAllowedException;
+    String addFileToRepresentationVersion(String cloudId, String representationName, String version, File file, String mimeType) throws BadRequest, DoesNotExistException, AlreadyExistsException, MethodNotAllowedException;
+    short deleteFileFromRepresentationVersion(String cloudId, String representationName, String version, String fileName) throws DoesNotExistException, MethodNotAllowedException;
 }
