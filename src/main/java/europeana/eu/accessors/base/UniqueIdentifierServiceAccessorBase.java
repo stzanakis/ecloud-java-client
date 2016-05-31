@@ -21,6 +21,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
+ * Implementation of the Unique Identifier Service Accessor using Jersey.
  * @author Simon Tzanakis (Simon.Tzanakis@europeana.eu)
  * @since 2016-05-25
  */
@@ -79,6 +80,15 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
         return status;
     }
 
+    /**
+     * Generates the Cloud Id.
+     * It is a wrap up of the public calls of creating a Cloud Id combined.
+     * @param providerId
+     * @param recordId
+     * @return {@link europeana.eu.model.CloudId}
+     * @throws DoesNotExistException
+     * @throws AlreadyExistsException
+     */
     private CloudId generateCloudId(String providerId, String recordId) throws DoesNotExistException, AlreadyExistsException {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.CLOUDIDS_PATH.getConstant()).queryParam(Constants.PROVIDERID.getConstant(), providerId)
@@ -120,6 +130,15 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
         return retrieveCloudIdsOfProvider(providerId, from, to);
     }
 
+    /**
+     * Get a set of Cloud Ids, in slices, of a specific Data Provider.
+     * It is a wrap up of the public calls of getting Cloud Ids per Data Provider combined.
+     * @param providerId
+     * @param from
+     * @param to
+     * @return {@link europeana.eu.model.CloudIdsSlice}
+     * @throws DoesNotExistException
+     */
     private CloudIdsSlice retrieveCloudIdsOfProvider(String providerId, String from, int to) throws DoesNotExistException {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.DATAPROVIDERS_PATH.getConstant()).path(providerId).path(Constants.CLOUDIDS_PATH.getConstant());

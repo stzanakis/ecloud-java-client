@@ -5,7 +5,6 @@ import europeana.eu.exceptions.AlreadyExistsException;
 import europeana.eu.exceptions.BadRequest;
 import europeana.eu.exceptions.DoesNotExistException;
 import europeana.eu.exceptions.MethodNotAllowedException;
-import europeana.eu.model.RepresentationVersion;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.PropertiesConfigurationLayout;
@@ -81,18 +80,18 @@ public class Main {
 //        System.out.println(representationVersion);
 
 //          accessorsManager.getMetadataAndContentServiceAccessor().getRepresentations("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA");
-//        accessorsManager.getMetadataAndContentServiceAccessor().getRepresentation("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA", "TEST");
-
-
+        accessorsManager.getMetadataAndContentServiceAccessor().getRepresentation("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA", "TEST");
+//
+//
 //        RepresentationVersion[] representationVersions = accessorsManager.getMetadataAndContentServiceAccessor().getRepresentationVersions("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA", "TEST");
 //        for (RepresentationVersion representationVersion: representationVersions
 //             ) {
 //            System.out.println(representationVersion.getVersion());
 //        }
-
-        RepresentationVersion representationVersion = accessorsManager.getMetadataAndContentServiceAccessor()
-                .getRepresentationVersion("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA", "TEST", "476feab0-2668-11e6-8cf5-fa163e8d4ae3");
-        System.out.println(representationVersion);
+//
+//        RepresentationVersion representationVersion = accessorsManager.getMetadataAndContentServiceAccessor()
+//                .getRepresentationVersion("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA", "TEST", "476feab0-2668-11e6-8cf5-fa163e8d4ae3");
+//        System.out.println(representationVersion);
 
 //        accessorsManager.getMetadataAndContentServiceAccessor()
 //                .deleteRepresentationVersion("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA", "TEST", "1b12a390-2659-11e6-9e71-fa163e64bb83");
