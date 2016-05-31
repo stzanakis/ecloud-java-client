@@ -38,6 +38,15 @@ public interface UniqueIdentifierServiceAccessor {
     CloudId createNewCloudId(String providerId, String recordId) throws DoesNotExistException, AlreadyExistsException;
 
     /**
+     * Retrieve the Cloud Id of the specific combination of providerId and recordId.
+     * @param providerId
+     * @param recordId
+     * @return {@link europeana.eu.model.CloudId}
+     * @throws DoesNotExistException
+     */
+    CloudId getCloudId(String providerId, String recordId) throws DoesNotExistException;
+
+    /**
      * Delete a previously created Cloud Id.
      * Analogous URL: DELETE base-url/cloudIds/CLOUDID/
      * @param cloudId
