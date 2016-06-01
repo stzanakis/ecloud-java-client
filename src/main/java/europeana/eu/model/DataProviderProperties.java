@@ -15,8 +15,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DataProviderProperties {
     private String organisationName;
+    private String organisationWebsite;
     private String organisationWebsiteURL;
     private String officialAddress;
+    private String digitalLibraryWebsite;
     private String digitalLibraryURL;
     private String contactPerson;
     private String remarks;
@@ -24,10 +26,12 @@ public class DataProviderProperties {
     public DataProviderProperties() {
     }
 
-    public DataProviderProperties(String organisationName, String organisationWebsiteURL, String officialAddress, String digitalLibraryURL, String contactPerson, String remarks) {
+    public DataProviderProperties(String organisationName, String organisationWebsite, String organisationWebsiteURL, String officialAddress, String digitalLibraryWebsite, String digitalLibraryURL, String contactPerson, String remarks) {
         this.organisationName = organisationName;
+        this.organisationWebsite = organisationWebsite;
         this.organisationWebsiteURL = organisationWebsiteURL;
         this.officialAddress = officialAddress;
+        this.digitalLibraryWebsite = digitalLibraryWebsite;
         this.digitalLibraryURL = digitalLibraryURL;
         this.contactPerson = contactPerson;
         this.remarks = remarks;
@@ -41,13 +45,15 @@ public class DataProviderProperties {
         this.organisationName = organisationName;
     }
 
+    public String getOrganisationWebsite() { return organisationWebsite; }
+
+    public void setOrganisationWebsite(String organisationWebsite) { this.organisationWebsite = organisationWebsite; }
+
     public String getOrganisationWebsiteURL() {
         return organisationWebsiteURL;
     }
 
-    public void setOrganisationWebsiteURL(String organisationWebsiteURL) {
-        this.organisationWebsiteURL = organisationWebsiteURL;
-    }
+    public void setOrganisationWebsiteURL(String organisationWebsiteURL) { this.organisationWebsiteURL = organisationWebsiteURL; }
 
     public String getOfficialAddress() {
         return officialAddress;
@@ -56,6 +62,10 @@ public class DataProviderProperties {
     public void setOfficialAddress(String officialAddress) {
         this.officialAddress = officialAddress;
     }
+
+    public String getDigitalLibraryWebsite() { return digitalLibraryWebsite; }
+
+    public void setDigitalLibraryWebsite(String digitalLibraryWebsite) { this.digitalLibraryWebsite = digitalLibraryWebsite;}
 
     public String getDigitalLibraryURL() {
         return digitalLibraryURL;

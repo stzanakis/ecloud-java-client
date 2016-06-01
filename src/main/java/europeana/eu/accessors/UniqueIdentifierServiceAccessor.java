@@ -119,11 +119,11 @@ public interface UniqueIdentifierServiceAccessor {
      * @param organizationName
      * @param remarks
      * @param contactPersonName
-     * @return HTTP Response code or throws exception
+     * @return The location URI of the newly created provider
      * @throws AlreadyExistsException
      * @throws BadRequest
      */
-    short createDataProvider(String providerId, String organizationUrl, String email, String digitalLibraryUrl, String organizationName, String remarks, String contactPersonName) throws AlreadyExistsException, BadRequest;
+    String createDataProvider(String providerId, String organizationWebsite, String organizationUrl, String email, String digitalLibraryWebsite, String digitalLibraryUrl, String organizationName, String remarks, String contactPersonName) throws AlreadyExistsException, BadRequest;
 
     /**
      * Update a previously created Data Provider.
@@ -138,7 +138,7 @@ public interface UniqueIdentifierServiceAccessor {
      * @return HTTP Response code or throws exception
      * @throws DoesNotExistException
      */
-    short updateDataProvider(String providerId, String organizationUrl, String email, String digitalLibraryUrl, String organizationName, String remarks, String contactPersonName) throws DoesNotExistException;
+    short updateDataProvider(String providerId, String organizationWebsite, String organizationUrl, String email, String digitalLibraryWebsite, String digitalLibraryUrl, String organizationName, String remarks, String contactPersonName) throws DoesNotExistException;
 
     /**
      * Get all existent Providers in slices.

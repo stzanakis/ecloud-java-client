@@ -1,12 +1,11 @@
 package europeana.eu;
 
+import europeana.eu.accessors.base.UniqueIdentifierServiceAccessorBase;
 import europeana.eu.commons.AccessorsManager;
-import europeana.eu.commons.Tools;
 import europeana.eu.exceptions.AlreadyExistsException;
 import europeana.eu.exceptions.BadRequest;
 import europeana.eu.exceptions.DoesNotExistException;
 import europeana.eu.exceptions.MethodNotAllowedException;
-import europeana.eu.model.DataProvider;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.PropertiesConfigurationLayout;
@@ -38,7 +37,21 @@ public class Main {
 //        accessorsManager.InitializeAllAccessors("https://test-cloud.europeana.eu/api", "stzanakis", "Pom3ohco");
         accessorsManager.InitializeAllAccessors("https://test-cloud.europeana.eu/api",
                 propertiesConfiguration.getProperty("username_admin").toString(), propertiesConfiguration.getProperty("password_admin").toString());
+        UniqueIdentifierServiceAccessorBase uis = accessorsManager.getUniqueIdentifierServiceAccessorBase();
 //        INITIALIZE END
+
+//        uis.createDataProvider("STempProvider16", "So-website-example.com", "So-url-example.com",
+//                "Semail@example.com", "Sdl-website-example.com", "Sdl-url-example.com", "SOrganizationName", "SRemarks", "SContactPersonName");
+
+//        uis.createDataProvider("STempProvider17", "", "", "", "", "", "", "", null);
+//
+
+//        uis.updateDataProvider("STempProvider20", "So-website-example.com", "So-url-example.com",
+//                "Semail@example.com", "Sdl-website-example.com", "Sdl-url-example.com", "SOrganizationName", "SRemarks", "SContactPersonName");
+//
+//        DataProvider provider = uis.getDataProvider("STempProvider11");
+//        System.out.println(Tools.marshallAny(provider));
+
 
 //        DATA PROVIDERS START
 //        Create Data Provider
@@ -51,9 +64,9 @@ public class Main {
         //Get Data Provider
 //        accessorsManager.getUniqueIdentifierServiceAccessorBase().getDataProvider("STempProvider");
 
-        accessorsManager.getUniqueIdentifierServiceAccessorBase().deactivateDataProvider("STempProvider5");
-        DataProvider dataProvider =accessorsManager.getUniqueIdentifierServiceAccessorBase().getDataProvider("STempProvider5");
-        System.out.println(Tools.marshallAny(dataProvider));
+//        accessorsManager.getUniqueIdentifierServiceAccessorBase().deactivateDataProvider("STempProvider5");
+//        DataProvider dataProvider =accessorsManager.getUniqueIdentifierServiceAccessorBase().getDataProvider("STempProvider5");
+//        System.out.println(Tools.marshallAny(dataProvider));
 
 //        DataProviderSlice dataProviders = accessorsManager.getUniqueIdentifierServiceAccessorBase().getDataProviders(null);
 //        for (DataProvider dp :

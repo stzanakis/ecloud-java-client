@@ -281,12 +281,12 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
     }
 
     @Override
-    public short createDataProvider(String providerId, String organizationUrl, String email, String digitalLibraryUrl, String organizationName, String remarks, String contactPersonName) throws AlreadyExistsException, BadRequest {
+    public String createDataProvider(String providerId, String organizationWebsite, String organizationUrl, String email, String digitalLibraryWebsite, String digitalLibraryUrl, String organizationName, String remarks, String contactPersonName) throws AlreadyExistsException, BadRequest {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.DATAPROVIDERS_PATH.getConstant()).queryParam(Constants.PROVIDERID.getConstant(), providerId);
 
-        DataProviderProperties dataProvider = new DataProviderProperties(organizationName,organizationUrl,email
-                ,digitalLibraryUrl,contactPersonName,remarks);
+        DataProviderProperties dataProvider = new DataProviderProperties(organizationName,organizationWebsite, organizationUrl,email
+                ,digitalLibraryWebsite, digitalLibraryUrl,contactPersonName,remarks);
 
         Response response = target.request(MediaType.APPLICATION_JSON).post(
                 Entity.entity(dataProvider, MediaType.APPLICATION_JSON), Response.class);
@@ -294,8 +294,9 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
         short status = (short) response.getStatus();
 
         if (status == 201) {
+            String location = response.getHeaderString(Constants.LOCATION_HEADER.getConstant());
             logger.info("createDataProvider: " + target.getUri() + ", response: " + status + ", Provider with providerId: " + providerId + " created successfully!");
-            return status;
+            return location;
         }
         else{
             Result result = response.readEntity(Result.class);
@@ -316,12 +317,12 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
     }
 
     @Override
-    public short updateDataProvider(String providerId, String organizationUrl, String email, String digitalLibraryUrl, String organizationName, String remarks, String contactPersonName) throws DoesNotExistException {
+    public short updateDataProvider(String providerId, String organizationWebsite, String organizationUrl, String email, String digitalLibraryWebsite, String digitalLibraryUrl, String organizationName, String remarks, String contactPersonName) throws DoesNotExistException {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.DATAPROVIDERS_PATH.getConstant()).path(providerId);
 
-        DataProviderProperties dataProvider = new DataProviderProperties(organizationName,organizationUrl,email
-                ,digitalLibraryUrl,contactPersonName,remarks);
+        DataProviderProperties dataProvider = new DataProviderProperties(organizationName,organizationWebsite, organizationUrl,email
+                ,digitalLibraryWebsite, digitalLibraryUrl,contactPersonName,remarks);
 
         Response response = target.request(MediaType.APPLICATION_JSON).put(
                 Entity.entity(dataProvider, MediaType.APPLICATION_JSON), Response.class);
@@ -416,8 +417,6 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
             logger.error(errorString);
             switch (status)
             {
-                case 204:
-                    throw new NoContentException(errorString);
                 case 404:
                     throw new DoesNotExistException(errorString);
                 case 500:
