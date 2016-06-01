@@ -49,11 +49,11 @@ public class Main {
                 "Semail@example.com", "Sdl-url-example.com", "SOrganizationName", "SRemarks-again", "SContactPersonName");
 
         //Get Data Provider
-//        accessorsManager.getUniqueIdentifierServiceAccessorBase().getProvider("STempProvider");
-        DataProvider dataProvider =accessorsManager.getUniqueIdentifierServiceAccessorBase().getProvider("STempProvider5");
+//        accessorsManager.getUniqueIdentifierServiceAccessorBase().getDataProvider("STempProvider");
+        DataProvider dataProvider =accessorsManager.getUniqueIdentifierServiceAccessorBase().getDataProvider("STempProvider5");
         System.out.println(Tools.marshallAny(dataProvider));
 
-//        DataProviderSlice dataProviders = accessorsManager.getUniqueIdentifierServiceAccessorBase().getProviders(null);
+//        DataProviderSlice dataProviders = accessorsManager.getUniqueIdentifierServiceAccessorBase().getDataProviders(null);
 //        for (DataProvider dp :
 //                dataProviders.getDataProviders()) {
 //            System.out.println(dp.getId());

@@ -142,7 +142,7 @@ public interface UniqueIdentifierServiceAccessor {
      * @return {@link europeana.eu.model.DataProviderSlice}
      * @throws DoesNotExistException
      */
-    DataProviderSlice getProviders() throws DoesNotExistException;
+    DataProviderSlice getDataProviders() throws DoesNotExistException;
 
     /**
      * Get all existent Providers in slices from a specific Provider Id.
@@ -150,7 +150,7 @@ public interface UniqueIdentifierServiceAccessor {
      * @return {@link europeana.eu.model.DataProviderSlice}
      * @throws DoesNotExistException
      */
-    DataProviderSlice getProviders(String from) throws DoesNotExistException;
+    DataProviderSlice getDataProviders(String from) throws DoesNotExistException;
 
     /**
      * Retrieve a Data Provider.
@@ -161,7 +161,7 @@ public interface UniqueIdentifierServiceAccessor {
      * @throws DoesNotExistException
      * @throws NoContentException
      */
-    DataProvider getProvider(String providerId) throws BadRequest, DoesNotExistException, NoContentException;
+    DataProvider getDataProvider(String providerId) throws BadRequest, DoesNotExistException, NoContentException;
 
     /**
      * Delete a Data Provider.

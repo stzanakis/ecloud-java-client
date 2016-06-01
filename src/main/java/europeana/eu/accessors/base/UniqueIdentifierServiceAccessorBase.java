@@ -337,12 +337,12 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
     }
 
     @Override
-    public DataProviderSlice getProviders() throws DoesNotExistException {
+    public DataProviderSlice getDataProviders() throws DoesNotExistException {
         return retrieveProviders(null);
     }
 
     @Override
-    public DataProviderSlice getProviders(String from) throws DoesNotExistException {
+    public DataProviderSlice getDataProviders(String from) throws DoesNotExistException {
         return retrieveProviders(from);
     }
 
@@ -366,7 +366,7 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
 
         if (status == 200) {
             DataProviderSlice dataProviderSlice = response.readEntity(DataProviderSlice.class);
-            logger.info("getProviders: " + target.getUri() + ", response: " + status + ", Returned a list of results!");
+            logger.info("getDataProviders: " + target.getUri() + ", response: " + status + ", Returned a list of results!");
             return dataProviderSlice;
         }
         else{
@@ -385,7 +385,7 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
     }
 
     @Override
-    public DataProvider getProvider(String providerId) throws BadRequest, DoesNotExistException, NoContentException {
+    public DataProvider getDataProvider(String providerId) throws BadRequest, DoesNotExistException, NoContentException {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.DATAPROVIDERS_PATH.getConstant()).path(providerId);
         Response response = target.request(MediaType.APPLICATION_JSON).get();
@@ -394,7 +394,7 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
 
         if (status == 200) {
             DataProvider dataProvider = response.readEntity(DataProvider.class);
-            logger.info("getProvider: " + target.getUri() + ", response: " + status + ", Provider with providerId: " + providerId + " exists!");
+            logger.info("getDataProvider: " + target.getUri() + ", response: " + status + ", Provider with providerId: " + providerId + " exists!");
             return dataProvider;
         }
         else{
