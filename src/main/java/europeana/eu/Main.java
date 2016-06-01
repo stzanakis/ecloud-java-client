@@ -1,10 +1,12 @@
 package europeana.eu;
 
 import europeana.eu.commons.AccessorsManager;
+import europeana.eu.commons.Tools;
 import europeana.eu.exceptions.AlreadyExistsException;
 import europeana.eu.exceptions.BadRequest;
 import europeana.eu.exceptions.DoesNotExistException;
 import europeana.eu.exceptions.MethodNotAllowedException;
+import europeana.eu.model.CloudIdsSlice;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.PropertiesConfigurationLayout;
@@ -135,8 +137,14 @@ public class Main {
 //        }
 
 //        CloudIdsSlice cloudIdsSlice = accessorsManager.getUniqueIdentifierServiceAccessorBase().getLocalIdOfProvider("STempProvider5");
+//        System.out.println(Tools.marshallAny(cloudIdsSlice));
 //        CloudIdsSlice cloudIdsSlice = accessorsManager.getUniqueIdentifierServiceAccessorBase().getLocalIdOfProvider("STempProvider5", "ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA", 1);
 //        CloudIdsSlice cloudIdsSlice = accessorsManager.getUniqueIdentifierServiceAccessorBase().getLocalIdOfProvider("STempProvider5", "ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA", 1);
+
+        accessorsManager.getUniqueIdentifierServiceAccessorBase().deleteMappingLocalIdFromCloudId("STempProvider5", "IHAQTCG4RH2XEOTWAPF7CDNIH6QEWVJBMTGPR5ENBO4S2MRCKMGA");
+
+        CloudIdsSlice cloudIdsSlice = accessorsManager.getUniqueIdentifierServiceAccessorBase().getLocalIdOfProvider("STempProvider5");
+        System.out.println(Tools.marshallAny(cloudIdsSlice));
 
 //        RECORDS END
 

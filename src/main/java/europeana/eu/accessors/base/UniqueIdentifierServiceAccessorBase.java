@@ -412,6 +412,41 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
         return retrieveLocalIdsOfProvider(providerId, from, to);
     }
 
+    @Override
+    public short deleteMappingLocalIdFromCloudId(String providerId, String localId) throws DoesNotExistException {
+        WebTarget target = client.target(accessorUrl.toString());
+        target = target.path(Constants.DATAPROVIDERS_PATH.getConstant()).path(providerId).path(Constants.LOCALIDS_PATH.getConstant()).path(localId);
+        Response response = target.request(MediaType.APPLICATION_JSON).delete();
+
+        short status = (short) response.getStatus();
+
+        if (status == 200) {
+            logger.info("deleteMappingLocalIdFromCloudId: " + target.getUri() + ", response: " + status + ", Provider with providerId: " + providerId + ", LocalId: " + localId + " deleted!");
+        }
+        else{
+            Result result = response.readEntity(Result.class);
+            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            logger.error(errorString);
+            switch (status)
+            {
+                case 404:
+                    throw new DoesNotExistException(errorString);
+                case 500:
+                    throw new InternalServerErrorException(errorString);
+            }
+        }
+        return status;
+    }
+
+    /**
+     * Get a set of Local Ids, in slices, of a specific Data Provider.
+     * It is a wrap up of the public calls of getting Local Ids per Data Provider combined.
+     * @param providerId
+     * @param from
+     * @param to
+     * @return {@link europeana.eu.model.CloudIdsSlice}
+     * @throws DoesNotExistException
+     */
     private CloudIdsSlice retrieveLocalIdsOfProvider(String providerId, String from, int to) throws DoesNotExistException {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.DATAPROVIDERS_PATH.getConstant()).path(providerId).path(Constants.LOCALIDS_PATH.getConstant());

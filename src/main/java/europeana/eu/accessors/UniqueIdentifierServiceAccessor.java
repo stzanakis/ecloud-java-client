@@ -172,8 +172,18 @@ public interface UniqueIdentifierServiceAccessor {
      * @param providerId
      * @param from
      * @param to
-     * @return
+     * @return {@link europeana.eu.model.CloudIdsSlice}
      * @throws DoesNotExistException
      */
     CloudIdsSlice getLocalIdOfProvider(String providerId, String from, int to) throws DoesNotExistException;
+
+    /**
+     * Delete a Local Id to Cloud Id mapping.
+     * Analogous URL: GET base-url/data-providers/DATAPROVIDER/localIds/LOCALID
+     * @param providerId
+     * @param localId
+     * @return HTTP Response code or throws exception
+     * @throws DoesNotExistException
+     */
+    short deleteMappingLocalIdFromCloudId(String providerId, String localId) throws DoesNotExistException;
 }
