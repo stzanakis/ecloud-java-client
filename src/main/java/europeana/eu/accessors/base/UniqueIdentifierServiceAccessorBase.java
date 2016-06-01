@@ -71,8 +71,8 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
             return cloudId;
         }
         else{
-            Result result = response.readEntity(Result.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -100,8 +100,8 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
             return cloudIdsSlice;
         }
         else{
-            Result result = response.readEntity(Result.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -140,8 +140,8 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
             return cloudIdRepresentation;
         }
         else{
-            Result result = response.readEntity(Result.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -170,8 +170,8 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
             return status;
         }
         else{
-            Result result = response.readEntity(Result.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -209,8 +209,8 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
             return cloudId;
         }
         else{
-            Result result = response.readEntity(Result.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -265,8 +265,8 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
             return cloudIdsSlice;
         }
         else{
-            Result result = response.readEntity(Result.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -299,8 +299,8 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
             return location;
         }
         else{
-            Result result = response.readEntity(Result.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -334,8 +334,8 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
             return status;
         }
         else{
-            Result result = response.readEntity(Result.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -383,8 +383,8 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
             return dataProviderSlice;
         }
         else{
-            Result result = response.readEntity(Result.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -412,8 +412,8 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
             return dataProvider;
         }
         else{
-            Result result = response.readEntity(Result.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -440,8 +440,8 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
             return status;
         }
         else{
-            Result result = response.readEntity(Result.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -470,8 +470,8 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
             return status;
         }
         else{
-            Result result = response.readEntity(Result.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -499,8 +499,8 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
             return status;
         }
         else{
-            Result result = response.readEntity(Result.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -537,8 +537,8 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
             return status;
         }
         else{
-            Result result = response.readEntity(Result.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -579,8 +579,8 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
             return cloudIdsSlice;
         }
         else{
-            Result result = response.readEntity(Result.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
             logger.error(errorString);
             switch (status)
             {

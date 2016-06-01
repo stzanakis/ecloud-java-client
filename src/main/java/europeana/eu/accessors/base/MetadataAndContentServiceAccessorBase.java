@@ -7,8 +7,8 @@ import europeana.eu.exceptions.BadRequest;
 import europeana.eu.exceptions.DoesNotExistException;
 import europeana.eu.exceptions.MethodNotAllowedException;
 import europeana.eu.model.Constants;
+import europeana.eu.model.ErrorInfo;
 import europeana.eu.model.RepresentationVersion;
-import europeana.eu.model.Result;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.glassfish.jersey.client.JerseyClientBuilder;
@@ -73,8 +73,8 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
             return location;
         }
         else{
-            Result result = response.readEntity(Result.class);
-            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -104,8 +104,8 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
             return null;
         }
         else{
-            Result result = response.readEntity(Result.class);
-            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -136,8 +136,8 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
             return null;
         }
         else{
-            Result result = response.readEntity(Result.class);
-            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -167,8 +167,8 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
             return representationVersions;
         }
         else{
-            Result result = response.readEntity(Result.class);
-            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -197,8 +197,8 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
         }
         else{
             System.out.println(response.readEntity(String.class));
-            Result result = response.readEntity(Result.class);
-            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Representation version with version: " + version + " exists!";
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Representation version with version: " + version + " exists!";
             logger.error(errorString);
             switch (status)
             {
@@ -224,8 +224,8 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
             logger.info("deleteRepresentation: " + target.getUri() + ", response: " + status + ", representationName: " + representationName + " deleted!");
         }
         else{
-            Result result = response.readEntity(Result.class);
-            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -252,8 +252,8 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
         }
         else{
             System.out.println(response.readEntity(String.class));
-            Result result = response.readEntity(Result.class);
-            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -294,8 +294,8 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
             return location;
         }
         else{
-            Result result = response.readEntity(Result.class);
-            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -328,8 +328,8 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
             logger.info("deleteFileFromRepresentationVersion: " + target.getUri() + ", response: " + status + ", representationName: " + representationName + ", version: " + version + ", fileName: " + fileName + " deleted!");
         }
         else{
-            Result result = response.readEntity(Result.class);
-            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
             logger.error(errorString);
             switch (status)
             {

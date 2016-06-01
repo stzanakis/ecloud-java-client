@@ -13,14 +13,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name="errorInfo")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Result {
+public class ErrorInfo {
     private String details;
     private String errorCode;
 
-    public Result() {
+    public ErrorInfo() {
     }
 
-    public Result(String details, String errorCode) {
+    public ErrorInfo(String details, String errorCode) {
         this.details = details;
         this.errorCode = errorCode;
     }

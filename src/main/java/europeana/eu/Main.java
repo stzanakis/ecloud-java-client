@@ -2,10 +2,12 @@ package europeana.eu;
 
 import europeana.eu.accessors.base.UniqueIdentifierServiceAccessorBase;
 import europeana.eu.commons.AccessorsManager;
+import europeana.eu.commons.Tools;
 import europeana.eu.exceptions.AlreadyExistsException;
 import europeana.eu.exceptions.BadRequest;
 import europeana.eu.exceptions.DoesNotExistException;
 import europeana.eu.exceptions.MethodNotAllowedException;
+import europeana.eu.model.DataProvider;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.PropertiesConfigurationLayout;
@@ -49,8 +51,12 @@ public class Main {
 //        uis.updateDataProvider("STempProvider20", "So-website-example.com", "So-url-example.com",
 //                "Semail@example.com", "Sdl-website-example.com", "Sdl-url-example.com", "SOrganizationName", "SRemarks", "SContactPersonName");
 //
-//        DataProvider provider = uis.getDataProvider("STempProvider11");
-//        System.out.println(Tools.marshallAny(provider));
+
+//        uis.activateDataProvider("STempProvider19");
+        uis.deactivateDataProvider("STempProvider19");
+
+        DataProvider provider = uis.getDataProvider("STempProvider16");
+        System.out.println(Tools.marshallAny(provider));
 
 
 //        DATA PROVIDERS START
