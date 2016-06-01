@@ -12,6 +12,7 @@ public enum Constants {
     VERSIONS_PATH("versions"),
     FILES_PATH("files"),
     LOCALIDS_PATH("localIds"),
+    ACTIVE_PATH("active"),
     PROVIDERID("providerId"),
     RECORDID("recordId"),
     LOCATION_HEADER("Location"),

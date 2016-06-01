@@ -50,6 +50,7 @@ public interface UniqueIdentifierServiceAccessor {
 
     /**
      * Returns a sliced list of the currently Record Ids that are mapped to a specific Cloud Id.
+     * Analogous URL: GET base-url/cloudIds/cloudId/
      * @param cloudId
      * @return {@link europeana.eu.model.CloudIdsSlice}
      * @throws DoesNotExistException
@@ -58,6 +59,7 @@ public interface UniqueIdentifierServiceAccessor {
 
     /**
      * Create a new mapping for a Record Id to a Cloud Id.
+     * Analogous URL: POST base-url/data-providers/DATAPROVIDER/cloudIds/CLOUDID
      * @param providerId
      * @param cloudId
      * @param recordId
@@ -69,6 +71,7 @@ public interface UniqueIdentifierServiceAccessor {
 
     /**
      * Create a new mapping with an auto generated Record Id to a Cloud Id.
+     * Analogous URL: POST base-url/data-providers/DATAPROVIDER/cloudIds/CLOUDID
      * @param providerId
      * @param cloudId
      * @return The new created mapping {@link europeana.eu.model.CloudId}
@@ -139,6 +142,7 @@ public interface UniqueIdentifierServiceAccessor {
 
     /**
      * Get all existent Providers in slices.
+     * Analogous URL: GET base-url/data-providers/
      * @return {@link europeana.eu.model.DataProviderSlice}
      * @throws DoesNotExistException
      */
@@ -146,6 +150,7 @@ public interface UniqueIdentifierServiceAccessor {
 
     /**
      * Get all existent Providers in slices from a specific Provider Id.
+     * Analogous URL: GET base-url/data-providers/
      * @param from
      * @return {@link europeana.eu.model.DataProviderSlice}
      * @throws DoesNotExistException
@@ -171,6 +176,10 @@ public interface UniqueIdentifierServiceAccessor {
      * @throws DoesNotExistException
      */
     short deleteDataProvider(String providerId) throws DoesNotExistException;
+
+    short activateDataProvider(String providerId) throws DoesNotExistException;
+
+    short deactivateDataProvider(String providerId) throws DoesNotExistException;
 
     /**
      * Get all Local Ids, in slices, of a specific Data Provider.

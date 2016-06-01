@@ -45,11 +45,13 @@ public class Main {
 //        dataProviderAccessor.createDataProvider("STempProvider11", "So-url-example.com",
 //                "Semail@example.com", "Sdl-url-example.com", "SOrganizationName", "SRemarks", "SContactPersonName");
 
-        accessorsManager.getUniqueIdentifierServiceAccessorBase().updateDataProvider("STempProvider5", "So-url-example.com",
-                "Semail@example.com", "Sdl-url-example.com", "SOrganizationName", "SRemarks-again", "SContactPersonName");
+//        accessorsManager.getUniqueIdentifierServiceAccessorBase().updateDataProvider("STempProvider5", "So-url-example.com",
+//                "Semail@example.com", "Sdl-url-example.com", "SO  rganizationName", "SRemarks-again", "SContactPersonName");
 
         //Get Data Provider
 //        accessorsManager.getUniqueIdentifierServiceAccessorBase().getDataProvider("STempProvider");
+
+        accessorsManager.getUniqueIdentifierServiceAccessorBase().deactivateDataProvider("STempProvider5");
         DataProvider dataProvider =accessorsManager.getUniqueIdentifierServiceAccessorBase().getDataProvider("STempProvider5");
         System.out.println(Tools.marshallAny(dataProvider));
 

@@ -7,6 +7,7 @@ import europeana.eu.exceptions.DoesNotExistException;
 import europeana.eu.model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 
@@ -318,7 +319,7 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
 
         short status = (short) response.getStatus();
 
-        if (status == 200 || status == 204) {
+        if (status == 204) {
             logger.info("updateDataProvider: " + target.getUri() + ", response: " + status + ", Provider with providerId: " + providerId + " updated successfully!");
         }
         else{
@@ -435,6 +436,63 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
                     throw new DoesNotExistException(errorString);
                 case 500:
                     throw new InternalServerErrorException(errorString);
+            }
+        }
+        return status;
+    }
+
+    @Override
+    public short activateDataProvider(String providerId) throws DoesNotExistException {
+        WebTarget target = client.target(accessorUrl.toString());
+        target = target.path(Constants.DATAPROVIDERS_PATH.getConstant()).path(providerId).path(Constants.ACTIVE_PATH.getConstant());
+        target.property(ClientProperties.SUPPRESS_HTTP_COMPLIANCE_VALIDATION, true); //Jersey client does not permit empty PUT method so we need to suppress
+
+        Response response = target.request(MediaType.APPLICATION_JSON).put(Entity.entity(null, MediaType.APPLICATION_JSON), Response.class);
+
+        short status = (short) response.getStatus();
+
+        if (status == 200) {
+            logger.info("activateDataProvider: " + target.getUri() + ", response: " + status + ", Provider with providerId: " + providerId + " activated successfully!");
+        }
+        else{
+            Result result = response.readEntity(Result.class);
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            logger.error(errorString);
+            switch (status)
+            {
+                case 404:
+                    throw new DoesNotExistException(errorString);
+                case 500:
+                    throw new InternalServerErrorException(errorString);
+            }
+        }
+        return status;
+    }
+
+    @Override
+    public short deactivateDataProvider(String providerId) throws DoesNotExistException {
+        WebTarget target = client.target(accessorUrl.toString());
+        target = target.path(Constants.DATAPROVIDERS_PATH.getConstant()).path(providerId).path(Constants.ACTIVE_PATH.getConstant());
+
+        Response response = target.request(MediaType.APPLICATION_JSON).delete();
+
+        short status = (short) response.getStatus();
+
+        if (status == 200) {
+            logger.info("deactivateDataProvider: " + target.getUri() + ", response: " + status + ", Provider with providerId: " + providerId + " deactivated successfully!");
+        }
+        else{
+            Result result = response.readEntity(Result.class);
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            logger.error(errorString);
+            switch (status)
+            {
+                case 404:
+                    throw new DoesNotExistException(errorString);
+                case 500:
+                    throw new InternalServerErrorException(errorString);
+                default:
+                    throw new UnsupportedOperationException(errorString);
             }
         }
         return status;
