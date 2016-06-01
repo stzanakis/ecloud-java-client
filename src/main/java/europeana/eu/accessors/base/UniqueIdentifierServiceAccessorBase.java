@@ -346,6 +346,13 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
         return retrieveProviders(from);
     }
 
+    /**
+     * Get a set of Data Providers, in slices.
+     * It is a wrap up of the public calls of getting Data Providers combined.
+     * @param from
+     * @return {@link europeana.eu.model.DataProviderSlice}
+     * @throws DoesNotExistException
+     */
     private DataProviderSlice retrieveProviders(String from) throws DoesNotExistException {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.DATAPROVIDERS_PATH.getConstant());
