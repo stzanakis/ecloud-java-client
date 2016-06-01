@@ -210,4 +210,9 @@ public interface UniqueIdentifierServiceAccessor {
      * @throws DoesNotExistException
      */
     short deleteMappingLocalIdFromCloudId(String providerId, String localId) throws DoesNotExistException;
+
+    /**
+     * Release all resources
+     */
+    void close();
 }

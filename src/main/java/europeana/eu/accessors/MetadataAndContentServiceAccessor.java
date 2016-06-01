@@ -24,4 +24,6 @@ public interface MetadataAndContentServiceAccessor {
 
     String addFileToRepresentationVersion(String cloudId, String representationName, String version, File file, String mimeType) throws BadRequest, DoesNotExistException, AlreadyExistsException, MethodNotAllowedException;
     short deleteFileFromRepresentationVersion(String cloudId, String representationName, String version, String fileName) throws DoesNotExistException, MethodNotAllowedException;
+
+    void close();
 }

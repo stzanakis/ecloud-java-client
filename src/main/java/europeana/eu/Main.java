@@ -2,12 +2,10 @@ package europeana.eu;
 
 import europeana.eu.accessors.base.UniqueIdentifierServiceAccessorBase;
 import europeana.eu.commons.AccessorsManager;
-import europeana.eu.commons.Tools;
 import europeana.eu.exceptions.AlreadyExistsException;
 import europeana.eu.exceptions.BadRequest;
 import europeana.eu.exceptions.DoesNotExistException;
 import europeana.eu.exceptions.MethodNotAllowedException;
-import europeana.eu.model.DataProvider;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.PropertiesConfigurationLayout;
@@ -42,21 +40,23 @@ public class Main {
         UniqueIdentifierServiceAccessorBase uis = accessorsManager.getUniqueIdentifierServiceAccessorBase();
 //        INITIALIZE END
 
-//        uis.createDataProvider("STempProvider16", "So-website-example.com", "So-url-example.com",
+//        uis.createDataProvider("STempProvider10", "So-website-example.com", "So-url-example.com",
 //                "Semail@example.com", "Sdl-website-example.com", "Sdl-url-example.com", "SOrganizationName", "SRemarks", "SContactPersonName");
 
 //        uis.createDataProvider("STempProvider17", "", "", "", "", "", "", "", null);
 //
 
-//        uis.updateDataProvider("STempProvider20", "So-website-example.com", "So-url-example.com",
+//        uis.updateDataProvider("STempProvider10", "So-website-example.com", "So-url-example.com",
 //                "Semail@example.com", "Sdl-website-example.com", "Sdl-url-example.com", "SOrganizationName", "SRemarks", "SContactPersonName");
 //
 
-//        uis.activateDataProvider("STempProvider19");
-        uis.deactivateDataProvider("STempProvider19");
+//        uis.activateDataProvider("STempProvider10");
+//        uis.deactivateDataProvider("STempProvider10");
 
-        DataProvider provider = uis.getDataProvider("STempProvider16");
-        System.out.println(Tools.marshallAny(provider));
+//        uis.deleteDataProvider("STempProvider10");
+//
+//        DataProvider provider = uis.getDataProvider("STempProvider10");
+//        System.out.println(Tools.marshallAny(provider));
 
 
 //        DATA PROVIDERS START

@@ -53,6 +53,11 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
         logger.info("Initialized http client with target url: {}", this.accessorUrl);
     }
 
+    public void close()
+    {
+        client.close();
+    }
+
     @Override
     public String createRepresentationVersion(String cloudId, String representationName, String providerId) throws BadRequest {
         WebTarget target = client.target(accessorUrl.toString());

@@ -45,6 +45,10 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
         logger.info("Initialized http client with target url: {}", this.accessorUrl);
     }
 
+    public void close() {
+        client.close();
+    }
+
     @Override
     public CloudId createNewCloudId(String providerId) throws DoesNotExistException, AlreadyExistsException {
         return generateCloudId(providerId, null);
