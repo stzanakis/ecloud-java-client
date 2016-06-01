@@ -13,7 +13,7 @@ import java.util.List;
  * @author Simon Tzanakis (Simon.Tzanakis@europeana.eu)
  * @since 2016-05-25
  */
-@XmlRootElement
+@XmlRootElement(name = "resultSlice")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CloudIdsSlice {
     @XmlElement(name = "results")

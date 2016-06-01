@@ -52,6 +52,7 @@ public class Main {
 //        for (DataProvider dp :
 //                dataProviders.getDataProviders()) {
 //            System.out.println(dp.getId());
+//            System.out.println(Tools.marshallAny(dp));
 //        }
 //        System.out.println(dataProviders.getDataProviders().size());
 //        System.out.println(dataProviders.getNextSlice());
@@ -132,6 +133,10 @@ public class Main {
 //                    .deleteFileFromRepresentationVersion("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA", "TEST",
 //                            "476feab0-2668-11e6-8cf5-fa163e8d4ae3", fm.getFileName());
 //        }
+
+//        CloudIdsSlice cloudIdsSlice = accessorsManager.getUniqueIdentifierServiceAccessorBase().getLocalIdOfProvider("STempProvider5");
+//        CloudIdsSlice cloudIdsSlice = accessorsManager.getUniqueIdentifierServiceAccessorBase().getLocalIdOfProvider("STempProvider5", "ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA", 1);
+//        CloudIdsSlice cloudIdsSlice = accessorsManager.getUniqueIdentifierServiceAccessorBase().getLocalIdOfProvider("STempProvider5", "ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA", 1);
 
 //        RECORDS END
 

@@ -11,6 +11,7 @@ public enum Constants {
     REPRESENTATIONS_PATH("representations"),
     VERSIONS_PATH("versions"),
     FILES_PATH("files"),
+    LOCALIDS_PATH("localIds"),
     PROVIDERID("providerId"),
     RECORDID("recordId"),
     LOCATION_HEADER("Location"),

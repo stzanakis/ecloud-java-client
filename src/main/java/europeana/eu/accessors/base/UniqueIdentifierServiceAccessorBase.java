@@ -354,9 +354,8 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
 
         short status = (short) response.getStatus();
 
-        DataProvider dataProvider;
         if (status == 200) {
-            dataProvider = response.readEntity(DataProvider.class);
+            DataProvider dataProvider = response.readEntity(DataProvider.class);
             logger.info("getProvider: " + target.getUri() + ", response: " + status + ", Provider with providerId: " + providerId + " exists!");
             return dataProvider;
         }
@@ -401,5 +400,47 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
             }
         }
         return status;
+    }
+
+    @Override
+    public CloudIdsSlice getLocalIdOfProvider(String providerId) throws DoesNotExistException {
+        return retrieveLocalIdsOfProvider(providerId, null, 0);
+    }
+
+    @Override
+    public CloudIdsSlice getLocalIdOfProvider(String providerId, String from, int to) throws DoesNotExistException {
+        return retrieveLocalIdsOfProvider(providerId, from, to);
+    }
+
+    private CloudIdsSlice retrieveLocalIdsOfProvider(String providerId, String from, int to) throws DoesNotExistException {
+        WebTarget target = client.target(accessorUrl.toString());
+        target = target.path(Constants.DATAPROVIDERS_PATH.getConstant()).path(providerId).path(Constants.LOCALIDS_PATH.getConstant());
+        if (from != null)
+            target = target.queryParam(Constants.FROM.getConstant(), from);
+        if (to > 0)
+            target = target.queryParam(Constants.TO.getConstant(), to);
+
+        Response response = target.request(MediaType.APPLICATION_XML).get();
+
+        short status = (short) response.getStatus();
+
+        if (status == 200) {
+            CloudIdsSlice cloudIdsSlice = response.readEntity(CloudIdsSlice.class);
+            logger.info("getLocalIdOfProvider: " + target.getUri() + ", response: " + status + ", Returned a list of results!");
+            return cloudIdsSlice;
+        }
+        else{
+            Result result = response.readEntity(Result.class);
+            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            logger.error(errorString);
+            switch (status)
+            {
+                case 404:
+                    throw new DoesNotExistException(errorString);
+                case 500:
+                    throw new InternalServerErrorException(errorString);
+            }
+        }
+        return null;
     }
 }

@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Simon Tzanakis (Simon.Tzanakis@europeana.eu)
  * @since 2016-05-25
  */
-@XmlRootElement
+@XmlRootElement(name="errorInfo")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Result {
     private String details;

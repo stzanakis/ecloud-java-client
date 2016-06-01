@@ -156,4 +156,24 @@ public interface UniqueIdentifierServiceAccessor {
      * @throws DoesNotExistException
      */
     short deleteDataProvider(String providerId) throws DoesNotExistException;
+
+    /**
+     * Get all Local Ids, in slices, of a specific Data Provider.
+     * Analogous URL: GET base-url/data-providers/DATAPROVIDER/localIds/
+     * @param providerId
+     * @return {@link europeana.eu.model.CloudIdsSlice}
+     * @throws DoesNotExistException
+     */
+    CloudIdsSlice getLocalIdOfProvider(String providerId) throws DoesNotExistException;
+
+    /**
+     * Get a set of Local Ids, in slices, of a specific Data Provider.
+     * Analogous URL: GET base-url/data-providers/DATAPROVIDER/localIds?from=LOCALID&to=number
+     * @param providerId
+     * @param from
+     * @param to
+     * @return
+     * @throws DoesNotExistException
+     */
+    CloudIdsSlice getLocalIdOfProvider(String providerId, String from, int to) throws DoesNotExistException;
 }
