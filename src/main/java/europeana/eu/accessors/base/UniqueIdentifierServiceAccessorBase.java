@@ -277,8 +277,8 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.DATAPROVIDERS_PATH.getConstant()).queryParam(Constants.PROVIDERID.getConstant(), providerId);
 
-        DataProviderProperties dataProvider = new DataProviderProperties("SOrganizationName","So-url-example.com","Semail@example.com"
-                ,"Sdl-url-example.com","SContactPersonName","SRemarks");
+        DataProviderProperties dataProvider = new DataProviderProperties(organizationName,organizationUrl,email
+                ,digitalLibraryUrl,contactPersonName,remarks);
 
         Response response = target.request(MediaType.APPLICATION_JSON).post(
                 Entity.entity(dataProvider, MediaType.APPLICATION_JSON), Response.class);
@@ -298,6 +298,37 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
                     throw new BadRequest(errorString);
                 case 409:
                     throw new AlreadyExistsException(errorString);
+                case 500:
+                    throw new InternalServerErrorException(errorString);
+            }
+        }
+        return status;
+    }
+
+    @Override
+    public short updateDataProvider(String providerId, String organizationUrl, String email, String digitalLibraryUrl, String organizationName, String remarks, String contactPersonName) throws DoesNotExistException {
+        WebTarget target = client.target(accessorUrl.toString());
+        target = target.path(Constants.DATAPROVIDERS_PATH.getConstant()).path(providerId);
+
+        DataProviderProperties dataProvider = new DataProviderProperties(organizationName,organizationUrl,email
+                ,digitalLibraryUrl,contactPersonName,remarks);
+
+        Response response = target.request(MediaType.APPLICATION_JSON).put(
+                Entity.entity(dataProvider, MediaType.APPLICATION_JSON), Response.class);
+
+        short status = (short) response.getStatus();
+
+        if (status == 200 || status == 204) {
+            logger.info("updateDataProvider: " + target.getUri() + ", response: " + status + ", Provider with providerId: " + providerId + " updated successfully!");
+        }
+        else{
+            Result result = response.readEntity(Result.class);
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            logger.error(errorString);
+            switch (status)
+            {
+                case 404:
+                    throw new DoesNotExistException(errorString);
                 case 500:
                     throw new InternalServerErrorException(errorString);
             }

@@ -123,6 +123,21 @@ public interface UniqueIdentifierServiceAccessor {
     short createDataProvider(String providerId, String organizationUrl, String email, String digitalLibraryUrl, String organizationName, String remarks, String contactPersonName) throws AlreadyExistsException, BadRequest;
 
     /**
+     * Update a previously created Data Provider.
+     * Analogous URL: POST base-url/data-providers/DATAPROVIDER/
+     * @param providerId
+     * @param organizationUrl
+     * @param email
+     * @param digitalLibraryUrl
+     * @param organizationName
+     * @param remarks
+     * @param contactPersonName
+     * @return HTTP Response code or throws exception
+     * @throws DoesNotExistException
+     */
+    short updateDataProvider(String providerId, String organizationUrl, String email, String digitalLibraryUrl, String organizationName, String remarks, String contactPersonName) throws DoesNotExistException;
+
+    /**
      * Get all existent Providers in slices.
      * @return {@link europeana.eu.model.DataProviderSlice}
      * @throws DoesNotExistException
