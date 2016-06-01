@@ -71,7 +71,7 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
         }
         else{
             Result result = response.readEntity(Result.class);
-            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -99,7 +99,7 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
         }
         else{
             Result result = response.readEntity(Result.class);
-            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -138,7 +138,7 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
         }
         else{
             Result result = response.readEntity(Result.class);
-            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -166,7 +166,7 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
         }
         else{
             Result result = response.readEntity(Result.class);
-            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -204,7 +204,7 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
         }
         else{
             Result result = response.readEntity(Result.class);
-            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -259,7 +259,7 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
         }
         else{
             Result result = response.readEntity(Result.class);
-            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -290,7 +290,7 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
         }
         else{
             Result result = response.readEntity(Result.class);
-            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -333,7 +333,7 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
         }
         else{
             Result result = response.readEntity(Result.class);
-            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -361,7 +361,7 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
         }
         else{
             Result result = response.readEntity(Result.class);
-            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -389,7 +389,7 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
         }
         else{
             Result result = response.readEntity(Result.class);
-            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -425,7 +425,7 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
         }
         else{
             Result result = response.readEntity(Result.class);
-            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -466,7 +466,7 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
         }
         else{
             Result result = response.readEntity(Result.class);
-            String errorString = "Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + result.getErrorCode() + ", Details: " + result.getDetails();
             logger.error(errorString);
             switch (status)
             {
