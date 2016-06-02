@@ -177,8 +177,22 @@ public interface UniqueIdentifierServiceAccessor {
      */
     short deleteDataProvider(String providerId) throws DoesNotExistException;
 
+    /**
+     * Set the activate field in the Data Provider model as "true"
+     * Analogous URL: PUT base-url/data-providers/DATAPROVIDER/active
+     * @param providerId
+     * @return HTTP Response code or throws exception
+     * @throws DoesNotExistException
+     */
     short activateDataProvider(String providerId) throws DoesNotExistException;
 
+    /**
+     * Set the activate field in the Data Provider model as "false"
+     * Analogous URL: DELETE base-url/data-providers/DATAPROVIDER/active
+     * @param providerId
+     * @return HTTP Response code or throws exception
+     * @throws DoesNotExistException
+     */
     short deactivateDataProvider(String providerId) throws DoesNotExistException;
 
     /**

@@ -45,6 +45,7 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
         logger.info("Initialized http client with target url: {}", this.accessorUrl);
     }
 
+    @Override
     public void close() {
         client.close();
     }
@@ -129,6 +130,16 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
         return mapRecordIdToCloudId(providerId, cloudId, null);
     }
 
+    /**
+     * Maps a providerId and recordId to the Cloud Id.
+     * It is a wrap up of the public calls of mapping a Cloud Id combined.
+     * @param providerId
+     * @param cloudId
+     * @param recordId
+     * @return
+     * @throws DoesNotExistException
+     * @throws AlreadyExistsException
+     */
     private CloudId mapRecordIdToCloudId(String providerId, String cloudId, String recordId) throws DoesNotExistException, AlreadyExistsException {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.DATAPROVIDERS_PATH.getConstant())
