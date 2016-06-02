@@ -13,6 +13,10 @@ import org.apache.logging.log4j.Logger;
  */
 public class AccessorsManager {
     private static final Logger logger = LogManager.getLogger();
+    private final static String accessUrl = "https://test-cloud.europeana.eu/api";
+    private final static String credentialsFileName = "credentials.properties";
+    private final static String username_key = "username_admin";
+    private final static String password_key = "password_admin";
     private UniqueIdentifierServiceAccessor uniqueIdentifierServiceAccessor;
     private MetadataAndContentServiceAccessor metadataAndContentServiceAccessor;
 
@@ -44,5 +48,21 @@ public class AccessorsManager {
 
     public void setMetadataAndContentServiceAccessor(MetadataAndContentServiceAccessor metadataAndContentServiceAccessor) {
         this.metadataAndContentServiceAccessor = metadataAndContentServiceAccessor;
+    }
+
+    public static String getAccessUrl() {
+        return accessUrl;
+    }
+
+    public static String getCredentialsFileName() {
+        return credentialsFileName;
+    }
+
+    public static String getUsername_key() {
+        return username_key;
+    }
+
+    public static String getPassword_key() {
+        return password_key;
     }
 }
