@@ -530,12 +530,12 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
     }
 
     @Override
-    public CloudIdsSlice getLocalIdOfProvider(String providerId) throws DoesNotExistException {
+    public CloudIdsSlice getLocalIdsOfProvider(String providerId) throws DoesNotExistException {
         return retrieveLocalIdsOfProvider(providerId, null, 0);
     }
 
     @Override
-    public CloudIdsSlice getLocalIdOfProvider(String providerId, String from, int to) throws DoesNotExistException {
+    public CloudIdsSlice getLocalIdsOfProvider(String providerId, String from, int to) throws DoesNotExistException {
         return retrieveLocalIdsOfProvider(providerId, from, to);
     }
 
@@ -590,7 +590,7 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
 
         if (status == 200) {
             CloudIdsSlice cloudIdsSlice = response.readEntity(CloudIdsSlice.class);
-            logger.info("getLocalIdOfProvider: " + target.getUri() + ", response: " + status + ", Returned a list of results!");
+            logger.info("getLocalIdsOfProvider: " + target.getUri() + ", response: " + status + ", Returned a list of results!");
             return cloudIdsSlice;
         }
         else{

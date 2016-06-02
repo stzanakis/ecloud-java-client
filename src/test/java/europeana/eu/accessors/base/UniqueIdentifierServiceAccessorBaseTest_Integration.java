@@ -1,7 +1,6 @@
 package europeana.eu.accessors.base;
 
-import europeana.eu.model.DataProvider;
-import europeana.eu.model.DataProviderProperties;
+import europeana.eu.model.*;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.PropertiesConfigurationLayout;
 import org.junit.AfterClass;
@@ -15,28 +14,32 @@ import static junit.framework.Assert.assertNotSame;
 import static org.junit.Assert.assertNotNull;
 
 /**
+ * Integration tests, run with caution.
  * @author Simon Tzanakis (Simon.Tzanakis@europeana.eu)
  * @since 2016-06-01
  */
 
-public class UniqueIdentifierServiceAccessorBaseTest {
+public class UniqueIdentifierServiceAccessorBaseTest_Integration {
     private final static String accessUrl = "https://test-cloud.europeana.eu/api";
     private final static String credentialsFileName = "credentials.properties";
     private final static String username_key = "username_admin";
     private final static String password_key = "password_admin";
     private static UniqueIdentifierServiceAccessorBase uis;
     private static DataProvider junitTestDataProvider;
+    private static LocalId junitTestLocalId;
+    private static CloudId junitTestCloudId;
 
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
         PropertiesConfiguration propertiesConfiguration = new PropertiesConfiguration();
         PropertiesConfigurationLayout configurationPropertiesLayout = new PropertiesConfigurationLayout(propertiesConfiguration);
-        configurationPropertiesLayout.load(new FileReader(UniqueIdentifierServiceAccessorBaseTest.class.getClassLoader().getResource(credentialsFileName).getFile()));
+        configurationPropertiesLayout.load(new FileReader(UniqueIdentifierServiceAccessorBaseTest_Integration.class.getClassLoader().getResource(credentialsFileName).getFile()));
         uis = new UniqueIdentifierServiceAccessorBase(accessUrl, propertiesConfiguration.getProperty(username_key).toString(), propertiesConfiguration.getProperty(password_key).toString());
 
         junitTestDataProvider = new DataProvider("junitTestProvider", -1, new DataProviderProperties("SOrganizationName", "So-website-example.com", "So-url-example.com",
                 "Semail@example.com", "Sdl-website-example.com", "Sdl-url-example.com", "SContactPersonName", "SRemarks"));
+        junitTestLocalId = new LocalId(junitTestDataProvider.getId(), "junitTestRecordId");
     }
 
     @AfterClass
@@ -45,9 +48,10 @@ public class UniqueIdentifierServiceAccessorBaseTest {
     }
 
     @Test
-    public void testCreateGetDelete() throws Exception {
+    public void testCreateGetUpdateActivateDeactivateDeleteDataProviders() throws Exception {
         testCreateDataProvider();
         testGetDataProvider();
+        testGetDataProviders();
         testUpdateDataProvider();
         testActivateDataProvider();
         testDeactivateDataProvider();
@@ -65,6 +69,11 @@ public class UniqueIdentifierServiceAccessorBaseTest {
     private void testGetDataProvider() throws Exception {
         DataProvider provider = uis.getDataProvider(junitTestDataProvider.getId());
         assertNotNull(provider);
+    }
+
+    public void testGetDataProviders() throws Exception {
+        DataProviderSlice dataProviders = uis.getDataProviders();
+        assertNotNull(dataProviders);
     }
 
     public void testUpdateDataProvider() throws Exception {
@@ -89,65 +98,63 @@ public class UniqueIdentifierServiceAccessorBaseTest {
         assertEquals(200, status);
     }
 
+    @Test
+    public void testCreateGetDeleteCloudId() throws Exception {
+        //We need a Data Provider to create CloudIds
+        testCreateDataProvider();
 
+        testCreateNewCloudId();
+        testGetCloudId();
+        testGetCloudIdsOfProvider();
+        testCreateMappingRecordIdToCloudId();
+        testGetCloudIdWithRecordIds();
+        testGetLocalIdOfProvider();
+        testDeleteMappingLocalIdFromCloudId();
+        testDeleteCloudId();
 
-
-
-    public void testCreateNewCloudId() throws Exception {
+        testDeleteDataProvider();
 
     }
 
-    public void testCreateNewCloudId1() throws Exception {
-
+    public void testCreateNewCloudId() throws Exception {
+        junitTestCloudId = uis.createNewCloudId(junitTestDataProvider.getId(), junitTestLocalId.getRecordId());
+        assertNotNull(junitTestCloudId);
     }
 
     public void testGetCloudId() throws Exception {
-
-    }
-
-    public void testGetCloudIdWithRecordIds() throws Exception {
-
-    }
-
-    public void testCreateMappingRecordIdToCloudId() throws Exception {
-
-    }
-
-    public void testCreateMappingRecordIdToCloudId1() throws Exception {
-
-    }
-
-    public void testDeleteCloudId() throws Exception {
-
+        CloudId cloudId = uis.getCloudId(junitTestDataProvider.getId(), junitTestLocalId.getRecordId());
+        assertNotNull(cloudId);
     }
 
     public void testGetCloudIdsOfProvider() throws Exception {
-
+        CloudIdsSlice cloudIdsOfProvider = uis.getCloudIdsOfProvider(junitTestDataProvider.getId());
+        assertNotNull(cloudIdsOfProvider);
+        assertEquals(1, cloudIdsOfProvider.getCloudIds().size());
     }
 
-    public void testGetCloudIdsOfProvider1() throws Exception {
-
+    public void testCreateMappingRecordIdToCloudId() throws Exception {
+        CloudId mappingRecordIdToCloudId = uis.createMappingRecordIdToCloudId(junitTestDataProvider.getId(), junitTestCloudId.getId());
+        assertNotNull(mappingRecordIdToCloudId);
     }
-
-
-
-    public void testGetDataProviders() throws Exception {
-
-    }
-
-    public void testGetDataProviders1() throws Exception {
-
+    public void testGetCloudIdWithRecordIds() throws Exception {
+        CloudIdsSlice cloudIdWithRecordIds = uis.getCloudIdWithRecordIds(junitTestCloudId.getId());
+        assertNotNull(cloudIdWithRecordIds);
+        assertEquals(2, cloudIdWithRecordIds.getCloudIds().size());
     }
 
     public void testGetLocalIdOfProvider() throws Exception {
-
-    }
-
-    public void testGetLocalIdOfProvider1() throws Exception {
-
+        CloudIdsSlice localIdsOfProvider = uis.getLocalIdsOfProvider(junitTestDataProvider.getId());
+        assertNotNull(localIdsOfProvider);
+        assertEquals(2, localIdsOfProvider.getCloudIds().size());
     }
 
     public void testDeleteMappingLocalIdFromCloudId() throws Exception {
+        short status = uis.deleteMappingLocalIdFromCloudId(junitTestDataProvider.getId(), junitTestLocalId.getRecordId());
+        assertEquals(200, status);
+    }
 
+    public void testDeleteCloudId() throws Exception {
+        short status = uis.deleteCloudId(junitTestCloudId.getId());
+        assertEquals(200, status);
     }
 }

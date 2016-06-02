@@ -202,7 +202,7 @@ public interface UniqueIdentifierServiceAccessor {
      * @return {@link europeana.eu.model.CloudIdsSlice}
      * @throws DoesNotExistException
      */
-    CloudIdsSlice getLocalIdOfProvider(String providerId) throws DoesNotExistException;
+    CloudIdsSlice getLocalIdsOfProvider(String providerId) throws DoesNotExistException;
 
     /**
      * Get a set of Local Ids, in slices, of a specific Data Provider.
@@ -213,7 +213,7 @@ public interface UniqueIdentifierServiceAccessor {
      * @return {@link europeana.eu.model.CloudIdsSlice}
      * @throws DoesNotExistException
      */
-    CloudIdsSlice getLocalIdOfProvider(String providerId, String from, int to) throws DoesNotExistException;
+    CloudIdsSlice getLocalIdsOfProvider(String providerId, String from, int to) throws DoesNotExistException;
 
     /**
      * Delete a Local Id to Cloud Id mapping.
