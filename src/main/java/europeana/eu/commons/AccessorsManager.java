@@ -30,7 +30,7 @@ public class AccessorsManager {
         metadataAndContentServiceAccessor.close();
     }
 
-    public UniqueIdentifierServiceAccessor getUniqueIdentifierServiceAccessorBase() {
+    public UniqueIdentifierServiceAccessor getUniqueIdentifierServiceAccessor() {
         return uniqueIdentifierServiceAccessor;
     }
 

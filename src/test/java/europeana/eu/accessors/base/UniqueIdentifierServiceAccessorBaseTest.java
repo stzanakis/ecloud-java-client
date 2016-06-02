@@ -48,6 +48,9 @@ public class UniqueIdentifierServiceAccessorBaseTest {
     public void testCreateGetDelete() throws Exception {
         testCreateDataProvider();
         testGetDataProvider();
+        testUpdateDataProvider();
+        testActivateDataProvider();
+        testDeactivateDataProvider();
         testDeleteDataProvider();
     }
 
@@ -64,9 +67,26 @@ public class UniqueIdentifierServiceAccessorBaseTest {
         assertNotNull(provider);
     }
 
+    public void testUpdateDataProvider() throws Exception {
+        DataProviderProperties dpp = junitTestDataProvider.getDataProviderProperties();
+        short status = uis.updateDataProvider(junitTestDataProvider.getId(), dpp.getOrganisationWebsite(), dpp.getOrganisationWebsiteURL(), dpp.getOfficialAddress(),
+                dpp.getDigitalLibraryWebsite(), dpp.getDigitalLibraryURL(), dpp.getOrganisationName(), dpp.getRemarks(), dpp.getContactPerson());
+        assertEquals(204, status);
+    }
+
     private void testDeleteDataProvider() throws Exception {
         short status = uis.deleteDataProvider(junitTestDataProvider.getId());
         assertEquals(status, 200);
+    }
+
+    public void testActivateDataProvider() throws Exception {
+        short status = uis.activateDataProvider(junitTestDataProvider.getId());
+        assertEquals(200, status);
+    }
+
+    public void testDeactivateDataProvider() throws Exception {
+        short status = uis.deactivateDataProvider(junitTestDataProvider.getId());
+        assertEquals(200, status);
     }
 
 
@@ -110,24 +130,12 @@ public class UniqueIdentifierServiceAccessorBaseTest {
     }
 
 
-    public void testUpdateDataProvider() throws Exception {
-
-    }
 
     public void testGetDataProviders() throws Exception {
 
     }
 
     public void testGetDataProviders1() throws Exception {
-
-    }
-
-
-    public void testActivateDataProvider() throws Exception {
-
-    }
-
-    public void testDeactivateDataProvider() throws Exception {
 
     }
 

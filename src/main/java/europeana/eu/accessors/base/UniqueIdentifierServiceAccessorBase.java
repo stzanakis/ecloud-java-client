@@ -573,7 +573,7 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
         if (to > 0)
             target = target.queryParam(Constants.TO.getConstant(), to);
 
-        Response response = target.request(MediaType.APPLICATION_XML).get();
+        Response response = target.request(MediaType.APPLICATION_JSON).get();
 
         short status = (short) response.getStatus();
 
