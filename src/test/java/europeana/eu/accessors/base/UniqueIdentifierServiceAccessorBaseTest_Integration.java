@@ -6,14 +6,8 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.PropertiesConfigurationLayout;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
-import software.betamax.ProxyConfiguration;
-import software.betamax.TapeMode;
-import software.betamax.junit.Betamax;
-import software.betamax.junit.RecorderRule;
 
-import java.io.File;
 import java.io.FileReader;
 
 import static junit.framework.Assert.assertEquals;
@@ -36,9 +30,6 @@ public class UniqueIdentifierServiceAccessorBaseTest_Integration {
     private static LocalId junitTestLocalId;
     private static CloudId junitTestCloudId;
 
-    File f = new File("src/test/resources/betamax/tapes");
-    @Rule public RecorderRule recorder = new RecorderRule(ProxyConfiguration.builder().sslEnabled(true).tapeRoot(f).build());
-
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
         PropertiesConfiguration propertiesConfiguration = new PropertiesConfiguration();
@@ -57,7 +48,6 @@ public class UniqueIdentifierServiceAccessorBaseTest_Integration {
     }
 
     @Test
-    @Betamax(tape="CreateGetUpdateActivateDeactivateDeleteDataProviders_tape", mode= TapeMode.READ_WRITE)
     public void testCreateGetUpdateActivateDeactivateDeleteDataProviders() throws Exception {
         testCreateDataProvider();
         testGetDataProvider();
@@ -109,7 +99,6 @@ public class UniqueIdentifierServiceAccessorBaseTest_Integration {
     }
 
     @Test
-    @Betamax(tape="CreateGetMapDeleteCloudId_tape", mode= TapeMode.READ_WRITE)
     public void testCreateGetMapDeleteCloudId() throws Exception {
         //We need a Data Provider to create CloudIds
         testCreateDataProvider();
