@@ -4,3 +4,5 @@
 /.project
 /.idea/
 /target/
+/littleproxy_cert
+/littleproxy_keystore.jks

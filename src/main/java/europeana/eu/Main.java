@@ -54,9 +54,9 @@ public class Main {
 //        uis.activateDataProvider("STempProvider10");
 //        uis.deactivateDataProvider("STempProvider10");
 
-//        uis.deleteDataProvider("STempProvider10");
+        uis.deleteDataProvider("junitTestProvider");
 //
-//        DataProvider provider = uis.getDataProvider("STempProvider5");
+//        DataProvider provider = uis.getDataProvider("junitTestProvider");
 //        System.out.println(Tools.marshallAny(provider));
 
 //        DataProviderSlice dataProviders = accessorsManager.getUniqueIdentifierServiceAccessor().getDataProviders();
@@ -71,7 +71,7 @@ public class Main {
 
 
 //        CLOUD IDS START
-//        CloudId cloudId = uis.getCloudId("STempProvider10", "123");
+//        CloudId cloudId = uis.getCloudId("junitTestProvider", "junitTestRecordId");
 //        System.out.println(Tools.marshallAny(cloudId));
 
 
@@ -91,7 +91,7 @@ public class Main {
 
 
 //        accessorsManager.getUniqueIdentifierServiceAccessor()
-//                .deleteCloudId("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA");
+//                .deleteCloudId("X5J3ON5UT7SUALFKO3O52BZOXSUYWLVFKM56YBCL62TVZYKNYCRQ");
 //
 //        ResultsSlice resultsSlice = accessorsManager.getUniqueIdentifierServiceAccessor()
 //                .getCloudIdsOfProvider("STempProvider5");

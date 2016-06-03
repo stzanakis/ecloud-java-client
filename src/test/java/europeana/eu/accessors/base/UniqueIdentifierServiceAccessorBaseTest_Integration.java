@@ -1,12 +1,19 @@
 package europeana.eu.accessors.base;
 
+
 import europeana.eu.model.*;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.PropertiesConfigurationLayout;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import software.betamax.ProxyConfiguration;
+import software.betamax.TapeMode;
+import software.betamax.junit.Betamax;
+import software.betamax.junit.RecorderRule;
 
+import java.io.File;
 import java.io.FileReader;
 
 import static junit.framework.Assert.assertEquals;
@@ -20,7 +27,7 @@ import static org.junit.Assert.assertNotNull;
  */
 
 public class UniqueIdentifierServiceAccessorBaseTest_Integration {
-    private final static String accessUrl = "https://test-cloud.europeana.eu/api";
+    private final static String accessUrl = "https://test-cloud.europeana.eu/api/";
     private final static String credentialsFileName = "credentials.properties";
     private final static String username_key = "username_admin";
     private final static String password_key = "password_admin";
@@ -29,6 +36,8 @@ public class UniqueIdentifierServiceAccessorBaseTest_Integration {
     private static LocalId junitTestLocalId;
     private static CloudId junitTestCloudId;
 
+    File f = new File("src/test/resources/betamax/tapes");
+    @Rule public RecorderRule recorder = new RecorderRule(ProxyConfiguration.builder().sslEnabled(true).tapeRoot(f).build());
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
@@ -48,6 +57,7 @@ public class UniqueIdentifierServiceAccessorBaseTest_Integration {
     }
 
     @Test
+    @Betamax(tape="CreateGetUpdateActivateDeactivateDeleteDataProviders_tape", mode= TapeMode.READ_WRITE)
     public void testCreateGetUpdateActivateDeactivateDeleteDataProviders() throws Exception {
         testCreateDataProvider();
         testGetDataProvider();
@@ -72,7 +82,7 @@ public class UniqueIdentifierServiceAccessorBaseTest_Integration {
     }
 
     public void testGetDataProviders() throws Exception {
-        DataProviderSlice dataProviders = uis.getDataProviders();
+        ResultsSlice<DataProvider> dataProviders = uis.getDataProviders();
         assertNotNull(dataProviders);
     }
 
@@ -99,7 +109,8 @@ public class UniqueIdentifierServiceAccessorBaseTest_Integration {
     }
 
     @Test
-    public void testCreateGetDeleteCloudId() throws Exception {
+    @Betamax(tape="CreateGetMapDeleteCloudId_tape", mode= TapeMode.READ_WRITE)
+    public void testCreateGetMapDeleteCloudId() throws Exception {
         //We need a Data Provider to create CloudIds
         testCreateDataProvider();
 
