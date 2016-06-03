@@ -92,7 +92,7 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
     }
 
     @Override
-    public CloudIdsSlice getCloudIdWithRecordIds(String cloudId) throws DoesNotExistException {
+    public ResultsSlice<CloudId> getCloudIdWithRecordIds(String cloudId) throws DoesNotExistException {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.CLOUDIDS_PATH.getConstant()).path(cloudId);
 
@@ -100,9 +100,9 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
         short status = (short) response.getStatus();
 
         if (status == 200) {
-            CloudIdsSlice cloudIdsSlice = response.readEntity(CloudIdsSlice.class);
+            ResultsSlice ResultsSlice = response.readEntity(ResultsSlice.class);
             logger.info("getCloudIdWithRecordIds: " + target.getUri() + ", response: " + status + ", Returned a list of results!");
-            return cloudIdsSlice;
+            return ResultsSlice;
         }
         else{
             ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
@@ -242,12 +242,12 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
     }
 
     @Override
-    public CloudIdsSlice getCloudIdsOfProvider(String providerId) throws DoesNotExistException {
+    public ResultsSlice<CloudId> getCloudIdsOfProvider(String providerId) throws DoesNotExistException {
         return retrieveCloudIdsOfProvider(providerId, null, 0);
     }
 
     @Override
-    public CloudIdsSlice getCloudIdsOfProvider(String providerId, String from, int to) throws DoesNotExistException {
+    public ResultsSlice<CloudId> getCloudIdsOfProvider(String providerId, String from, int to) throws DoesNotExistException {
         return retrieveCloudIdsOfProvider(providerId, from, to);
     }
 
@@ -257,10 +257,10 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
      * @param providerId
      * @param from
      * @param to
-     * @return {@link europeana.eu.model.CloudIdsSlice}
+     * @return {@link europeana.eu.model.ResultsSlice}
      * @throws DoesNotExistException
      */
-    private CloudIdsSlice retrieveCloudIdsOfProvider(String providerId, String from, int to) throws DoesNotExistException {
+    private ResultsSlice<CloudId> retrieveCloudIdsOfProvider(String providerId, String from, int to) throws DoesNotExistException {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.DATAPROVIDERS_PATH.getConstant()).path(providerId).path(Constants.CLOUDIDS_PATH.getConstant());
         if (from != null)
@@ -275,9 +275,9 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
         short status = (short) response.getStatus();
 
         if (status == 200) {
-            CloudIdsSlice cloudIdsSlice = response.readEntity(CloudIdsSlice.class);
+            ResultsSlice<CloudId> ResultsSlice = response.readEntity(ResultsSlice.class);
             logger.info("getCloudIdsOfProvider: " + target.getUri() + ", response: " + status + ", Returned a list of results!");
-            return cloudIdsSlice;
+            return ResultsSlice;
         }
         else{
             ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
@@ -365,12 +365,12 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
     }
 
     @Override
-    public DataProviderSlice getDataProviders() throws DoesNotExistException {
+    public ResultsSlice<DataProvider> getDataProviders() throws DoesNotExistException {
         return retrieveProviders(null);
     }
 
     @Override
-    public DataProviderSlice getDataProviders(String from) throws DoesNotExistException {
+    public ResultsSlice<DataProvider> getDataProviders(String from) throws DoesNotExistException {
         return retrieveProviders(from);
     }
 
@@ -381,7 +381,7 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
      * @return {@link europeana.eu.model.DataProviderSlice}
      * @throws DoesNotExistException
      */
-    private DataProviderSlice retrieveProviders(String from) throws DoesNotExistException {
+    private ResultsSlice<DataProvider> retrieveProviders(String from) throws DoesNotExistException {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.DATAPROVIDERS_PATH.getConstant());
 
@@ -393,7 +393,7 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
         short status = (short) response.getStatus();
 
         if (status == 200) {
-            DataProviderSlice dataProviderSlice = response.readEntity(DataProviderSlice.class);
+            ResultsSlice<DataProvider> dataProviderSlice = response.readEntity(ResultsSlice.class);
             logger.info("getDataProviders: " + target.getUri() + ", response: " + status + ", Returned a list of results!");
             return dataProviderSlice;
         }
@@ -530,12 +530,12 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
     }
 
     @Override
-    public CloudIdsSlice getLocalIdsOfProvider(String providerId) throws DoesNotExistException {
+    public ResultsSlice<CloudId> getLocalIdsOfProvider(String providerId) throws DoesNotExistException {
         return retrieveLocalIdsOfProvider(providerId, null, 0);
     }
 
     @Override
-    public CloudIdsSlice getLocalIdsOfProvider(String providerId, String from, int to) throws DoesNotExistException {
+    public ResultsSlice<CloudId> getLocalIdsOfProvider(String providerId, String from, int to) throws DoesNotExistException {
         return retrieveLocalIdsOfProvider(providerId, from, to);
     }
 
@@ -573,10 +573,10 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
      * @param providerId
      * @param from
      * @param to
-     * @return {@link europeana.eu.model.CloudIdsSlice}
+     * @return {@link europeana.eu.model.ResultsSlice}
      * @throws DoesNotExistException
      */
-    private CloudIdsSlice retrieveLocalIdsOfProvider(String providerId, String from, int to) throws DoesNotExistException {
+    private ResultsSlice<CloudId> retrieveLocalIdsOfProvider(String providerId, String from, int to) throws DoesNotExistException {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.DATAPROVIDERS_PATH.getConstant()).path(providerId).path(Constants.LOCALIDS_PATH.getConstant());
         if (from != null)
@@ -589,9 +589,9 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
         short status = (short) response.getStatus();
 
         if (status == 200) {
-            CloudIdsSlice cloudIdsSlice = response.readEntity(CloudIdsSlice.class);
+            ResultsSlice<CloudId> ResultsSlice = response.readEntity(ResultsSlice.class);
             logger.info("getLocalIdsOfProvider: " + target.getUri() + ", response: " + status + ", Returned a list of results!");
-            return cloudIdsSlice;
+            return ResultsSlice;
         }
         else{
             ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);

@@ -4,9 +4,8 @@ import europeana.eu.exceptions.AlreadyExistsException;
 import europeana.eu.exceptions.BadRequest;
 import europeana.eu.exceptions.DoesNotExistException;
 import europeana.eu.model.CloudId;
-import europeana.eu.model.CloudIdsSlice;
 import europeana.eu.model.DataProvider;
-import europeana.eu.model.DataProviderSlice;
+import europeana.eu.model.ResultsSlice;
 
 import javax.ws.rs.core.NoContentException;
 
@@ -52,10 +51,10 @@ public interface UniqueIdentifierServiceAccessor {
      * Returns a sliced list of the currently Record Ids that are mapped to a specific Cloud Id.
      * Analogous URL: GET base-url/cloudIds/cloudId/
      * @param cloudId
-     * @return {@link europeana.eu.model.CloudIdsSlice}
+     * @return {@link europeana.eu.model.ResultsSlice}
      * @throws DoesNotExistException
      */
-    CloudIdsSlice getCloudIdWithRecordIds(String cloudId) throws DoesNotExistException;
+    ResultsSlice<CloudId> getCloudIdWithRecordIds(String cloudId) throws DoesNotExistException;
 
     /**
      * Create a new mapping for a Record Id to a Cloud Id.
@@ -93,10 +92,10 @@ public interface UniqueIdentifierServiceAccessor {
      * Get all Cloud Ids, in slices, of a specific Data Provider.
      * Analogous URL: GET base-url/data-providers/DATAPROVIDER/cloudIds/
      * @param providerId
-     * @return {@link europeana.eu.model.CloudIdsSlice}
+     * @return {@link europeana.eu.model.ResultsSlice}
      * @throws DoesNotExistException
      */
-    CloudIdsSlice getCloudIdsOfProvider(String providerId) throws DoesNotExistException;
+    ResultsSlice<CloudId> getCloudIdsOfProvider(String providerId) throws DoesNotExistException;
 
     /**
      * Get a set of Cloud Ids, in slices, of a specific Data Provider.
@@ -104,10 +103,10 @@ public interface UniqueIdentifierServiceAccessor {
      * @param providerId
      * @param from
      * @param to
-     * @return {@link europeana.eu.model.CloudIdsSlice}
+     * @return {@link europeana.eu.model.ResultsSlice}
      * @throws DoesNotExistException
      */
-    CloudIdsSlice getCloudIdsOfProvider(String providerId, String from, int to) throws DoesNotExistException;
+    ResultsSlice<CloudId> getCloudIdsOfProvider(String providerId, String from, int to) throws DoesNotExistException;
 
     /**
      * Create a new Data Provider.
@@ -146,7 +145,7 @@ public interface UniqueIdentifierServiceAccessor {
      * @return {@link europeana.eu.model.DataProviderSlice}
      * @throws DoesNotExistException
      */
-    DataProviderSlice getDataProviders() throws DoesNotExistException;
+    ResultsSlice<DataProvider> getDataProviders() throws DoesNotExistException;
 
     /**
      * Get all existent Providers in slices from a specific Provider Id.
@@ -155,7 +154,7 @@ public interface UniqueIdentifierServiceAccessor {
      * @return {@link europeana.eu.model.DataProviderSlice}
      * @throws DoesNotExistException
      */
-    DataProviderSlice getDataProviders(String from) throws DoesNotExistException;
+    ResultsSlice<DataProvider> getDataProviders(String from) throws DoesNotExistException;
 
     /**
      * Retrieve a Data Provider.
@@ -199,10 +198,10 @@ public interface UniqueIdentifierServiceAccessor {
      * Get all Local Ids, in slices, of a specific Data Provider.
      * Analogous URL: GET base-url/data-providers/DATAPROVIDER/localIds/
      * @param providerId
-     * @return {@link europeana.eu.model.CloudIdsSlice}
+     * @return {@link europeana.eu.model.ResultsSlice}
      * @throws DoesNotExistException
      */
-    CloudIdsSlice getLocalIdsOfProvider(String providerId) throws DoesNotExistException;
+    ResultsSlice<CloudId> getLocalIdsOfProvider(String providerId) throws DoesNotExistException;
 
     /**
      * Get a set of Local Ids, in slices, of a specific Data Provider.
@@ -210,10 +209,10 @@ public interface UniqueIdentifierServiceAccessor {
      * @param providerId
      * @param from
      * @param to
-     * @return {@link europeana.eu.model.CloudIdsSlice}
+     * @return {@link europeana.eu.model.ResultsSlice}
      * @throws DoesNotExistException
      */
-    CloudIdsSlice getLocalIdsOfProvider(String providerId, String from, int to) throws DoesNotExistException;
+    ResultsSlice<CloudId> getLocalIdsOfProvider(String providerId, String from, int to) throws DoesNotExistException;
 
     /**
      * Delete a Local Id to Cloud Id mapping.

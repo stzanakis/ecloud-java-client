@@ -76,14 +76,14 @@ public class Main {
 
 
 //        accessorsManager.getUniqueIdentifierServiceAccessor().createNewCloudId("STempProvider5", "a");
-//        CloudIdsSlice cloudIdsSlice = accessorsManager.getUniqueIdentifierServiceAccessor()
+//        ResultsSlice resultsSlice = accessorsManager.getUniqueIdentifierServiceAccessor()
 //                .getCloudIdsOfProvider("STempProvider5");
-//        System.out.println(Tools.marshallAny(cloudIdsSlice));
+//        System.out.println(Tools.marshallAny(resultsSlice));
 
 
 //          uis.createMappingRecordIdToCloudId("STempProvider5", "NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "a");
 
-//        CloudIdsSlice cloudIdWithRecordIds = uis.getCloudIdWithRecordIds("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A");
+//        ResultsSlice cloudIdWithRecordIds = uis.getCloudIdWithRecordIds("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A");
 //        System.out.println(Tools.marshallAny(cloudIdWithRecordIds));
 
 
@@ -93,31 +93,31 @@ public class Main {
 //        accessorsManager.getUniqueIdentifierServiceAccessor()
 //                .deleteCloudId("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA");
 //
-//        CloudIdsSlice cloudIdsSlice = accessorsManager.getUniqueIdentifierServiceAccessor()
+//        ResultsSlice resultsSlice = accessorsManager.getUniqueIdentifierServiceAccessor()
 //                .getCloudIdsOfProvider("STempProvider5");
-//        for (CloudId cloudId : cloudIdsSlice.getCloudIds()) {
+//        for (CloudId cloudId : resultsSlice.getCloudIds()) {
 ////            System.out.println(cloudId.getId());
 //            System.out.println(Tools.marshallAny(cloudId));
 //        }
 
-//        CloudIdsSlice cloudIdsSlice = accessorsManager.getUniqueIdentifierServiceAccessorBase().getCloudIdWithRecordIds("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA");
-//        System.out.println(Tools.marshallAny(cloudIdsSlice));
+//        ResultsSlice resultsSlice = accessorsManager.getUniqueIdentifierServiceAccessorBase().getCloudIdWithRecordIds("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA");
+//        System.out.println(Tools.marshallAny(resultsSlice));
 //
 //        accessorsManager.getUniqueIdentifierServiceAccessorBase().createMappingRecordIdToCloudId("STempProvider5", "ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA");
 //
-//        cloudIdsSlice = accessorsManager.getUniqueIdentifierServiceAccessorBase().getCloudIdWithRecordIds("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA");
-//        System.out.println(Tools.marshallAny(cloudIdsSlice));
+//        resultsSlice = accessorsManager.getUniqueIdentifierServiceAccessorBase().getCloudIdWithRecordIds("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA");
+//        System.out.println(Tools.marshallAny(resultsSlice));
 
 //        accessorsManager.getUniqueIdentifierServiceAccessorBase().getCloudIdWithRecordIds("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA");
 
-//        for (CloudId cloudId : cloudIdsSlice.getCloudIds()) {
+//        for (CloudId cloudId : resultsSlice.getCloudIds()) {
 //            Tools.marshallAny(cloudId);
 //            System.out.println(cloudId.getId());
 //            System.out.println(accessorsManager.getUniqueIdentifierServiceAccessorBase()
 //                    .deleteCloudId(cloudId.getId()));
 //        }
-//        System.out.println(cloudIdsSlice.getCloudIds().size());
-//        System.out.println(cloudIdsSlice.getNextSlice());
+//        System.out.println(resultsSlice.getCloudIds().size());
+//        System.out.println(resultsSlice.getNextSlice());
 //        CLOUD IDS END
 
 //        RECORDS START
@@ -159,15 +159,15 @@ public class Main {
 //                            "476feab0-2668-11e6-8cf5-fa163e8d4ae3", fm.getFileName());
 //        }
 
-//        CloudIdsSlice cloudIdsSlice = accessorsManager.getUniqueIdentifierServiceAccessor().getLocalIdsOfProvider("STempProvider5", "PWFE4MY56EHKJE3HOAPHBY3ULZJGT7YYBGZ3ITMSHBIA4EGOQXIA", 2);
-//        System.out.println(Tools.marshallAny(cloudIdsSlice));
-//        CloudIdsSlice cloudIdsSlice = accessorsManager.getUniqueIdentifierServiceAccessorBase().getLocalIdsOfProvider("STempProvider5", "ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA", 1);
-//        CloudIdsSlice cloudIdsSlice = accessorsManager.getUniqueIdentifierServiceAccessorBase().getLocalIdsOfProvider("STempProvider5", "ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA", 1);
+//        ResultsSlice resultsSlice = accessorsManager.getUniqueIdentifierServiceAccessor().getLocalIdsOfProvider("STempProvider5", "PWFE4MY56EHKJE3HOAPHBY3ULZJGT7YYBGZ3ITMSHBIA4EGOQXIA", 2);
+//        System.out.println(Tools.marshallAny(resultsSlice));
+//        ResultsSlice resultsSlice = accessorsManager.getUniqueIdentifierServiceAccessorBase().getLocalIdsOfProvider("STempProvider5", "ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA", 1);
+//        ResultsSlice resultsSlice = accessorsManager.getUniqueIdentifierServiceAccessorBase().getLocalIdsOfProvider("STempProvider5", "ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA", 1);
 
 //        accessorsManager.getUniqueIdentifierServiceAccessorBase().deleteMappingLocalIdFromCloudId("STempProvider5", "IHAQTCG4RH2XEOTWAPF7CDNIH6QEWVJBMTGPR5ENBO4S2MRCKMGA");
 //
-//        CloudIdsSlice cloudIdsSlice = accessorsManager.getUniqueIdentifierServiceAccessorBase().getLocalIdsOfProvider("STempProvider5");
-//        System.out.println(Tools.marshallAny(cloudIdsSlice));
+//        ResultsSlice resultsSlice = accessorsManager.getUniqueIdentifierServiceAccessorBase().getLocalIdsOfProvider("STempProvider5");
+//        System.out.println(Tools.marshallAny(resultsSlice));
 
 //        RECORDS END
 

@@ -127,7 +127,7 @@ public class UniqueIdentifierServiceAccessorBaseTest_Integration {
     }
 
     public void testGetCloudIdsOfProvider() throws Exception {
-        CloudIdsSlice cloudIdsOfProvider = uis.getCloudIdsOfProvider(junitTestDataProvider.getId());
+        ResultsSlice<CloudId> cloudIdsOfProvider = uis.getCloudIdsOfProvider(junitTestDataProvider.getId());
         assertNotNull(cloudIdsOfProvider);
         assertEquals(1, cloudIdsOfProvider.getCloudIds().size());
     }
@@ -137,13 +137,13 @@ public class UniqueIdentifierServiceAccessorBaseTest_Integration {
         assertNotNull(mappingRecordIdToCloudId);
     }
     public void testGetCloudIdWithRecordIds() throws Exception {
-        CloudIdsSlice cloudIdWithRecordIds = uis.getCloudIdWithRecordIds(junitTestCloudId.getId());
+        ResultsSlice<CloudId> cloudIdWithRecordIds = uis.getCloudIdWithRecordIds(junitTestCloudId.getId());
         assertNotNull(cloudIdWithRecordIds);
         assertEquals(2, cloudIdWithRecordIds.getCloudIds().size());
     }
 
     public void testGetLocalIdOfProvider() throws Exception {
-        CloudIdsSlice localIdsOfProvider = uis.getLocalIdsOfProvider(junitTestDataProvider.getId());
+        ResultsSlice<CloudId> localIdsOfProvider = uis.getLocalIdsOfProvider(junitTestDataProvider.getId());
         assertNotNull(localIdsOfProvider);
         assertEquals(2, localIdsOfProvider.getCloudIds().size());
     }
