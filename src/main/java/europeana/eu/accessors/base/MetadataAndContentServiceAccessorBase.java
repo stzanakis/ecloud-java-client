@@ -59,7 +59,7 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
     }
 
     @Override
-    public String createRepresentationVersion(String cloudId, String representationName, String providerId) throws BadRequest {
+    public String createRepresentationVersion(String cloudId, String representationName, String providerId) throws DoesNotExistException {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.RECORDS_PATH.getConstant()).path(cloudId).path(Constants.REPRESENTATIONS_PATH.getConstant()).path(representationName);
 
@@ -67,7 +67,7 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
         map.put(Constants.PROVIDERID.getConstant(), providerId);
         String formURLEncoded = Tools.generateFormURLEncoded(map);
 
-        Response response = target.request(MediaType.APPLICATION_FORM_URLENCODED).post(
+        Response response = target.request().post(
                 Entity.entity(formURLEncoded, MediaType.APPLICATION_FORM_URLENCODED), Response.class);
 
         short status = (short) response.getStatus();
@@ -79,17 +79,18 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
         }
         else{
             ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
             logger.error(errorString);
             switch (status)
             {
-                case 400:
-                    throw new BadRequest(errorString);
+                case 404:
+                    throw new DoesNotExistException(errorString);
                 case 500:
                     throw new InternalServerErrorException(errorString);
+                default:
+                    throw new UnsupportedOperationException(errorString);
             }
         }
-        return null;
     }
 
     @Override
@@ -99,7 +100,8 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
         Response response = target.request(MediaType.APPLICATION_JSON).get();
 
         short status = (short) response.getStatus();
-        System.out.println(response.readEntity(String.class));
+//        System.out.println(response.readEntity(String.class));
+//        System.out.println(response.getHeaders().toString());
 
         // TODO: 30-5-16 Implement correctly
         if (status == 200) {
@@ -110,12 +112,10 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
         }
         else{
             ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
             logger.error(errorString);
             switch (status)
             {
-                case 204:
-                    throw new NoContentException(errorString);
                 case 404:
                     throw new DoesNotExistException(errorString);
                 case 500:
@@ -132,8 +132,8 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
         Response response = target.request(MediaType.APPLICATION_JSON).get();
 
         short status = (short) response.getStatus();
-        System.out.println(status);
-        System.out.println(response.readEntity(String.class));
+//        System.out.println(status);
+//        System.out.println(response.readEntity(String.class));
         // TODO: 30-5-16 Implement correctly
         if (status == 200) {
             System.out.println(response.readEntity(String.class));
@@ -142,7 +142,7 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
         }
         else{
             ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -162,7 +162,7 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.RECORDS_PATH.getConstant()).path(cloudId).path(Constants.REPRESENTATIONS_PATH.getConstant()).path(representationName)
                 .path(Constants.VERSIONS_PATH.getConstant());
-        Response response = target.request(MediaType.APPLICATION_JSON).get();
+        Response response = target.request(MediaType.APPLICATION_XML).get();
 
         short status = (short) response.getStatus();
 
@@ -173,7 +173,7 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
         }
         else{
             ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -194,16 +194,18 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
         Response response = target.request(MediaType.APPLICATION_JSON).get();
 
         short status = (short) response.getStatus();
+//        System.out.println(response.readEntity(String.class));
+//        System.out.println(response.getHeaders());
 
         if (status == 200) {
             RepresentationVersion representationVersion = response.readEntity(RepresentationVersion.class);
-            logger.info("getRepresentationVersion: " + target.getUri() + ", response: " + status + ", Returned a list of results!");
+            logger.info("getRepresentationVersion: " + target.getUri() + ", response: " + status + ", CloudId: " + cloudId + ", and Representation name: " + representationName + ", and version: " + version + " exists!");
             return representationVersion;
         }
         else{
-            System.out.println(response.readEntity(String.class));
+//            System.out.println(response.readEntity(String.class));
             ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Representation version with version: " + version + " exists!";
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -224,13 +226,13 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
 
         short status = (short) response.getStatus();
 
-        System.out.println(response.readEntity(String.class));
+//        System.out.println(response.readEntity(String.class));
         if (status == 204) {
-            logger.info("deleteRepresentation: " + target.getUri() + ", response: " + status + ", representationName: " + representationName + " deleted!");
+            logger.info("deleteRepresentation: " + target.getUri() + ", response: " + status + ", CloudId: " + cloudId + ", RepresentationName: " + representationName + " deleted!");
         }
         else{
             ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
             logger.error(errorString);
             switch (status)
             {
@@ -248,17 +250,16 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.RECORDS_PATH.getConstant()).path(cloudId).path(Constants.REPRESENTATIONS_PATH.getConstant()).path(representationName)
                 .path(Constants.VERSIONS_PATH.getConstant()).path(version);
-        Response response = target.request(MediaType.APPLICATION_JSON).delete();
+        Response response = target.request().delete();
 
         short status = (short) response.getStatus();
 
         if (status == 204) {
-            logger.info("deleteRepresentationVersion: " + target.getUri() + ", response: " + status + ", representationName: " + representationName + ", version: " + version + " deleted!");
+            logger.info("deleteRepresentationVersion: " + target.getUri() + ", response: " + status + ", CloudId: " + cloudId + ", RepresentationName: " + representationName + ", Version: " + version + " deleted!");
         }
         else{
-            System.out.println(response.readEntity(String.class));
             ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
             logger.error(errorString);
             switch (status)
             {

@@ -2,20 +2,12 @@ package europeana.eu;
 
 import europeana.eu.accessors.UniqueIdentifierServiceAccessor;
 import europeana.eu.commons.AccessorsManager;
-import europeana.eu.exceptions.AlreadyExistsException;
-import europeana.eu.exceptions.BadRequest;
-import europeana.eu.exceptions.DoesNotExistException;
-import europeana.eu.exceptions.MethodNotAllowedException;
-import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.PropertiesConfigurationLayout;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.ws.rs.core.NoContentException;
-import javax.xml.bind.JAXBException;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 
 /**
@@ -24,18 +16,20 @@ import java.io.FileReader;
  */
 public class Main {
     private static final Logger logger = LogManager.getLogger();
-    public static void main(String[] args) throws AlreadyExistsException, BadRequest, DoesNotExistException, NoContentException, JAXBException, FileNotFoundException, ConfigurationException, MethodNotAllowedException {
+    public static void main(String[] args) throws Exception {
         System.out.println("Hello ECloud!");
         logger.info("Started in Main");
 
 //        INITIALIZE START
         PropertiesConfiguration propertiesConfiguration = new PropertiesConfiguration();
         PropertiesConfigurationLayout configurationPropertiesLayout = new PropertiesConfigurationLayout(propertiesConfiguration);
-        File credentialsFile = new File(AccessorsManager.getDefaultCredentialsPath() + AccessorsManager.getCredentialsFileName());
+        File credentialsFile = new File(AccessorsManager.getDefaultCredentialsPath() + "/" + AccessorsManager.getCredentialsFileName());
         if(credentialsFile.exists())
             configurationPropertiesLayout.load(new FileReader(credentialsFile));
         else
             configurationPropertiesLayout.load(new FileReader(Main.class.getClassLoader().getResource(AccessorsManager.getCredentialsFileName()).getFile()));
+
+        System.out.println(propertiesConfiguration.getProperty(AccessorsManager.getUsername_key()).toString());
 
         AccessorsManager accessorsManager = new AccessorsManager();
         accessorsManager.InitializeAllAccessors(AccessorsManager.getAccessUrl(),
@@ -58,9 +52,9 @@ public class Main {
 //        uis.activateDataProvider("STempProvider10");
 //        uis.deactivateDataProvider("STempProvider10");
 
-        uis.deleteDataProvider("junitTestProvider");
+//                uis.deleteDataProvider("STempProvider");
 //
-//        DataProvider provider = uis.getDataProvider("junitTestProvider");
+//        DataProvider provider = uis.getDataProvider("STempProvider10");
 //        System.out.println(Tools.marshallAny(provider));
 
 //        DataProviderSlice dataProviders = accessorsManager.getUniqueIdentifierServiceAccessor().getDataProviders();
@@ -79,10 +73,18 @@ public class Main {
 //        System.out.println(Tools.marshallAny(cloudId));
 
 
-//        accessorsManager.getUniqueIdentifierServiceAccessor().createNewCloudId("STempProvider5", "a");
+//        accessorsManager.getUniqueIdentifierServiceAccessor().createNewCloudId("STempProvider10", "123");
 //        ResultsSlice resultsSlice = accessorsManager.getUniqueIdentifierServiceAccessor()
-//                .getCloudIdsOfProvider("STempProvider5");
+//                .getCloudIdsOfProvider("STempProvider10");
 //        System.out.println(Tools.marshallAny(resultsSlice));
+
+
+//        for (int i = 0; i < resultsSlice.getCloudIds().size(); i++)
+//        {
+//             accessorsManager.getUniqueIdentifierServiceAccessor().deleteCloudId(((LinkedHashMap)resultsSlice.getCloudIds().get(i)).get("id").toString());
+//        }
+
+        //            accessorsManager.getUniqueIdentifierServiceAccessor().deleteCloudId(((CloudId)obj).getId());
 
 
 //          uis.createMappingRecordIdToCloudId("STempProvider5", "NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "a");
@@ -125,27 +127,29 @@ public class Main {
 //        CLOUD IDS END
 
 //        RECORDS START
-//        String representationVersion = accessorsManager.getMetadataAndContentServiceAccessor().createRepresentationVersion("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA", "TEST", "STempProvider5");
+//        String representationVersion = accessorsManager.getMetadataAndContentServiceAccessor()
+//                .createRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "STempProvider10");
 //        System.out.println(representationVersion);
 
-//          accessorsManager.getMetadataAndContentServiceAccessor().getRepresentations("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA");
-//        accessorsManager.getMetadataAndContentServiceAccessor().getRepresentation("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA", "TEST");
+//          accessorsManager.getMetadataAndContentServiceAccessor().getRepresentations("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A");
+//        accessorsManager.getMetadataAndContentServiceAccessor().getRepresentation("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST");
 //
 //
-//        RepresentationVersion[] representationVersions = accessorsManager.getMetadataAndContentServiceAccessor().getRepresentationVersions("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA", "TEST");
+//        RepresentationVersion[] representationVersions = accessorsManager.getMetadataAndContentServiceAccessor().getRepresentationVersions("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST");
 //        for (RepresentationVersion representationVersion: representationVersions
 //             ) {
 //            System.out.println(representationVersion.getVersion());
 //        }
+//        System.out.println(representationVersions.length);
 //
 //        RepresentationVersion representationVersion = accessorsManager.getMetadataAndContentServiceAccessor()
-//                .getRepresentationVersion("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA", "TEST", "476feab0-2668-11e6-8cf5-fa163e8d4ae3");
+//                .getRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "e41960d0-2bcc-11e6-94ae-fa163e289a71");
 //        System.out.println(representationVersion);
 
 //        accessorsManager.getMetadataAndContentServiceAccessor()
-//                .deleteRepresentationVersion("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA", "TEST", "1b12a390-2659-11e6-9e71-fa163e64bb83");
+//                .deleteRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "7f192790-2bec-11e6-9e71-fa163e64bb83");
 
-//        accessorsManager.getMetadataAndContentServiceAccessor().deleteRepresentation("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA", "TEST");
+//        accessorsManager.getMetadataAndContentServiceAccessor().deleteRepresentation("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST");
 
 //        File file = new File("/tmp/test.png");
 //        accessorsManager.getMetadataAndContentServiceAccessor()

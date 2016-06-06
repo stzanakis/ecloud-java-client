@@ -14,7 +14,7 @@ import java.util.List;
  * @author Simon Tzanakis (Simon.Tzanakis@europeana.eu)
  * @since 2016-05-30
  */
-@XmlRootElement
+@XmlRootElement(name="representation")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RepresentationVersion {
     URI allVersionsUri;
