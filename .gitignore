@@ -1,8 +1,9 @@
-/*.iml
+**/*.iml
+**/.idea
+**/target
 /.settings
 /.classpath
 /.project
-/.idea/
 /target/
 /littleproxy_cert
 /littleproxy_keystore.jks
