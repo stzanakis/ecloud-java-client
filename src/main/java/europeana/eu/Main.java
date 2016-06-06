@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.ws.rs.core.NoContentException;
 import javax.xml.bind.JAXBException;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
@@ -30,10 +31,13 @@ public class Main {
 //        INITIALIZE START
         PropertiesConfiguration propertiesConfiguration = new PropertiesConfiguration();
         PropertiesConfigurationLayout configurationPropertiesLayout = new PropertiesConfigurationLayout(propertiesConfiguration);
-        configurationPropertiesLayout.load(new FileReader(Main.class.getClassLoader().getResource(AccessorsManager.getCredentialsFileName()).getFile()));
+        File credentialsFile = new File(AccessorsManager.getDefaultCredentialsPath() + AccessorsManager.getCredentialsFileName());
+        if(credentialsFile.exists())
+            configurationPropertiesLayout.load(new FileReader(credentialsFile));
+        else
+            configurationPropertiesLayout.load(new FileReader(Main.class.getClassLoader().getResource(AccessorsManager.getCredentialsFileName()).getFile()));
 
         AccessorsManager accessorsManager = new AccessorsManager();
-//        accessorsManager.InitializeAllAccessors("https://test-cloud.europeana.eu/api", "stzanakis", "Pom3ohco");
         accessorsManager.InitializeAllAccessors(AccessorsManager.getAccessUrl(),
                 propertiesConfiguration.getProperty(AccessorsManager.getUsername_key()).toString(), propertiesConfiguration.getProperty(AccessorsManager.getPassword_key()).toString());
 //        accessorsManager.InitializeAllAccessors("https://test-cloud.europeana.eu/api",
