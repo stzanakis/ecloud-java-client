@@ -114,6 +114,17 @@ public interface MetadataAndContentServiceAccessor {
     short deleteRepresentationVersion(String cloudId, String representationName, String version) throws DoesNotExistException;
 
     /**
+     * Copies all information with all files and their contents from one representation version to a new non-persistent temporary Representation Version.
+     * Analogous URL: POST base-url/records/CLOUDID/representations/REPRESENTATIONNAME/versions/VERSION/copy/
+     * @param cloudId
+     * @param representationName
+     * @param version
+     * @return The location URI of the new Representation Version
+     * @throws DoesNotExistException
+     */
+    String copyRepresentationVersionWithContents(String cloudId, String representationName, String version) throws DoesNotExistException;
+
+    /**
      * Adds a new file to representation version.
      * Analogous URL: POST base-url/records/CLOUDID/representations/REPRESENTATIONNAME/versions/VERSION/files/
      * @param cloudId

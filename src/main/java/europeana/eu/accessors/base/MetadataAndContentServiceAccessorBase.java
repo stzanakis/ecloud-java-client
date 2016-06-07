@@ -379,6 +379,37 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
     }
 
     @Override
+    public String copyRepresentationVersionWithContents(String cloudId, String representationName, String version) throws DoesNotExistException {
+        WebTarget target = client.target(accessorUrl.toString());
+        target = target.path(Constants.RECORDS_PATH.getConstant()).path(cloudId).path(Constants.REPRESENTATIONS_PATH.getConstant()).path(representationName)
+                .path(Constants.VERSIONS_PATH.getConstant()).path(version).path(Constants.COPY_PATH.getConstant());
+
+        Response response = target.request().post(Entity.entity(null, MediaType.APPLICATION_JSON), Response.class);
+
+        short status = (short) response.getStatus();
+
+        if (status == 201) {
+            String location = response.getHeaderString(Constants.LOCATION_HEADER.getConstant());
+            logger.info("copyRepresentationVersionWithContents: " + target.getUri() + ", response: " + status + ", Representation version copied with URI: " + location);
+            return location;
+        }
+        else{
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            logger.error(errorString);
+            switch (status)
+            {
+                case 404:
+                    throw new DoesNotExistException(errorString);
+                case 500:
+                    throw new InternalServerErrorException(errorString);
+                default:
+                    throw new UnsupportedOperationException(errorString);
+            }
+        }
+    }
+
+    @Override
     public String addFileToRepresentationVersion(String cloudId, String representationName, String version, File file, String mimeType, String fileName) throws BadRequest, DoesNotExistException, AlreadyExistsException, MethodNotAllowedException {
         return uploadFileToRepresentationVersion(cloudId, representationName, version, file, mimeType, fileName);
     }

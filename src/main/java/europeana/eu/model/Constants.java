@@ -13,6 +13,7 @@ public enum Constants {
     FILES_PATH("files"),
     LOCALIDS_PATH("localIds"),
     ACTIVE_PATH("active"),
+    COPY_PATH("copy"),
     PROVIDERID("providerId"),
     RECORDID("recordId"),
     LOCATION_HEADER("Location"),
