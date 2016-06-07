@@ -114,7 +114,7 @@ public interface MetadataAndContentServiceAccessor {
     short deleteRepresentationVersion(String cloudId, String representationName, String version) throws DoesNotExistException;
 
     /**
-     * Adds a new file to representation version. URI to created resource will be returned in response as content location.
+     * Adds a new file to representation version.
      * Analogous URL: POST base-url/records/CLOUDID/representations/REPRESENTATIONNAME/versions/VERSION/files/
      * @param cloudId
      * @param representationName
@@ -131,7 +131,7 @@ public interface MetadataAndContentServiceAccessor {
     String addFileToRepresentationVersion(String cloudId, String representationName, String version, File file, String mimeType, String fileName) throws BadRequest, DoesNotExistException, AlreadyExistsException, MethodNotAllowedException;
 
     /**
-     * Adds a new file to representation version. URI to created resource will be returned in response as content location.
+     * Adds a new file to representation version.
      * Mime type will be empty and fileName will be generated from the system.
      * Analogous URL: POST base-url/records/CLOUDID/representations/REPRESENTATIONNAME/versions/VERSION/files/
      * @param cloudId
@@ -145,6 +145,35 @@ public interface MetadataAndContentServiceAccessor {
      * @throws MethodNotAllowedException
      */
     String addFileToRepresentationVersion(String cloudId, String representationName, String version, File file) throws BadRequest, DoesNotExistException, AlreadyExistsException, MethodNotAllowedException;
+
+    /**
+     * Updates the file contents of a representation version fileName.
+     * Analogous URL: PUT base-url/records/CLOUDID/representations/REPRESENTATIONNAME/versions/VERSION/files/FILENAME/
+     * @param cloudId
+     * @param representationName
+     * @param version
+     * @param fileName
+     * @param file
+     * @param mimeType
+     * @return The location URI of the new Representation Version
+     * @throws DoesNotExistException
+     * @throws MethodNotAllowedException
+     */
+    String updateFileToRepresentationVersion(String cloudId, String representationName, String version, String fileName, File file, String mimeType) throws DoesNotExistException, MethodNotAllowedException;
+
+    /**
+     * Updates the file contents of a representation version fileName.
+     * Analogous URL: PUT base-url/records/CLOUDID/representations/REPRESENTATIONNAME/versions/VERSION/files/FILENAME/
+     * @param cloudId
+     * @param representationName
+     * @param version
+     * @param fileName
+     * @param file
+     * @return The location URI of the new Representation Version
+     * @throws DoesNotExistException
+     * @throws MethodNotAllowedException
+     */
+    String updateFileToRepresentationVersion(String cloudId, String representationName, String version, String fileName, File file) throws DoesNotExistException, MethodNotAllowedException;
 
     /**
      * Retrieve a file and store it in the specified directory

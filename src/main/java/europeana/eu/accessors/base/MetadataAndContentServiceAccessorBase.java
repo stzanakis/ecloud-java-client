@@ -389,6 +389,55 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
     }
 
     @Override
+    public String updateFileToRepresentationVersion(String cloudId, String representationName, String version, String fileName, File file, String mimeType) throws DoesNotExistException, MethodNotAllowedException {
+        WebTarget target = client.register(MultiPartFeature.class).target(accessorUrl.toString());
+        target = target.path(Constants.RECORDS_PATH.getConstant()).path(cloudId).path(Constants.REPRESENTATIONS_PATH.getConstant()).path(representationName)
+                .path(Constants.VERSIONS_PATH.getConstant()).path(version).path(Constants.FILES_PATH.getConstant()).path(fileName);
+
+        final FileDataBodyPart filePart =
+                new FileDataBodyPart("data", file, MediaType.APPLICATION_OCTET_STREAM_TYPE);
+
+        FormDataMultiPart multiPartEntity = new FormDataMultiPart();
+        if (mimeType != null && !mimeType.equals(""))
+            multiPartEntity.field(Constants.MIMETYPE_FIELD.getConstant(), mimeType);
+        multiPartEntity.bodyPart(filePart);
+
+        Response response =
+                target.request().put(Entity.entity(multiPartEntity, MediaType.MULTIPART_FORM_DATA),
+                        Response.class);
+
+        short status = (short) response.getStatus();
+
+        if (status == 204) {
+            String location = response.getHeaderString(Constants.LOCATION_HEADER.getConstant());
+            logger.info("updateFileToRepresentationVersion: " + target.getUri() + ", response: " + status +
+                    ", Updated file with URI: " + location);
+            return location;
+        }
+        else{
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            logger.error(errorString);
+            switch (status)
+            {
+                case 404:
+                    throw new DoesNotExistException(errorString);
+                case 405:
+                    throw new MethodNotAllowedException(errorString);
+                case 500:
+                    throw new InternalServerErrorException(errorString);
+                default:
+                    throw new UnsupportedOperationException(errorString);
+            }
+        }
+    }
+
+    @Override
+    public String updateFileToRepresentationVersion(String cloudId, String representationName, String version, String fileName, File file) throws DoesNotExistException, MethodNotAllowedException {
+        return updateFileToRepresentationVersion(cloudId, representationName, version, fileName, file, null);
+    }
+
+    @Override
     public String getFileFromRepresentationVersion(String cloudId, String representationName, String version, String fileName, String downloadDirectory) throws DoesNotExistException, RangeHeaderInvalidException, IOException {
         return downloadFileFromRepresentationVersion(cloudId, representationName, version, fileName, downloadDirectory, -1, -1);
     }

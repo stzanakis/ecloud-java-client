@@ -160,8 +160,12 @@ public class Main {
 //        accessorsManager.getMetadataAndContentServiceAccessor()
 //                .addFileToRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "bd915240-2c8c-11e6-9e71-fa163e64bb83", file, "image/png");
 
+        File file = new File("/tmp/test2.png");
+        accessorsManager.getMetadataAndContentServiceAccessor()
+                .updateFileToRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "bd915240-2c8c-11e6-9e71-fa163e64bb83", "a7bb9ffb-62df-4b8b-9ee2-58d909c6a2cc", file, "image/png");
+
 //        System.out.println(accessorsManager.getMetadataAndContentServiceAccessor().getFileFromRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "bd915240-2c8c-11e6-9e71-fa163e64bb83", "a7bb9ffb-62df-4b8b-9ee2-58d909c6a2cc", "/tmp/downloads"));
-//        accessorsManager.getMetadataAndContentServiceAccessor().getHeadersForFileFromRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "bd915240-2c8c-11e6-9e71-fa163e64bb83", "a7bb9ffb-62df-4b8b-9ee2-58d909c6a2cc");
+//        System.out.println(accessorsManager.getMetadataAndContentServiceAccessor().getHeadersForFileFromRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "bd915240-2c8c-11e6-9e71-fa163e64bb83", "a7bb9ffb-62df-4b8b-9ee2-58d909c6a2cc"));
 //        System.out.println(accessorsManager.getMetadataAndContentServiceAccessor().getPartialFileFromRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "bd915240-2c8c-11e6-9e71-fa163e64bb83", "a7bb9ffb-62df-4b8b-9ee2-58d909c6a2cc", "/tmp/downloads", 0, 9));
 //        System.out.println(accessorsManager.getMetadataAndContentServiceAccessor().getPartialFileFromRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "bd915240-2c8c-11e6-9e71-fa163e64bb83", "a7bb9ffb-62df-4b8b-9ee2-58d909c6a2cc", "/tmp/downloads", 10, -1));
 
