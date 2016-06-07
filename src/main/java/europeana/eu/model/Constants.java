@@ -17,7 +17,9 @@ public enum Constants {
     RECORDID("recordId"),
     LOCATION_HEADER("Location"),
     FROM("from"),
-    TO("to");
+    TO("to"),
+    MIMETYPE_FIELD("mimeType"),
+    FILENAME_FIELD("fileName");
 
     private String constant;
 

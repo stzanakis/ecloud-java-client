@@ -101,12 +101,12 @@ public class Main {
 //
 //        ResultsSlice resultsSlice = accessorsManager.getUniqueIdentifierServiceAccessor()
 //                .getCloudIdsOfProvider("STempProvider5");
-//        for (CloudId cloudId : resultsSlice.getCloudIds()) {
+//        for (CloudId cloudId : resultsSlice.getResults()) {
 ////            System.out.println(cloudId.getId());
 //            System.out.println(Tools.marshallAny(cloudId));
 //        }
 
-//        ResultsSlice resultsSlice = accessorsManager.getUniqueIdentifierServiceAccessorBase().getCloudIdWithRecordIds("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA");
+//        ResultsSlice resultsSlice = accessorsManager.getUniqueIdentifierServiceAccessor().getCloudIdWithRecordIds("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A");
 //        System.out.println(Tools.marshallAny(resultsSlice));
 //
 //        accessorsManager.getUniqueIdentifierServiceAccessorBase().createMappingRecordIdToCloudId("STempProvider5", "ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA");
@@ -131,9 +131,11 @@ public class Main {
 //                .createRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "STempProvider10");
 //        System.out.println(representationVersion);
 
-//        accessorsManager.getMetadataAndContentServiceAccessor().getRecordRepresentations("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A");
+//        accessorsManager.getMetadataAndContentServiceAccessor().getCloudRecordRepresentations("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A");
 //          accessorsManager.getMetadataAndContentServiceAccessor().getRepresentations("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A");
 //        accessorsManager.getMetadataAndContentServiceAccessor().getRepresentation("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST");
+
+//        accessorsManager.getMetadataAndContentServiceAccessor().deleteCloudRecordRepresentationsAndVersions("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A");
 //
 //
 //        RepresentationVersion[] representationVersions = accessorsManager.getMetadataAndContentServiceAccessor().getRepresentationVersions("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST");
@@ -144,8 +146,10 @@ public class Main {
 //        System.out.println(representationVersions.length);
 //
 //        RepresentationVersion representationVersion = accessorsManager.getMetadataAndContentServiceAccessor()
-//                .getRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "e41960d0-2bcc-11e6-94ae-fa163e289a71");
+//                .getRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "bd915240-2c8c-11e6-9e71-fa163e64bb83");
 //        System.out.println(representationVersion);
+
+//        accessorsManager.getMetadataAndContentServiceAccessor().getCloudRecordWithSimplifiedUrl("STempProvider10", "123");
 
 //        accessorsManager.getMetadataAndContentServiceAccessor()
 //                .deleteRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "7f192790-2bec-11e6-9e71-fa163e64bb83");
@@ -154,12 +158,16 @@ public class Main {
 
 //        File file = new File("/tmp/test.png");
 //        accessorsManager.getMetadataAndContentServiceAccessor()
-//                .addFileToRepresentationVersion("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA", "TEST", "476feab0-2668-11e6-8cf5-fa163e8d4ae3", file, "wtf/png");
+//                .addFileToRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "bd915240-2c8c-11e6-9e71-fa163e64bb83", file, "image/png");
 
+//        System.out.println(accessorsManager.getMetadataAndContentServiceAccessor().getFileFromRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "bd915240-2c8c-11e6-9e71-fa163e64bb83", "a7bb9ffb-62df-4b8b-9ee2-58d909c6a2cc", "/tmp/downloads"));
+//        accessorsManager.getMetadataAndContentServiceAccessor().getHeadersForFileFromRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "bd915240-2c8c-11e6-9e71-fa163e64bb83", "a7bb9ffb-62df-4b8b-9ee2-58d909c6a2cc");
+//        System.out.println(accessorsManager.getMetadataAndContentServiceAccessor().getPartialFileFromRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "bd915240-2c8c-11e6-9e71-fa163e64bb83", "a7bb9ffb-62df-4b8b-9ee2-58d909c6a2cc", "/tmp/downloads", 0, 9));
+//        System.out.println(accessorsManager.getMetadataAndContentServiceAccessor().getPartialFileFromRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "bd915240-2c8c-11e6-9e71-fa163e64bb83", "a7bb9ffb-62df-4b8b-9ee2-58d909c6a2cc", "/tmp/downloads", 10, -1));
 
 //        accessorsManager.getMetadataAndContentServiceAccessor()
-//                .deleteFileFromRepresentationVersion("ARKE2XSKGQF2PRXB5BLRASDOZ3J2UTMRINGLMGVA6BF34VNO5AQA", "TEST",
-//                        "476feab0-2668-11e6-8cf5-fa163e8d4ae3", "6f06b354-3c5a-4fb8-be6a-5401497ad3d1");
+//                .deleteFileFromRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST",
+//                        "bd915240-2c8c-11e6-9e71-fa163e64bb83", "testPNG");
 
 //        for (FileMetadata fm :
 //                representationVersion.getFilesMetadata()) {

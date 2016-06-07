@@ -1,19 +1,21 @@
 package europeana.eu.accessors;
 
-import europeana.eu.exceptions.AlreadyExistsException;
-import europeana.eu.exceptions.BadRequest;
-import europeana.eu.exceptions.DoesNotExistException;
-import europeana.eu.exceptions.MethodNotAllowedException;
+import europeana.eu.exceptions.*;
 import europeana.eu.model.RepresentationVersion;
 
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.NoContentException;
 import java.io.File;
+import java.io.IOException;
 
 /**
  * @author Simon Tzanakis (Simon.Tzanakis@europeana.eu)
  * @since 2016-05-30
  */
 public interface MetadataAndContentServiceAccessor {
+
+    String getCloudRecordWithSimplifiedUrl(String providerId, String localId) throws DoesNotExistException;
+
     /**
      * Create a new Representation Version
      * Analogous URL: POST base-url/records/CLOUDID/representations/REPRESENTATIONNAME/
@@ -34,7 +36,17 @@ public interface MetadataAndContentServiceAccessor {
      * @return
      * @throws DoesNotExistException
      */
-    String getRecordRepresentations(String cloudId) throws DoesNotExistException;
+    String getCloudRecordRepresentations(String cloudId) throws DoesNotExistException;
+
+    /**
+     * Deletes all the representations and versions of a record with a specific cloudId. Does not remove any Cloud Id mappings created previously
+     * in the Unique Identifier Service.
+     * Analogous URL: DELETE base-url/records/CLOUDID/
+     * @param clooudId
+     * @return HTTP Response code or throws exception
+     * @throws DoesNotExistException
+     */
+    short deleteCloudRecordRepresentationsAndVersions(String clooudId) throws DoesNotExistException;
 
     /**
      * Returns a list of all the latest persistent versions of a record representation.
@@ -102,25 +114,82 @@ public interface MetadataAndContentServiceAccessor {
     short deleteRepresentationVersion(String cloudId, String representationName, String version) throws DoesNotExistException;
 
     /**
+     * Adds a new file to representation version. URI to created resource will be returned in response as content location.
+     * Analogous URL: POST base-url/records/CLOUDID/representations/REPRESENTATIONNAME/versions/VERSION/files/
      * @param cloudId
      * @param representationName
      * @param version
      * @param file
      * @param mimeType
-     * @return
+     * @param fileName
+     * @return The location URI of the new Representation Version
      * @throws BadRequest
      * @throws DoesNotExistException
      * @throws AlreadyExistsException
      * @throws MethodNotAllowedException
      */
-    String addFileToRepresentationVersion(String cloudId, String representationName, String version, File file, String mimeType) throws BadRequest, DoesNotExistException, AlreadyExistsException, MethodNotAllowedException;
+    String addFileToRepresentationVersion(String cloudId, String representationName, String version, File file, String mimeType, String fileName) throws BadRequest, DoesNotExistException, AlreadyExistsException, MethodNotAllowedException;
 
     /**
+     * Adds a new file to representation version. URI to created resource will be returned in response as content location.
+     * Mime type will be empty and fileName will be generated from the system.
+     * Analogous URL: POST base-url/records/CLOUDID/representations/REPRESENTATIONNAME/versions/VERSION/files/
+     * @param cloudId
+     * @param representationName
+     * @param version
+     * @param file
+     * @return The location URI of the new Representation Version
+     * @throws BadRequest
+     * @throws DoesNotExistException
+     * @throws AlreadyExistsException
+     * @throws MethodNotAllowedException
+     */
+    String addFileToRepresentationVersion(String cloudId, String representationName, String version, File file) throws BadRequest, DoesNotExistException, AlreadyExistsException, MethodNotAllowedException;
+
+    /**
+     * Retrieve a file and store it in the specified directory
+     * Analogous URL: GET base-url/records/CLOUDID/representations/REPRESENTATIONNAME/versions/VERSION/files/FILENAME/
      * @param cloudId
      * @param representationName
      * @param version
      * @param fileName
-     * @return
+     * @param downloadDirectory
+     * @return The location of the new file in the file system
+     * @throws DoesNotExistException
+     * @throws RangeHeaderInvalidException
+     * @throws IOException
+     */
+    String getFileFromRepresentationVersion(String cloudId, String representationName, String version, String fileName, String downloadDirectory) throws DoesNotExistException, RangeHeaderInvalidException, IOException;
+
+    /**
+     * Retrieve partial content of a file and store it in the specified directory.
+     * The content retrieved is written to the newly created file or appended to an already existent file.
+     * Uses the Range HTTP Header.
+     * Analogous URL: GET base-url/records/CLOUDID/representations/REPRESENTATIONNAME/versions/VERSION/files/FILENAME/
+     * @param cloudId
+     * @param representationName
+     * @param version
+     * @param fileName
+     * @param downloadDirectory
+     * @param rangeFrom
+     * @param rangeTo
+     * @return The location of the new file in the file system
+     * @throws DoesNotExistException
+     * @throws RangeHeaderInvalidException
+     * @throws IOException
+     */
+    String getPartialFileFromRepresentationVersion(String cloudId, String representationName, String version, String fileName, String downloadDirectory, long rangeFrom, long rangeTo) throws DoesNotExistException, RangeHeaderInvalidException, IOException;
+
+    MultivaluedMap<String, Object> getHeadersForFileFromRepresentationVersion(String cloudId, String representationName, String version, String fileName) throws DoesNotExistException;
+
+    /**
+     * Deletes file from representation version.
+     * Analogous URL: DELETE base-url/records/CLOUDID/representations/REPRESENTATIONNAME/versions/VERSION/files/FILENAME:(.+)?/
+     * @param cloudId
+     * @param representationName
+     * @param version
+     * @param fileName
+     * @return HTTP Response code or throws exception
      * @throws DoesNotExistException
      * @throws MethodNotAllowedException
      */

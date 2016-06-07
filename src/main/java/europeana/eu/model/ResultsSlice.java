@@ -31,7 +31,7 @@ public class ResultsSlice<T> {
             return results;
         }
 
-        public void setCloudIds(List<T> results) {
+        public void setResults(List<T> results) {
             this.results = results;
         }
 
