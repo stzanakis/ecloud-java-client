@@ -131,6 +131,7 @@ public class Main {
 //                .createRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "STempProvider10");
 //        System.out.println(representationVersion);
 
+//        accessorsManager.getMetadataAndContentServiceAccessor().getRecordRepresentations("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A");
 //          accessorsManager.getMetadataAndContentServiceAccessor().getRepresentations("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A");
 //        accessorsManager.getMetadataAndContentServiceAccessor().getRepresentation("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST");
 //

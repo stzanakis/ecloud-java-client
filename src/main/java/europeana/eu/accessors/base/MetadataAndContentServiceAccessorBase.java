@@ -94,6 +94,38 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
     }
 
     @Override
+    public String getRecordRepresentations(String cloudId) throws DoesNotExistException {
+        WebTarget target = client.target(accessorUrl.toString());
+        target = target.path(Constants.RECORDS_PATH.getConstant()).path(cloudId);
+        Response response = target.request(MediaType.APPLICATION_XML).get();
+
+        short status = (short) response.getStatus();
+        System.out.println(response.readEntity(String.class));
+        System.out.println(response.getHeaders().toString());
+
+        // TODO: 30-5-16 Implement correctly
+        if (status == 200) {
+//            dataProvider = response.readEntity(DataProvider.class);
+            System.out.println(response.readEntity(String.class));
+            logger.info("getRecordRepresentations: " + target.getUri() + ", response: " + status + ", Returned a list of results!");
+            return null;
+        }
+        else{
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            logger.error(errorString);
+            switch (status)
+            {
+                case 404:
+                    throw new DoesNotExistException(errorString);
+                case 500:
+                    throw new InternalServerErrorException(errorString);
+            }
+        }
+        return null;
+    }
+
+    @Override
     public String getRepresentations(String cloudId) throws NoContentException, DoesNotExistException {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.RECORDS_PATH.getConstant()).path(cloudId).path(Constants.REPRESENTATIONS_PATH.getConstant());

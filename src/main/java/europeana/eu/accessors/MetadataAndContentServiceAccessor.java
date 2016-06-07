@@ -26,6 +26,16 @@ public interface MetadataAndContentServiceAccessor {
      */
     String createRepresentationVersion(String cloudId, String representationName, String providerId) throws DoesNotExistException;
 
+
+    /**Returns record with all its latest persistent representations.
+     * Analogous URL: GET base-url/records/CLOUDID/
+     * todo Fix when its fixed internally in
+     * @param cloudId
+     * @return
+     * @throws DoesNotExistException
+     */
+    String getRecordRepresentations(String cloudId) throws DoesNotExistException;
+
     /**
      * Returns a list of all the latest persistent versions of a record representation.
      * Analogous URL: GET base-url/records/CLOUDID/representations/
