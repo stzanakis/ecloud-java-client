@@ -180,6 +180,16 @@ public interface MetadataAndContentServiceAccessor {
      */
     String getPartialFileFromRepresentationVersion(String cloudId, String representationName, String version, String fileName, String downloadDirectory, long rangeFrom, long rangeTo) throws DoesNotExistException, RangeHeaderInvalidException, IOException;
 
+    /**
+     * Retrieve the HTTP Headers of a potential GET File from Representation Version
+     * Analogous URL: HEAD base-url/records/CLOUDID/representations/REPRESENTATIONNAME/versions/VERSION/files/FILENAME/
+     * @param cloudId
+     * @param representationName
+     * @param version
+     * @param fileName
+     * @return {@link javax.ws.rs.core.MultivaluedMap} containing the HTTP Headers of the response
+     * @throws DoesNotExistException
+     */
     MultivaluedMap<String, Object> getHeadersForFileFromRepresentationVersion(String cloudId, String representationName, String version, String fileName) throws DoesNotExistException;
 
     /**
