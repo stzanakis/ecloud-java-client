@@ -51,6 +51,18 @@ public interface MetadataAndContentServiceAccessor {
     String getFileFromLatestPersistentWithSimplifiedUrl(String providerId, String recordId, String representationName, String fileName, String dowloadDirectory) throws IOException, DoesNotExistException;
 
     /**
+     * Retrieve the HTTP Headers of a GET File from Representation Version
+     * @param providerId
+     * @param recordId
+     * @param representationName
+     * @param fileName
+     * @return {@link javax.ws.rs.core.MultivaluedMap} containing the HTTP Headers of the response
+     * @throws IOException
+     * @throws DoesNotExistException
+     */
+    MultivaluedMap<String, Object> getHeadersFromFileFromLatestPersistentWithSimplifiedUrl(String providerId, String recordId, String representationName, String fileName) throws IOException, DoesNotExistException;
+
+    /**
      * Create a new Representation Version
      * Analogous URL: POST base-url/records/CLOUDID/representations/REPRESENTATIONNAME/
      * Requires a form parameter to be send in the body in the form providerId=exampleProvider

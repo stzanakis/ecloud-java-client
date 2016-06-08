@@ -159,6 +159,36 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
     }
 
     @Override
+    public MultivaluedMap<String, Object> getHeadersFromFileFromLatestPersistentWithSimplifiedUrl(String providerId, String recordId, String representationName, String fileName) throws IOException, DoesNotExistException {
+        WebTarget target = client.register(MultiPartFeature.class).target(accessorUrl.toString());
+        target = target.path(Constants.DATAPROVIDERS_PATH.getConstant()).path(providerId).path(Constants.RECORDS_PATH.getConstant()).path(recordId)
+                .path(Constants.REPRESENTATIONS_PATH.getConstant()).path(representationName).path(fileName);
+        Response response = target.request().head();
+
+        short status = (short) response.getStatus();
+        System.out.println(response.readEntity(String.class));
+
+        if (status == 200) {
+            logger.info("getFileFromLatestPersistentWithSimplifiedUrl: " + target.getUri() + ", response: " + status + ", ProviderId: " + providerId + ", RecordId: " + recordId +
+                    ", Representation: " + representationName + ", fileName: " + fileName + " exists!");
+            return response.getHeaders();
+        }
+        else{
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status;
+            logger.error(errorString);
+            switch (status)
+            {
+                case 404:
+                    throw new DoesNotExistException(errorString);
+                case 500:
+                    throw new InternalServerErrorException(errorString);
+                default:
+                    throw new UnsupportedOperationException(errorString);
+            }
+        }
+    }
+
+    @Override
     public String createRepresentationVersion(String cloudId, String representationName, String providerId) throws DoesNotExistException {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.RECORDS_PATH.getConstant()).path(cloudId).path(Constants.REPRESENTATIONS_PATH.getConstant()).path(representationName);
