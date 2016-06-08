@@ -14,6 +14,7 @@ public enum Constants {
     LOCALIDS_PATH("localIds"),
     ACTIVE_PATH("active"),
     COPY_PATH("copy"),
+    PERSIST_PATH("persist"),
     PROVIDERID("providerId"),
     RECORDID("recordId"),
     LOCATION_HEADER("Location"),

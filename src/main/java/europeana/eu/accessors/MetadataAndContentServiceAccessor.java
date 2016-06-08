@@ -125,6 +125,17 @@ public interface MetadataAndContentServiceAccessor {
     String copyRepresentationVersionWithContents(String cloudId, String representationName, String version) throws DoesNotExistException;
 
     /**
+     * Persists temporary(non-persistent) representation.
+     * Analogous URL: POST base-url/records/CLOUDID/representations/REPRESENTATIONNAME/versions/VERSION/persist/
+     * @param cloudId
+     * @param representationName
+     * @param version
+     * @return The location URI of the Representation Version, same as before
+     * @throws DoesNotExistException
+     */
+    String persistRepresentationVersion(String cloudId, String representationName, String version) throws DoesNotExistException;
+
+    /**
      * Adds a new file to representation version.
      * Analogous URL: POST base-url/records/CLOUDID/representations/REPRESENTATIONNAME/versions/VERSION/files/
      * @param cloudId
