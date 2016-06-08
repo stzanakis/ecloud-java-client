@@ -156,6 +156,7 @@ public class Main {
 //        accessorsManager.getMetadataAndContentServiceAccessor().permitRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "909b7930-2cc0-11e6-94ae-fa163e289a71");
 
 //          accessorsManager.getMetadataAndContentServiceAccessor().updatePermissionsForRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "909b7930-2cc0-11e6-94ae-fa163e289a71", "read", "stzanakis");
+//          accessorsManager.getMetadataAndContentServiceAccessor().deletePermissionsForRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "909b7930-2cc0-11e6-94ae-fa163e289a71", "read", "stzanakis");
 
 //        accessorsManager.getMetadataAndContentServiceAccessor().getCloudRecordWithSimplifiedUrl("STempProvider10", "123");
 

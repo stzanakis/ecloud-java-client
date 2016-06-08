@@ -439,6 +439,35 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
     }
 
     @Override
+    public short deletePermissionsForRepresentationVersion(String cloudId, String representationName, String version, String permission, String toUsername) {
+        WebTarget target = client.target(accessorUrl.toString());
+        target = target.path(Constants.RECORDS_PATH.getConstant()).path(cloudId).path(Constants.REPRESENTATIONS_PATH.getConstant()).path(representationName)
+                .path(Constants.VERSIONS_PATH.getConstant()).path(version).path(Constants.PERMISSIONS_PATH.getConstant()).path(permission)
+                .path(Constants.USERS_PATH.getConstant()).path(toUsername);
+
+        Response response = target.request().delete();
+
+        short status = (short) response.getStatus();
+
+        if (status == 204) {
+            logger.info("deletePermissionsForRepresentationVersion: " + target.getUri() + ", response: " + status + ", Representation version deleted permissions: " + permission + ", for user: " + toUsername);
+            return status;
+        }
+        else{
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            logger.error(errorString);
+            switch (status)
+            {
+                case 500:
+                    throw new InternalServerErrorException(errorString);
+                default:
+                    throw new UnsupportedOperationException(errorString);
+            }
+        }
+    }
+
+    @Override
     public short permitRepresentationVersion(String cloudId, String representationName, String version) {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.RECORDS_PATH.getConstant()).path(cloudId).path(Constants.REPRESENTATIONS_PATH.getConstant()).path(representationName)

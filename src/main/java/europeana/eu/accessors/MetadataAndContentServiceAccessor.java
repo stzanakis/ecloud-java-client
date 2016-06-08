@@ -132,9 +132,21 @@ public interface MetadataAndContentServiceAccessor {
      * @param version
      * @param permission
      * @param toUsername
-     * @return
+     * @return HTTP Response code or throws exception
      */
     short updatePermissionsForRepresentationVersion(String cloudId, String representationName, String version, String permission, String toUsername);
+
+    /**
+     * Removes permissions for selected user to selected representation version.
+     * Analogous URL: POST base-url/records/CLOUDID/representations/REPRESENTATIONNAME/versions/VERSION/permissions/permission/users/username/
+     * @param cloudId
+     * @param representationName
+     * @param version
+     * @param permission
+     * @param toUsername
+     * @return HTTP Response code or throws exception
+     */
+    short deletePermissionsForRepresentationVersion(String cloudId, String representationName, String version, String permission, String toUsername);
 
     /**
      * Makes a Representation Version publicly available.
