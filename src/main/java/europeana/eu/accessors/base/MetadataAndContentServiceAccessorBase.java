@@ -129,6 +129,40 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
     }
 
     @Override
+    public short updateDataSetDescription(String providerId, String dataSetId, String description) throws DoesNotExistException {
+        WebTarget target = client.target(accessorUrl.toString());
+        target = target.path(Constants.DATAPROVIDERS_PATH.getConstant()).path(providerId).path(Constants.DATASETS_PATH.getConstant()).path(dataSetId);
+
+        Map<String,String> map = new HashMap<>();
+        map.put(Constants.DESCRIPTION.getConstant(), description);
+        String formURLEncoded = Tools.generateFormURLEncoded(map);
+
+        Response response = target.request().put(
+                Entity.entity(formURLEncoded, MediaType.APPLICATION_FORM_URLENCODED), Response.class);
+
+        short status = (short) response.getStatus();
+
+        if (status == 204) {
+            logger.info("createDataSet: " + target.getUri() + ", response: " + status + ", Data Set Description updated!");
+            return status;
+        }
+        else{
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            logger.error(errorString);
+            switch (status)
+            {
+                case 404:
+                    throw new DoesNotExistException(errorString);
+                case 500:
+                    throw new InternalServerErrorException(errorString);
+                default:
+                    throw new UnsupportedOperationException(errorString);
+            }
+        }
+    }
+
+    @Override
     public short deleteDataSet(String providerId, String dataSetId) throws DoesNotExistException {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.DATAPROVIDERS_PATH.getConstant()).path(providerId).path(Constants.DATASETS_PATH.getConstant()).path(dataSetId);

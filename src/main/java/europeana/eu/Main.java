@@ -127,7 +127,8 @@ public class Main {
 //        CLOUD IDS END
 
 //        RECORDS START
-        System.out.println(accessorsManager.getMetadataAndContentServiceAccessor().createDataSet("STempProvider10", "dataSet10", "Test"));
+//        System.out.println(accessorsManager.getMetadataAndContentServiceAccessor().createDataSet("STempProvider10", "dataSet10", "Test"));
+        System.out.println(accessorsManager.getMetadataAndContentServiceAccessor().updateDataSetDescription("STempProvider10", "dataSet10", "Test2"));
 
 //        ResultsSlice<RepresentationVersion> resultsSlice = accessorsManager.getMetadataAndContentServiceAccessor().getDataSet("STempProvider10", "dataSet10");
 //        System.out.println(Tools.marshallAny(resultsSlice));

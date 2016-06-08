@@ -39,6 +39,17 @@ public interface MetadataAndContentServiceAccessor {
     ResultsSlice<RepresentationVersion> getDataSet(String providerId, String dataSetId) throws DoesNotExistException;
 
     /**
+     * Updates description of a data set.
+     * Analogous URL: PUT base-url/data-providers/DATAPROVIDER/data-sets/DATASET/
+     * @param providerId
+     * @param dataSetId
+     * @param description
+     * @return HTTP Response code or throws exception
+     * @throws DoesNotExistException
+     */
+    short updateDataSetDescription(String providerId, String dataSetId, String description) throws DoesNotExistException;
+
+    /**
      * Deletes data set.
      * Analogous URL: DELETE base-url/data-providers/DATAPROVIDER/data-sets/DATASET/
      * @param providerId
