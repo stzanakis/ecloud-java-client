@@ -237,8 +237,43 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
         short status = (short) response.getStatus();
 
         if (status == 204) {
-            logger.info("createDataSet: " + target.getUri() + ", response: " + status + ", CloudId: " + cloudId + ", RepresentationName: " + representationName
+            logger.info("assignRepresentationVersionToDataSet: " + target.getUri() + ", response: " + status + ", CloudId: " + cloudId + ", RepresentationName: " + representationName
             + ", Version: " + version + " assigned to ProviderId-DataSetId: " + providerId + "-" + dataSetId);
+            return status;
+        }
+        else{
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            logger.error(errorString);
+            switch (status)
+            {
+                case 404:
+                    throw new DoesNotExistException(errorString);
+                case 500:
+                    throw new InternalServerErrorException(errorString);
+                default:
+                    throw new UnsupportedOperationException(errorString);
+            }
+        }
+    }
+
+    @Override
+    public short unassignRepresentationVersionToDataSet(String providerId, String dataSetId, String cloudId, String representationName) throws DoesNotExistException {
+        WebTarget target = client.target(accessorUrl.toString());
+        target = target.path(Constants.DATAPROVIDERS_PATH.getConstant()).path(providerId).path(Constants.DATASETS_PATH.getConstant())
+                .path(dataSetId).path(Constants.ASSIGNMENTS_PATH.getConstant());
+
+        if (cloudId != null && !cloudId.equals("") && representationName != null && !representationName.equals(""))
+            target = target.queryParam(Constants.CLOUDID.getConstant(), cloudId).queryParam(Constants.REPRESENTATIONNAME.getConstant(), representationName);
+        else
+            throw new UnsupportedOperationException("Please fill in all the parameters.");
+
+        Response response = target.request().delete();
+
+        short status = (short) response.getStatus();
+
+        if (status == 204) {
+            logger.info("unassignRepresentationVersionToDataSet: " + target.getUri() + ", response: " + status + ", CloudId: " + cloudId + ", RepresentationName: " + representationName + " unassigned from ProviderId-DataSetId: " + providerId + "-" + dataSetId);
             return status;
         }
         else{
