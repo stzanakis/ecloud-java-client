@@ -2,6 +2,8 @@ package europeana.eu;
 
 import europeana.eu.accessors.UniqueIdentifierServiceAccessor;
 import europeana.eu.commons.AccessorsManager;
+import europeana.eu.model.DataSet;
+import europeana.eu.model.ResultsSlice;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.PropertiesConfigurationLayout;
 import org.apache.logging.log4j.LogManager;
@@ -128,10 +130,13 @@ public class Main {
 
 //        RECORDS START
 //        System.out.println(accessorsManager.getMetadataAndContentServiceAccessor().createDataSet("STempProvider10", "dataSet10", "Test"));
-        System.out.println(accessorsManager.getMetadataAndContentServiceAccessor().updateDataSetDescription("STempProvider10", "dataSet10", "Test2"));
+//        System.out.println(accessorsManager.getMetadataAndContentServiceAccessor().updateDataSetDescription("STempProvider10", "dataSet10", "Test2"));
 
-//        ResultsSlice<RepresentationVersion> resultsSlice = accessorsManager.getMetadataAndContentServiceAccessor().getDataSet("STempProvider10", "dataSet10");
+//        ResultsSlice<RepresentationVersion> resultsSlice = accessorsManager.getMetadataAndContentServiceAccessor().getDataSetRepresentationVersions("STempProvider10", "dataSet10");
 //        System.out.println(Tools.marshallAny(resultsSlice));
+
+        ResultsSlice<DataSet> dataSets = accessorsManager.getMetadataAndContentServiceAccessor().getDataSetsOfProvider("STempProvider10", null);
+        System.out.println(dataSets);
 
 //        accessorsManager.getMetadataAndContentServiceAccessor().deleteDataSet("STempProvider10", "dataSet10");
 

@@ -2,6 +2,7 @@ package europeana.eu.accessors;
 
 import europeana.eu.exceptions.*;
 import europeana.eu.model.CloudRecord;
+import europeana.eu.model.DataSet;
 import europeana.eu.model.RepresentationVersion;
 import europeana.eu.model.ResultsSlice;
 
@@ -15,6 +16,15 @@ import java.io.IOException;
  * @since 2016-05-30
  */
 public interface MetadataAndContentServiceAccessor {
+    /**
+     * Returns all data sets for a provider. Result is returned in slices.
+     * Analogous URL: POST base-url/data-providers/DATAPROVIDER/data-sets/
+     * If from not provided then the first slice is returned.
+     * @param providerId
+     * @param from
+     * @return {@link europeana.eu.model.ResultsSlice}
+     */
+    ResultsSlice<DataSet> getDataSetsOfProvider(String providerId, String from);
 
     /**
      * Creates a new data set.
@@ -36,7 +46,7 @@ public interface MetadataAndContentServiceAccessor {
      * @return {@link europeana.eu.model.ResultsSlice}
      * @throws DoesNotExistException
      */
-    ResultsSlice<RepresentationVersion> getDataSet(String providerId, String dataSetId) throws DoesNotExistException;
+    ResultsSlice<RepresentationVersion> getDataSetRepresentationVersions(String providerId, String dataSetId) throws DoesNotExistException;
 
     /**
      * Updates description of a data set.

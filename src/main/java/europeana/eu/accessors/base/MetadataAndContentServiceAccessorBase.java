@@ -60,6 +60,36 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
     }
 
     @Override
+    public ResultsSlice<DataSet> getDataSetsOfProvider(String providerId, String from) {
+        WebTarget target = client.target(accessorUrl.toString());
+        target = target.path(Constants.DATAPROVIDERS_PATH.getConstant()).path(providerId).path(Constants.DATASETS_PATH.getConstant());
+        if (from != null && !from.equals(""))
+            target = target.queryParam(Constants.FROM.getConstant(), from);
+
+        Response response = target.request(MediaType.APPLICATION_JSON).get();
+
+        short status = (short) response.getStatus();
+
+        if (status == 200) {
+            ResultsSlice<DataSet> resultsSlice = response.readEntity(ResultsSlice.class);
+            logger.info("getDataSetsOfProvider: " + target.getUri() + ", response: " + status + ", ProviderId: " + providerId + ", Returned a list of results!");
+            return resultsSlice;
+        }
+        else{
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            logger.error(errorString);
+            switch (status)
+            {
+                case 500:
+                    throw new InternalServerErrorException(errorString);
+                default:
+                    throw new UnsupportedOperationException(errorString);
+            }
+        }
+    }
+
+    @Override
     public String createDataSet(String providerId, String dataSetId, String description) throws DoesNotExistException, AlreadyExistsException {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.DATAPROVIDERS_PATH.getConstant()).path(providerId).path(Constants.DATASETS_PATH.getConstant());
@@ -98,7 +128,7 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
     }
 
     @Override
-    public ResultsSlice<RepresentationVersion> getDataSet(String providerId, String dataSetId) throws DoesNotExistException {
+    public ResultsSlice<RepresentationVersion> getDataSetRepresentationVersions(String providerId, String dataSetId) throws DoesNotExistException {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.DATAPROVIDERS_PATH.getConstant()).path(providerId).path(Constants.DATASETS_PATH.getConstant()).path(dataSetId);
 
@@ -109,7 +139,7 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
         // TODO: 8-6-16 fix after 500 error code stops
         if (status == 200) {
             ResultsSlice<RepresentationVersion> resultsSlice = response.readEntity(ResultsSlice.class);
-            logger.info("getDataSet: " + target.getUri() + ", response: " + status + ", ProviderId: " + providerId + ", Data Set: " + dataSetId + " exists!");
+            logger.info("getDataSetRepresentationVersions: " + target.getUri() + ", response: " + status + ", ProviderId: " + providerId + ", Data Set: " + dataSetId + " exists!");
             return resultsSlice;
         }
         else{
