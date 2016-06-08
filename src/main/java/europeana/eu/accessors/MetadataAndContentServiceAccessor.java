@@ -37,6 +37,20 @@ public interface MetadataAndContentServiceAccessor {
     RepresentationVersion getRepresentationWithSimplifiedUrl(String providerId, String recordId, String representationName) throws DoesNotExistException;
 
     /**
+     * Retrieve a file and store it in the specified directory.
+     * Analogous URL: GET base-url/data-providers/DATAPROVIDER/records/LOCALID/representations/REPRESENTATIONNAME/FILENAME/
+     * @param providerId
+     * @param recordId
+     * @param representationName
+     * @param fileName
+     * @param dowloadDirectory
+     * @return The location of the new file in the file system
+     * @throws IOException
+     * @throws DoesNotExistException
+     */
+    String getFileFromLatestPersistentWithSimplifiedUrl(String providerId, String recordId, String representationName, String fileName, String dowloadDirectory) throws IOException, DoesNotExistException;
+
+    /**
      * Create a new Representation Version
      * Analogous URL: POST base-url/records/CLOUDID/representations/REPRESENTATIONNAME/
      * Requires a form parameter to be send in the body in the form providerId=exampleProvider
@@ -250,7 +264,7 @@ public interface MetadataAndContentServiceAccessor {
     String updateFileToRepresentationVersion(String cloudId, String representationName, String version, String fileName, File file) throws DoesNotExistException, MethodNotAllowedException;
 
     /**
-     * Retrieve a file and store it in the specified directory
+     * Retrieve a file and store it in the specified directory.
      * Analogous URL: GET base-url/records/CLOUDID/representations/REPRESENTATIONNAME/versions/VERSION/files/FILENAME/
      * @param cloudId
      * @param representationName

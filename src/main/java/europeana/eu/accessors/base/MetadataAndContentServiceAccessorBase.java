@@ -124,6 +124,41 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
     }
 
     @Override
+    public String getFileFromLatestPersistentWithSimplifiedUrl(String providerId, String recordId, String representationName, String fileName, String downloadDirectory) throws IOException, DoesNotExistException {
+        WebTarget target = client.register(MultiPartFeature.class).target(accessorUrl.toString());
+        target = target.path(Constants.DATAPROVIDERS_PATH.getConstant()).path(providerId).path(Constants.RECORDS_PATH.getConstant()).path(recordId)
+                .path(Constants.REPRESENTATIONS_PATH.getConstant()).path(representationName).path(fileName);
+        File downloadFile = Paths.get(downloadDirectory, fileName).toFile();
+        downloadFile.getParentFile().mkdirs();
+        downloadFile.createNewFile(); //Check if it can be created before making any calls.
+        Response response = target.request().get();
+
+        short status = (short) response.getStatus();
+
+        if (status == 200) {
+            byte[] bytes = response.readEntity(byte[].class);
+            FileUtils.writeByteArrayToFile(downloadFile, bytes);
+            logger.info("getFileFromLatestPersistentWithSimplifiedUrl: " + target.getUri() + ", response: " + status + ", ProviderId: " + providerId + ", RecordId: " + recordId +
+                    ", Representation: " + representationName + ", fileName: " + fileName + " stored at: " + downloadFile.toString());
+            return downloadFile.toString();
+        }
+        else{
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            logger.error(errorString);
+            switch (status)
+            {
+                case 404:
+                    throw new DoesNotExistException(errorString);
+                case 500:
+                    throw new InternalServerErrorException(errorString);
+                default:
+                    throw new UnsupportedOperationException(errorString);
+            }
+        }
+    }
+
+    @Override
     public String createRepresentationVersion(String cloudId, String representationName, String providerId) throws DoesNotExistException {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.RECORDS_PATH.getConstant()).path(cloudId).path(Constants.REPRESENTATIONS_PATH.getConstant()).path(representationName);

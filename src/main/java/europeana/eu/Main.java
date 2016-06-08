@@ -2,8 +2,6 @@ package europeana.eu;
 
 import europeana.eu.accessors.UniqueIdentifierServiceAccessor;
 import europeana.eu.commons.AccessorsManager;
-import europeana.eu.commons.Tools;
-import europeana.eu.model.RepresentationVersion;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.PropertiesConfigurationLayout;
 import org.apache.logging.log4j.LogManager;
@@ -172,8 +170,8 @@ public class Main {
 //        System.out.println(representationVersions.size());
 //        System.out.println(Tools.marshallAny(cloudRecord));
 
-        RepresentationVersion representationWithSimplifiedUrl = accessorsManager.getMetadataAndContentServiceAccessor().getRepresentationWithSimplifiedUrl("STempProvider10", "123", "TEST");
-        System.out.println(Tools.marshallAny(representationWithSimplifiedUrl));
+//        RepresentationVersion representationWithSimplifiedUrl = accessorsManager.getMetadataAndContentServiceAccessor().getRepresentationWithSimplifiedUrl("STempProvider10", "123", "TEST");
+//        System.out.println(Tools.marshallAny(representationWithSimplifiedUrl));
 
 //        accessorsManager.getMetadataAndContentServiceAccessor()
 //                .deleteRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "7f192790-2bec-11e6-9e71-fa163e64bb83");
@@ -189,6 +187,7 @@ public class Main {
 //                .updateFileToRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "bd915240-2c8c-11e6-9e71-fa163e64bb83", "a7bb9ffb-62df-4b8b-9ee2-58d909c6a2cc", file, "image/png");
 
 //        System.out.println(accessorsManager.getMetadataAndContentServiceAccessor().getFileFromRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "bd915240-2c8c-11e6-9e71-fa163e64bb83", "a7bb9ffb-62df-4b8b-9ee2-58d909c6a2cc", "/tmp/downloads"));
+//        System.out.println(accessorsManager.getMetadataAndContentServiceAccessor().getFileFromLatestPersistentWithSimplifiedUrl("STempProvider10", "123", "TEST", "9db1f6ae-6651-4996-9ed8-12f8a3f1c0a2", "/tmp/downloads"));
 //        System.out.println(accessorsManager.getMetadataAndContentServiceAccessor().getHeadersForFileFromRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "bd915240-2c8c-11e6-9e71-fa163e64bb83", "a7bb9ffb-62df-4b8b-9ee2-58d909c6a2cc"));
 //        System.out.println(accessorsManager.getMetadataAndContentServiceAccessor().getPartialFileFromRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "bd915240-2c8c-11e6-9e71-fa163e64bb83", "a7bb9ffb-62df-4b8b-9ee2-58d909c6a2cc", "/tmp/downloads", 0, 9));
 //        System.out.println(accessorsManager.getMetadataAndContentServiceAccessor().getPartialFileFromRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "bd915240-2c8c-11e6-9e71-fa163e64bb83", "a7bb9ffb-62df-4b8b-9ee2-58d909c6a2cc", "/tmp/downloads", 10, -1));
