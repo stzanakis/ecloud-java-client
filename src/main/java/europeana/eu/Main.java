@@ -146,7 +146,7 @@ public class Main {
 //        System.out.println(representationVersions.length);
 //
 //        RepresentationVersion representationVersion = accessorsManager.getMetadataAndContentServiceAccessor()
-//                .getRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "909b7930-2cc0-11e6-94ae-fa163e289a71");
+//                .getRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "b6155eb0-2d56-11e6-9e71-fa163e64bb83");
 //        System.out.println(representationVersion);
 
 //        System.out.println(accessorsManager.getMetadataAndContentServiceAccessor().copyRepresentationVersionWithContents("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "bd915240-2c8c-11e6-9e71-fa163e64bb83"));
@@ -154,6 +154,8 @@ public class Main {
 //        System.out.println(accessorsManager.getMetadataAndContentServiceAccessor().persistRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "909b7930-2cc0-11e6-94ae-fa163e289a71"));
 
 //        accessorsManager.getMetadataAndContentServiceAccessor().permitRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "909b7930-2cc0-11e6-94ae-fa163e289a71");
+
+//          accessorsManager.getMetadataAndContentServiceAccessor().updatePermissionsForRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "909b7930-2cc0-11e6-94ae-fa163e289a71", "read", "stzanakis");
 
 //        accessorsManager.getMetadataAndContentServiceAccessor().getCloudRecordWithSimplifiedUrl("STempProvider10", "123");
 
@@ -164,7 +166,7 @@ public class Main {
 
 //        File file = new File("/tmp/test.png");
 //        accessorsManager.getMetadataAndContentServiceAccessor()
-//                .addFileToRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "909b7930-2cc0-11e6-94ae-fa163e289a71", file, "image/png", "newTest");
+//                .addFileToRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "b6155eb0-2d56-11e6-9e71-fa163e64bb83", file, "image/png", "newTest");
 
 //        File file = new File("/tmp/test2.png");
 //        accessorsManager.getMetadataAndContentServiceAccessor()

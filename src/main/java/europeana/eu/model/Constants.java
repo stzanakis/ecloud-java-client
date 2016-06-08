@@ -16,6 +16,8 @@ public enum Constants {
     COPY_PATH("copy"),
     PERSIST_PATH("persist"),
     PERMIT_PATH("permit"),
+    PERMISSIONS_PATH("permissions"),
+    USERS_PATH("users"),
     PROVIDERID("providerId"),
     RECORDID("recordId"),
     LOCATION_HEADER("Location"),

@@ -410,6 +410,35 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
     }
 
     @Override
+    public short updatePermissionsForRepresentationVersion(String cloudId, String representationName, String version, String permission, String toUsername) {
+        WebTarget target = client.target(accessorUrl.toString());
+        target = target.path(Constants.RECORDS_PATH.getConstant()).path(cloudId).path(Constants.REPRESENTATIONS_PATH.getConstant()).path(representationName)
+                .path(Constants.VERSIONS_PATH.getConstant()).path(version).path(Constants.PERMISSIONS_PATH.getConstant()).path(permission)
+                .path(Constants.USERS_PATH.getConstant()).path(toUsername);
+
+        Response response = target.request().post(null, Response.class);
+
+        short status = (short) response.getStatus();
+
+        if (status == 200) {
+            logger.info("updatePermissionsForRepresentationVersion: " + target.getUri() + ", response: " + status + ", Representation version has permissions: " + permission + ", for user: " + toUsername);
+            return status;
+        }
+        else{
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            logger.error(errorString);
+            switch (status)
+            {
+                case 500:
+                    throw new InternalServerErrorException(errorString);
+                default:
+                    throw new UnsupportedOperationException(errorString);
+            }
+        }
+    }
+
+    @Override
     public short permitRepresentationVersion(String cloudId, String representationName, String version) {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.RECORDS_PATH.getConstant()).path(cloudId).path(Constants.REPRESENTATIONS_PATH.getConstant()).path(representationName)
@@ -418,7 +447,7 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
         Response response = target.request().post(null, Response.class);
 
         short status = (short) response.getStatus();
-        System.out.println(response.readEntity(String.class));
+//        System.out.println(response.readEntity(String.class));
 
         if (status == 200) {
             logger.info("permitRepresentationVersion: " + target.getUri() + ", response: " + status + ", Representation version is permitted for public access");
