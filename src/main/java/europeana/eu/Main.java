@@ -138,6 +138,8 @@ public class Main {
 
 //        accessorsManager.getMetadataAndContentServiceAccessor().deleteDataSet("STempProvider10", "dataSet10");
 
+//        accessorsManager.getMetadataAndContentServiceAccessor().assignRepresentationVersionToDataSet("STempProvider10", "dataSet10", "NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "b6155eb0-2d56-11e6-9e71-fa163e64bb83");
+
 
 //        String representationVersion = accessorsManager.getMetadataAndContentServiceAccessor()
 //                .createRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "STempProvider10");

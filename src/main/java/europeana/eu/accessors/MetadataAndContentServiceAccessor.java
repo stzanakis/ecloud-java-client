@@ -69,7 +69,18 @@ public interface MetadataAndContentServiceAccessor {
      */
     short deleteDataSet(String providerId, String dataSetId) throws DoesNotExistException;
 
-    short assignRepresentationVersionToDataSet(String providerId, String dataSetId, String cloudId, String representationName, String version);
+    /**
+     * Assigns representation version into a data set.
+     * Analogous URL: POST base-url/data-providers/DATAPROVIDER/data-sets/DATASET/assignments/
+     * @param providerId
+     * @param dataSetId
+     * @param cloudId
+     * @param representationName
+     * @param version
+     * @return HTTP Response code or throws exception
+     * @throws DoesNotExistException
+     */
+    short assignRepresentationVersionToDataSet(String providerId, String dataSetId, String cloudId, String representationName, String version) throws DoesNotExistException;
 
     /**
      * Returns record with all representations with file metadata.

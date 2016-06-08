@@ -220,11 +220,41 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
     }
 
     @Override
-    public short assignRepresentationVersionToDataSet(String providerId, String dataSetId, String cloudId, String representationName, String version) {
+    public short assignRepresentationVersionToDataSet(String providerId, String dataSetId, String cloudId, String representationName, String version) throws DoesNotExistException {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.DATAPROVIDERS_PATH.getConstant()).path(providerId).path(Constants.DATASETS_PATH.getConstant())
-                .path(Constants.ASSIGNMENTS_PATH.getConstant());
-        return 0;
+                .path(dataSetId).path(Constants.ASSIGNMENTS_PATH.getConstant());
+
+        Map<String,String> map = new HashMap<>();
+        map.put(Constants.CLOUDID.getConstant(), cloudId);
+        map.put(Constants.REPRESENTATIONNAME.getConstant(), representationName);
+        map.put(Constants.VERSION.getConstant(), version);
+        String formURLEncoded = Tools.generateFormURLEncoded(map);
+
+        Response response = target.request().post(
+                Entity.entity(formURLEncoded, MediaType.APPLICATION_FORM_URLENCODED), Response.class);
+
+        short status = (short) response.getStatus();
+
+        if (status == 204) {
+            logger.info("createDataSet: " + target.getUri() + ", response: " + status + ", CloudId: " + cloudId + ", RepresentationName: " + representationName
+            + ", Version: " + version + " assigned to ProviderId-DataSetId: " + providerId + "-" + dataSetId);
+            return status;
+        }
+        else{
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            logger.error(errorString);
+            switch (status)
+            {
+                case 404:
+                    throw new DoesNotExistException(errorString);
+                case 500:
+                    throw new InternalServerErrorException(errorString);
+                default:
+                    throw new UnsupportedOperationException(errorString);
+            }
+        }
     }
 
     @Override
