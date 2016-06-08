@@ -7,6 +7,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.StringWriter;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -61,9 +62,13 @@ public class Tools {
     public static String generateFormURLEncoded(Map<String, String> map)
     {
         StringBuilder url_encoded = new StringBuilder("");
-        for (Map.Entry<String, String> entry: map.entrySet()
-             ) {
+        Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
+        while(iterator.hasNext())
+        {
+            Map.Entry<String, String> entry = iterator.next();
             url_encoded.append(entry.getKey() + "=" + entry.getValue());
+            if(iterator.hasNext())
+                url_encoded.append("&");
         }
         return url_encoded.toString();
     }

@@ -3,10 +3,7 @@ package europeana.eu.accessors.base;
 import europeana.eu.accessors.MetadataAndContentServiceAccessor;
 import europeana.eu.commons.Tools;
 import europeana.eu.exceptions.*;
-import europeana.eu.model.CloudRecord;
-import europeana.eu.model.Constants;
-import europeana.eu.model.ErrorInfo;
-import europeana.eu.model.RepresentationVersion;
+import europeana.eu.model.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpHeaders;
 import org.apache.logging.log4j.LogManager;
@@ -76,9 +73,6 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
                 Entity.entity(formURLEncoded, MediaType.APPLICATION_FORM_URLENCODED), Response.class);
 
         short status = (short) response.getStatus();
-        System.out.println(status);
-        System.out.println(response.readEntity(String.class));
-        System.out.println(response.getHeaders());
 
         if (status == 201) {
             String location = response.getHeaderString(Constants.LOCATION_HEADER.getConstant());
@@ -95,6 +89,37 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
                     throw new DoesNotExistException(errorString);
                 case 409:
                     throw new AlreadyExistsException(errorString);
+                case 500:
+                    throw new InternalServerErrorException(errorString);
+                default:
+                    throw new UnsupportedOperationException(errorString);
+            }
+        }
+    }
+
+    @Override
+    public ResultsSlice<RepresentationVersion> getDataSet(String providerId, String dataSetId) throws DoesNotExistException {
+        WebTarget target = client.target(accessorUrl.toString());
+        target = target.path(Constants.DATAPROVIDERS_PATH.getConstant()).path(providerId).path(Constants.DATASETS_PATH.getConstant()).path(dataSetId);
+
+        Response response = target.request(MediaType.APPLICATION_JSON).get();
+
+        short status = (short) response.getStatus();
+
+        // TODO: 8-6-16 fix after 500 error code stops
+        if (status == 200) {
+            ResultsSlice<RepresentationVersion> resultsSlice = response.readEntity(ResultsSlice.class);
+            logger.info("getDataSet: " + target.getUri() + ", response: " + status + ", ProviderId: " + providerId + ", Data Set: " + dataSetId + " exists!");
+            return resultsSlice;
+        }
+        else{
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            logger.error(errorString);
+            switch (status)
+            {
+                case 404:
+                    throw new DoesNotExistException(errorString);
                 case 500:
                     throw new InternalServerErrorException(errorString);
                 default:
@@ -145,7 +170,6 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
             RepresentationVersion representationVersion = response.readEntity(RepresentationVersion.class);
             logger.info("getRepresentation: " + target.getUri() + ", response: " + status + ", ProviderId: " + providerId + ", RecordId: " + recordId +
                     ", Representation: " + representationName + " exists!");
-            logger.info("getRepresentationWithSimplifiedUrl: " + target.getUri() + ", response: " + status + ", Returned a list of results!");
             return representationVersion;
         }
         else{

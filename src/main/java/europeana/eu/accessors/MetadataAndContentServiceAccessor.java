@@ -3,6 +3,7 @@ package europeana.eu.accessors;
 import europeana.eu.exceptions.*;
 import europeana.eu.model.CloudRecord;
 import europeana.eu.model.RepresentationVersion;
+import europeana.eu.model.ResultsSlice;
 
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.NoContentException;
@@ -26,6 +27,15 @@ public interface MetadataAndContentServiceAccessor {
      * @throws AlreadyExistsException
      */
     String createDataSet(String providerId, String dataSetId, String description) throws DoesNotExistException, AlreadyExistsException;
+
+    /**
+     * Lists representation versions from data set. Result is returned in slices.
+     * @param providerId
+     * @param dataSetId
+     * @return {@link europeana.eu.model.ResultsSlice}
+     * @throws DoesNotExistException
+     */
+    ResultsSlice<RepresentationVersion> getDataSet(String providerId, String dataSetId) throws DoesNotExistException;
 
     /**
      * Returns record with all representations with file metadata.
