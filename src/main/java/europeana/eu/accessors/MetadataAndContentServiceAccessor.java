@@ -1,6 +1,7 @@
 package europeana.eu.accessors;
 
 import europeana.eu.exceptions.*;
+import europeana.eu.model.CloudRecord;
 import europeana.eu.model.RepresentationVersion;
 
 import javax.ws.rs.core.MultivaluedMap;
@@ -14,7 +15,15 @@ import java.io.IOException;
  */
 public interface MetadataAndContentServiceAccessor {
 
-    String getCloudRecordWithSimplifiedUrl(String providerId, String localId) throws DoesNotExistException;
+    /**
+     * Returns record with all representations with file metadata.
+     * Analogous URL: GET base-url/data-providers/DATAPROVIDER/records/LOCALID/
+     * @param providerId
+     * @param localId
+     * @return {@link europeana.eu.model.CloudRecord}
+     * @throws DoesNotExistException
+     */
+    CloudRecord getCloudRecordWithSimplifiedUrl(String providerId, String localId) throws DoesNotExistException;
 
     /**
      * Create a new Representation Version
@@ -29,14 +38,14 @@ public interface MetadataAndContentServiceAccessor {
     String createRepresentationVersion(String cloudId, String representationName, String providerId) throws DoesNotExistException;
 
 
-    /**Returns record with all its latest persistent representations.
+    /**
+     * Returns record with all its latest persistent representations.
      * Analogous URL: GET base-url/records/CLOUDID/
-     * todo Fix when its fixed internally in
      * @param cloudId
-     * @return
+     * @return {@link europeana.eu.model.CloudRecord}
      * @throws DoesNotExistException
      */
-    String getCloudRecordRepresentations(String cloudId) throws DoesNotExistException;
+    CloudRecord getCloudRecordRepresentations(String cloudId) throws DoesNotExistException;
 
     /**
      * Deletes all the representations and versions of a record with a specific cloudId. Does not remove any Cloud Id mappings created previously
@@ -49,27 +58,25 @@ public interface MetadataAndContentServiceAccessor {
     short deleteCloudRecordRepresentationsAndVersions(String clooudId) throws DoesNotExistException;
 
     /**
-     * Returns a list of all the latest persistent versions of a record representation.
+     * Returns a list of all the latest persistent versions of a record representation without files details content.
      * Analogous URL: GET base-url/records/CLOUDID/representations/
-     * todo Fix when its fixed internally in ECloud
      * @param cloudId
-     * @return
+     * @return Array of {@link europeana.eu.model.RepresentationVersion}
      * @throws NoContentException
      * @throws DoesNotExistException
      */
-    String getRepresentations(String cloudId) throws NoContentException, DoesNotExistException;
+    RepresentationVersion[] getRepresentations(String cloudId) throws NoContentException, DoesNotExistException;
 
     /**
-     * Returns the latest persistent version of a given representation.
+     * Returns the latest persistent version of a given representation with files details content.
      * Analogous URL: GET base-url/records/CLOUDID/representations/REPRESENTATIONNAME/
-     * todo Fix when its fixed internally in ECloud
      * @param cloudId
      * @param representationName
      * @return
      * @throws NoContentException
      * @throws DoesNotExistException
      */
-    String getRepresentation(String cloudId, String representationName) throws NoContentException, DoesNotExistException;
+    RepresentationVersion getRepresentation(String cloudId, String representationName) throws NoContentException, DoesNotExistException;
 
     /**
      * Lists all versions of a record representation. Temporary versions will be included in the returned list.

@@ -2,6 +2,7 @@ package europeana.eu.model;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
@@ -9,10 +10,11 @@ import java.util.List;
  * @author Simon Tzanakis (Simon.Tzanakis@europeana.eu)
  * @since 2016-06-07
  */
-@XmlRootElement
+@XmlRootElement(name="record")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CloudRecord {
     private String cloudId;
+    @XmlElement(name = "representations")
     private List<RepresentationVersion> representationVersions;
 
     public CloudRecord() {

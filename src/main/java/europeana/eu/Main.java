@@ -2,6 +2,8 @@ package europeana.eu;
 
 import europeana.eu.accessors.UniqueIdentifierServiceAccessor;
 import europeana.eu.commons.AccessorsManager;
+import europeana.eu.commons.Tools;
+import europeana.eu.model.CloudRecord;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.PropertiesConfigurationLayout;
 import org.apache.logging.log4j.LogManager;
@@ -131,9 +133,12 @@ public class Main {
 //                .createRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "STempProvider10");
 //        System.out.println(representationVersion);
 
-//        accessorsManager.getMetadataAndContentServiceAccessor().getCloudRecordRepresentations("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A");
-//          accessorsManager.getMetadataAndContentServiceAccessor().getRepresentations("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A");
-//        accessorsManager.getMetadataAndContentServiceAccessor().getRepresentation("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST");
+//        CloudRecord cr = accessorsManager.getMetadataAndContentServiceAccessor().getCloudRecordRepresentations("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A");
+//        System.out.println(Tools.marshallAny(cr));
+//        RepresentationVersion[] representationVersions = accessorsManager.getMetadataAndContentServiceAccessor().getRepresentations("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A");
+//        System.out.println(Tools.marshallAny(representationVersions));
+//        RepresentationVersion representation = accessorsManager.getMetadataAndContentServiceAccessor().getRepresentation("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST");
+//        System.out.println(Tools.marshallAny(representation));
 
 //        accessorsManager.getMetadataAndContentServiceAccessor().deleteCloudRecordRepresentationsAndVersions("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A");
 //
@@ -158,7 +163,14 @@ public class Main {
 //          accessorsManager.getMetadataAndContentServiceAccessor().updatePermissionsForRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "909b7930-2cc0-11e6-94ae-fa163e289a71", "read", "stzanakis");
 //          accessorsManager.getMetadataAndContentServiceAccessor().deletePermissionsForRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "909b7930-2cc0-11e6-94ae-fa163e289a71", "read", "stzanakis");
 
-//        accessorsManager.getMetadataAndContentServiceAccessor().getCloudRecordWithSimplifiedUrl("STempProvider10", "123");
+        CloudRecord cloudRecord = accessorsManager.getMetadataAndContentServiceAccessor().getCloudRecordWithSimplifiedUrl("STempProvider10", "123");
+//        List<RepresentationVersion> representationVersions = cloudRecord.getRepresentationVersions();
+//        for (RepresentationVersion representationVersion: representationVersions
+//             ) {
+//            System.out.println(representationVersion.getVersion());
+//        }
+//        System.out.println(representationVersions.size());
+        System.out.println(Tools.marshallAny(cloudRecord));
 
 //        accessorsManager.getMetadataAndContentServiceAccessor()
 //                .deleteRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "7f192790-2bec-11e6-9e71-fa163e64bb83");

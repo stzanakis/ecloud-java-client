@@ -3,6 +3,7 @@ package europeana.eu.accessors.base;
 import europeana.eu.accessors.MetadataAndContentServiceAccessor;
 import europeana.eu.commons.Tools;
 import europeana.eu.exceptions.*;
+import europeana.eu.model.CloudRecord;
 import europeana.eu.model.Constants;
 import europeana.eu.model.ErrorInfo;
 import europeana.eu.model.RepresentationVersion;
@@ -62,21 +63,17 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
     }
 
     @Override
-    public String getCloudRecordWithSimplifiedUrl(String providerId, String localId) throws DoesNotExistException {
+    public CloudRecord getCloudRecordWithSimplifiedUrl(String providerId, String localId) throws DoesNotExistException {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.DATAPROVIDERS_PATH.getConstant()).path(providerId).path(Constants.RECORDS_PATH.getConstant()).path(localId);
         Response response = target.request(MediaType.APPLICATION_JSON).get();
 
         short status = (short) response.getStatus();
-//        System.out.println(response.readEntity(String.class));
-//        System.out.println(response.getHeaders().toString());
 
-        // TODO: 30-5-16 Implement correctly
         if (status == 200) {
-//            dataProvider = response.readEntity(DataProvider.class);
-            System.out.println(response.readEntity(String.class));
+            CloudRecord cloudRecord = response.readEntity(CloudRecord.class);
             logger.info("getCloudRecordWithSimplifiedUrl: " + target.getUri() + ", response: " + status + ", Returned a list of results!");
-            return null;
+            return cloudRecord;
         }
         else{
             ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
@@ -130,21 +127,17 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
     }
 
     @Override
-    public String getCloudRecordRepresentations(String cloudId) throws DoesNotExistException {
+    public CloudRecord getCloudRecordRepresentations(String cloudId) throws DoesNotExistException {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.RECORDS_PATH.getConstant()).path(cloudId);
-        Response response = target.request(MediaType.APPLICATION_XML).get();
+        Response response = target.request(MediaType.APPLICATION_JSON).get();
 
         short status = (short) response.getStatus();
-        System.out.println(response.readEntity(String.class));
-        System.out.println(response.getHeaders().toString());
 
-        // TODO: 30-5-16 Implement correctly
         if (status == 200) {
-//            dataProvider = response.readEntity(DataProvider.class);
-            System.out.println(response.readEntity(String.class));
+            CloudRecord cloudRecord = response.readEntity(CloudRecord.class);
             logger.info("getCloudRecordRepresentations: " + target.getUri() + ", response: " + status + ", Returned a list of results!");
-            return null;
+            return cloudRecord;
         }
         else{
             ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
@@ -192,21 +185,17 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
     }
 
     @Override
-    public String getRepresentations(String cloudId) throws NoContentException, DoesNotExistException {
+    public RepresentationVersion[] getRepresentations(String cloudId) throws NoContentException, DoesNotExistException {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.RECORDS_PATH.getConstant()).path(cloudId).path(Constants.REPRESENTATIONS_PATH.getConstant());
         Response response = target.request(MediaType.APPLICATION_JSON).get();
 
         short status = (short) response.getStatus();
-//        System.out.println(response.readEntity(String.class));
-//        System.out.println(response.getHeaders().toString());
 
-        // TODO: 30-5-16 Implement correctly
         if (status == 200) {
-//            dataProvider = response.readEntity(DataProvider.class);
-            System.out.println(response.readEntity(String.class));
+            RepresentationVersion[] representationVersions = response.readEntity(RepresentationVersion[].class);
             logger.info("getRepresentations: " + target.getUri() + ", response: " + status + ", Returned a list of results!");
-            return null;
+            return representationVersions;
         }
         else{
             ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
@@ -225,19 +214,17 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
     }
 
     @Override
-    public String getRepresentation(String cloudId, String representationName) throws NoContentException, DoesNotExistException {
+    public RepresentationVersion getRepresentation(String cloudId, String representationName) throws NoContentException, DoesNotExistException {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.RECORDS_PATH.getConstant()).path(cloudId).path(Constants.REPRESENTATIONS_PATH.getConstant()).path(representationName);
         Response response = target.request(MediaType.APPLICATION_JSON).get();
 
         short status = (short) response.getStatus();
-//        System.out.println(status);
-//        System.out.println(response.readEntity(String.class));
-        // TODO: 30-5-16 Implement correctly
+
         if (status == 200) {
-            System.out.println(response.readEntity(String.class));
+            RepresentationVersion representationVersion = response.readEntity(RepresentationVersion.class);
             logger.info("getRepresentation: " + target.getUri() + ", response: " + status + ", Representation with name: " + representationName + " exists!");
-            return null;
+            return representationVersion;
         }
         else{
             ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
