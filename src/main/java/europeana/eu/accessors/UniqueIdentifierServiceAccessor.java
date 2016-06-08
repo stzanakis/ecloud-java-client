@@ -142,7 +142,7 @@ public interface UniqueIdentifierServiceAccessor {
     /**
      * Get all existent Providers in slices.
      * Analogous URL: GET base-url/data-providers/
-     * @return {@link europeana.eu.model.DataProviderSlice}
+     * @return {@link europeana.eu.model.ResultsSlice}
      * @throws DoesNotExistException
      */
     ResultsSlice<DataProvider> getDataProviders() throws DoesNotExistException;
@@ -151,7 +151,7 @@ public interface UniqueIdentifierServiceAccessor {
      * Get all existent Providers in slices from a specific Provider Id.
      * Analogous URL: GET base-url/data-providers/
      * @param from
-     * @return {@link europeana.eu.model.DataProviderSlice}
+     * @return {@link europeana.eu.model.ResultsSlice}
      * @throws DoesNotExistException
      */
     ResultsSlice<DataProvider> getDataProviders(String from) throws DoesNotExistException;
