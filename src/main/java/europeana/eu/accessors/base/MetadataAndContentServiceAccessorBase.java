@@ -410,6 +410,35 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
     }
 
     @Override
+    public short permitRepresentationVersion(String cloudId, String representationName, String version) {
+        WebTarget target = client.target(accessorUrl.toString());
+        target = target.path(Constants.RECORDS_PATH.getConstant()).path(cloudId).path(Constants.REPRESENTATIONS_PATH.getConstant()).path(representationName)
+                .path(Constants.VERSIONS_PATH.getConstant()).path(version).path(Constants.PERMIT_PATH.getConstant());
+
+        Response response = target.request().post(null, Response.class);
+
+        short status = (short) response.getStatus();
+        System.out.println(response.readEntity(String.class));
+
+        if (status == 200) {
+            logger.info("permitRepresentationVersion: " + target.getUri() + ", response: " + status + ", Representation version is permitted for public access");
+            return status;
+        }
+        else{
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            logger.error(errorString);
+            switch (status)
+            {
+                case 500:
+                    throw new InternalServerErrorException(errorString);
+                default:
+                    throw new UnsupportedOperationException(errorString);
+            }
+        }
+    }
+
+    @Override
     public String persistRepresentationVersion(String cloudId, String representationName, String version) throws DoesNotExistException {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.RECORDS_PATH.getConstant()).path(cloudId).path(Constants.REPRESENTATIONS_PATH.getConstant()).path(representationName)
@@ -421,7 +450,7 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
 
         if (status == 201) {
             String location = response.getHeaderString(Constants.LOCATION_HEADER.getConstant());
-            logger.info("copyRepresentationVersionWithContents: " + target.getUri() + ", response: " + status + ", Representation version copied with URI: " + location);
+            logger.info("copyRepresentationVersionWithContents: " + target.getUri() + ", response: " + status + ", Representation version persisted with URI: " + location);
             return location;
         }
         else{

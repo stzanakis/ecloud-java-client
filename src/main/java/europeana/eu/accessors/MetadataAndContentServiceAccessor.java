@@ -125,6 +125,16 @@ public interface MetadataAndContentServiceAccessor {
     String copyRepresentationVersionWithContents(String cloudId, String representationName, String version) throws DoesNotExistException;
 
     /**
+     * Makes a Representation Version publicly available.
+     * Analogous URL: POST base-url/records/CLOUDID/representations/REPRESENTATIONNAME/versions/VERSION/permit/
+     * @param cloudId
+     * @param representationName
+     * @param version
+     * @return HTTP Response code or throws exception
+     */
+    short permitRepresentationVersion(String cloudId, String representationName, String version);
+
+    /**
      * Persists temporary(non-persistent) representation.
      * Analogous URL: POST base-url/records/CLOUDID/representations/REPRESENTATIONNAME/versions/VERSION/persist/
      * @param cloudId

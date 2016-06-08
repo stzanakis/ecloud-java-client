@@ -149,9 +149,11 @@ public class Main {
 //                .getRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "909b7930-2cc0-11e6-94ae-fa163e289a71");
 //        System.out.println(representationVersion);
 
-//        System.out.println(accessorsManager.getMetadataAndContentServiceAccessor().copyRepresentationVersionWithContents("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST2", "bd915240-2c8c-11e6-9e71-fa163e64bb83"));
+//        System.out.println(accessorsManager.getMetadataAndContentServiceAccessor().copyRepresentationVersionWithContents("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "bd915240-2c8c-11e6-9e71-fa163e64bb83"));
 
 //        System.out.println(accessorsManager.getMetadataAndContentServiceAccessor().persistRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "909b7930-2cc0-11e6-94ae-fa163e289a71"));
+
+//        accessorsManager.getMetadataAndContentServiceAccessor().permitRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "909b7930-2cc0-11e6-94ae-fa163e289a71");
 
 //        accessorsManager.getMetadataAndContentServiceAccessor().getCloudRecordWithSimplifiedUrl("STempProvider10", "123");
 
