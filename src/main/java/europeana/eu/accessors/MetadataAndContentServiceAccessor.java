@@ -16,6 +16,18 @@ import java.io.IOException;
 public interface MetadataAndContentServiceAccessor {
 
     /**
+     * Creates a new data set.
+     * Analogous URL: GET base-url/data-providers/DATAPROVIDER/data-sets/
+     * @param providerId
+     * @param dataSetId
+     * @param description
+     * @return The location URI of the new Data Set
+     * @throws DoesNotExistException
+     * @throws AlreadyExistsException
+     */
+    String createDataSet(String providerId, String dataSetId, String description) throws DoesNotExistException, AlreadyExistsException;
+
+    /**
      * Returns record with all representations with file metadata.
      * Analogous URL: GET base-url/data-providers/DATAPROVIDER/records/LOCALID/
      * @param providerId

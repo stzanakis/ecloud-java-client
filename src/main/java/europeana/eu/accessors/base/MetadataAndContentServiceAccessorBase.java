@@ -63,6 +63,47 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
     }
 
     @Override
+    public String createDataSet(String providerId, String dataSetId, String description) throws DoesNotExistException, AlreadyExistsException {
+        WebTarget target = client.target(accessorUrl.toString());
+        target = target.path(Constants.DATAPROVIDERS_PATH.getConstant()).path(providerId).path(Constants.DATASETS_PATH.getConstant());
+
+        Map<String,String> map = new HashMap<>();
+        map.put(Constants.DATASETID.getConstant(), dataSetId);
+        map.put(Constants.DESCRIPTION.getConstant(), description);
+        String formURLEncoded = Tools.generateFormURLEncoded(map);
+
+        Response response = target.request().post(
+                Entity.entity(formURLEncoded, MediaType.APPLICATION_FORM_URLENCODED), Response.class);
+
+        short status = (short) response.getStatus();
+        System.out.println(status);
+        System.out.println(response.readEntity(String.class));
+        System.out.println(response.getHeaders());
+
+        if (status == 201) {
+            String location = response.getHeaderString(Constants.LOCATION_HEADER.getConstant());
+            logger.info("createDataSet: " + target.getUri() + ", response: " + status + ", Data Set created with URI: " + location);
+            return location;
+        }
+        else{
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            logger.error(errorString);
+            switch (status)
+            {
+                case 404:
+                    throw new DoesNotExistException(errorString);
+                case 409:
+                    throw new AlreadyExistsException(errorString);
+                case 500:
+                    throw new InternalServerErrorException(errorString);
+                default:
+                    throw new UnsupportedOperationException(errorString);
+            }
+        }
+    }
+
+    @Override
     public CloudRecord getCloudRecordWithSimplifiedUrl(String providerId, String recordId) throws DoesNotExistException {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.DATAPROVIDERS_PATH.getConstant()).path(providerId).path(Constants.RECORDS_PATH.getConstant()).path(recordId);

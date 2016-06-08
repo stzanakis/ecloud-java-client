@@ -6,6 +6,7 @@ package europeana.eu.model;
  */
 public enum Constants {
     DATAPROVIDERS_PATH("data-providers"),
+    DATASETS_PATH("data-sets"),
     CLOUDIDS_PATH("cloudIds"),
     RECORDS_PATH("records"),
     REPRESENTATIONS_PATH("representations"),
@@ -19,6 +20,8 @@ public enum Constants {
     PERMISSIONS_PATH("permissions"),
     USERS_PATH("users"),
     PROVIDERID("providerId"),
+    DATASETID("dataSetId"),
+    DESCRIPTION("description"),
     RECORDID("recordId"),
     LOCATION_HEADER("Location"),
     FROM("from"),
