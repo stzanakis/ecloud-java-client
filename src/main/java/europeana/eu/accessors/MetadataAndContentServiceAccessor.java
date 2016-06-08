@@ -18,7 +18,7 @@ public interface MetadataAndContentServiceAccessor {
 
     /**
      * Creates a new data set.
-     * Analogous URL: GET base-url/data-providers/DATAPROVIDER/data-sets/
+     * Analogous URL: POST base-url/data-providers/DATAPROVIDER/data-sets/
      * @param providerId
      * @param dataSetId
      * @param description
@@ -30,12 +30,23 @@ public interface MetadataAndContentServiceAccessor {
 
     /**
      * Lists representation versions from data set. Result is returned in slices.
+     * Analogous URL: GET base-url/data-providers/DATAPROVIDER/data-sets/DATASET/
      * @param providerId
      * @param dataSetId
      * @return {@link europeana.eu.model.ResultsSlice}
      * @throws DoesNotExistException
      */
     ResultsSlice<RepresentationVersion> getDataSet(String providerId, String dataSetId) throws DoesNotExistException;
+
+    /**
+     * Deletes data set.
+     * Analogous URL: DELETE base-url/data-providers/DATAPROVIDER/data-sets/DATASET/
+     * @param providerId
+     * @param dataSetId
+     * @return HTTP Response code or throws exception
+     * @throws DoesNotExistException
+     */
+    short deleteDataSet(String providerId, String dataSetId) throws DoesNotExistException;
 
     /**
      * Returns record with all representations with file metadata.

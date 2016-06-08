@@ -2,9 +2,6 @@ package europeana.eu;
 
 import europeana.eu.accessors.UniqueIdentifierServiceAccessor;
 import europeana.eu.commons.AccessorsManager;
-import europeana.eu.commons.Tools;
-import europeana.eu.model.RepresentationVersion;
-import europeana.eu.model.ResultsSlice;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.PropertiesConfigurationLayout;
 import org.apache.logging.log4j.LogManager;
@@ -130,10 +127,12 @@ public class Main {
 //        CLOUD IDS END
 
 //        RECORDS START
-//        System.out.println(accessorsManager.getMetadataAndContentServiceAccessor().createDataSet("STempProvider10", "dataSet10", "Test"));
+        System.out.println(accessorsManager.getMetadataAndContentServiceAccessor().createDataSet("STempProvider10", "dataSet10", "Test"));
 
-        ResultsSlice<RepresentationVersion> resultsSlice = accessorsManager.getMetadataAndContentServiceAccessor().getDataSet("STempProvider10", "dataSet10");
-        System.out.println(Tools.marshallAny(resultsSlice));
+//        ResultsSlice<RepresentationVersion> resultsSlice = accessorsManager.getMetadataAndContentServiceAccessor().getDataSet("STempProvider10", "dataSet10");
+//        System.out.println(Tools.marshallAny(resultsSlice));
+
+//        accessorsManager.getMetadataAndContentServiceAccessor().deleteDataSet("STempProvider10", "dataSet10");
 
 
 //        String representationVersion = accessorsManager.getMetadataAndContentServiceAccessor()
