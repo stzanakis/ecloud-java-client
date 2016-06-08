@@ -69,6 +69,8 @@ public interface MetadataAndContentServiceAccessor {
      */
     short deleteDataSet(String providerId, String dataSetId) throws DoesNotExistException;
 
+    short assignRepresentationVersionToDataSet(String providerId, String dataSetId, String cloudId, String representationName, String version);
+
     /**
      * Returns record with all representations with file metadata.
      * Analogous URL: GET base-url/data-providers/DATAPROVIDER/records/LOCALID/

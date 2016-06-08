@@ -19,6 +19,7 @@ public enum Constants {
     PERMIT_PATH("permit"),
     PERMISSIONS_PATH("permissions"),
     USERS_PATH("users"),
+    ASSIGNMENTS_PATH("assignments"),
     PROVIDERID("providerId"),
     DATASETID("dataSetId"),
     DESCRIPTION("description"),

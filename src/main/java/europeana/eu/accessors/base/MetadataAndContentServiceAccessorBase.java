@@ -66,7 +66,7 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
         if (from != null && !from.equals(""))
             target = target.queryParam(Constants.FROM.getConstant(), from);
 
-        Response response = target.request(MediaType.APPLICATION_JSON).get();
+        Response response = target.request(MediaType.APPLICATION_XML).get();
 
         short status = (short) response.getStatus();
 
@@ -132,11 +132,10 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.DATAPROVIDERS_PATH.getConstant()).path(providerId).path(Constants.DATASETS_PATH.getConstant()).path(dataSetId);
 
-        Response response = target.request(MediaType.APPLICATION_JSON).get();
+        Response response = target.request(MediaType.APPLICATION_XML).get();
 
         short status = (short) response.getStatus();
 
-        // TODO: 8-6-16 fix after 500 error code stops
         if (status == 200) {
             ResultsSlice<RepresentationVersion> resultsSlice = response.readEntity(ResultsSlice.class);
             logger.info("getDataSetRepresentationVersions: " + target.getUri() + ", response: " + status + ", ProviderId: " + providerId + ", Data Set: " + dataSetId + " exists!");
@@ -218,6 +217,14 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
                     throw new UnsupportedOperationException(errorString);
             }
         }
+    }
+
+    @Override
+    public short assignRepresentationVersionToDataSet(String providerId, String dataSetId, String cloudId, String representationName, String version) {
+        WebTarget target = client.target(accessorUrl.toString());
+        target = target.path(Constants.DATAPROVIDERS_PATH.getConstant()).path(providerId).path(Constants.DATASETS_PATH.getConstant())
+                .path(Constants.ASSIGNMENTS_PATH.getConstant());
+        return 0;
     }
 
     @Override
