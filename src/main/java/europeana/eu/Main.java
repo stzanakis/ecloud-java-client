@@ -3,7 +3,7 @@ package europeana.eu;
 import europeana.eu.accessors.UniqueIdentifierServiceAccessor;
 import europeana.eu.commons.AccessorsManager;
 import europeana.eu.commons.Tools;
-import europeana.eu.model.CloudRecord;
+import europeana.eu.model.RepresentationVersion;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.PropertiesConfigurationLayout;
 import org.apache.logging.log4j.LogManager;
@@ -163,14 +163,17 @@ public class Main {
 //          accessorsManager.getMetadataAndContentServiceAccessor().updatePermissionsForRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "909b7930-2cc0-11e6-94ae-fa163e289a71", "read", "stzanakis");
 //          accessorsManager.getMetadataAndContentServiceAccessor().deletePermissionsForRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "909b7930-2cc0-11e6-94ae-fa163e289a71", "read", "stzanakis");
 
-        CloudRecord cloudRecord = accessorsManager.getMetadataAndContentServiceAccessor().getCloudRecordWithSimplifiedUrl("STempProvider10", "123");
+//        CloudRecord cloudRecord = accessorsManager.getMetadataAndContentServiceAccessor().getCloudRecordWithSimplifiedUrl("STempProvider10", "123");
 //        List<RepresentationVersion> representationVersions = cloudRecord.getRepresentationVersions();
 //        for (RepresentationVersion representationVersion: representationVersions
 //             ) {
 //            System.out.println(representationVersion.getVersion());
 //        }
 //        System.out.println(representationVersions.size());
-        System.out.println(Tools.marshallAny(cloudRecord));
+//        System.out.println(Tools.marshallAny(cloudRecord));
+
+        RepresentationVersion representationWithSimplifiedUrl = accessorsManager.getMetadataAndContentServiceAccessor().getRepresentationWithSimplifiedUrl("STempProvider10", "123", "TEST");
+        System.out.println(Tools.marshallAny(representationWithSimplifiedUrl));
 
 //        accessorsManager.getMetadataAndContentServiceAccessor()
 //                .deleteRepresentationVersion("NON6WPP3AR7SYQBWSWOTX2BXU3KBQQL3X7E5GTK74P72KB5UPW3A", "TEST", "7f192790-2bec-11e6-9e71-fa163e64bb83");

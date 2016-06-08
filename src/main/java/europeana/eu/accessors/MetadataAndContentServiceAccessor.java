@@ -19,11 +19,22 @@ public interface MetadataAndContentServiceAccessor {
      * Returns record with all representations with file metadata.
      * Analogous URL: GET base-url/data-providers/DATAPROVIDER/records/LOCALID/
      * @param providerId
-     * @param localId
+     * @param recordId
      * @return {@link europeana.eu.model.CloudRecord}
      * @throws DoesNotExistException
      */
-    CloudRecord getCloudRecordWithSimplifiedUrl(String providerId, String localId) throws DoesNotExistException;
+    CloudRecord getCloudRecordWithSimplifiedUrl(String providerId, String recordId) throws DoesNotExistException;
+
+    /**
+     * Returns the latest persistent version of a given representation.
+     * Analogous URL: GET base-url/data-providers/DATAPROVIDER/records/LOCALID/representations/REPRESENTATIONNAME/
+     * @param providerId
+     * @param recordId
+     * @param representationName
+     * @return {@link europeana.eu.model.RepresentationVersion}
+     * @throws DoesNotExistException
+     */
+    RepresentationVersion getRepresentationWithSimplifiedUrl(String providerId, String recordId, String representationName) throws DoesNotExistException;
 
     /**
      * Create a new Representation Version

@@ -63,9 +63,9 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
     }
 
     @Override
-    public CloudRecord getCloudRecordWithSimplifiedUrl(String providerId, String localId) throws DoesNotExistException {
+    public CloudRecord getCloudRecordWithSimplifiedUrl(String providerId, String recordId) throws DoesNotExistException {
         WebTarget target = client.target(accessorUrl.toString());
-        target = target.path(Constants.DATAPROVIDERS_PATH.getConstant()).path(providerId).path(Constants.RECORDS_PATH.getConstant()).path(localId);
+        target = target.path(Constants.DATAPROVIDERS_PATH.getConstant()).path(providerId).path(Constants.RECORDS_PATH.getConstant()).path(recordId);
         Response response = target.request(MediaType.APPLICATION_JSON).get();
 
         short status = (short) response.getStatus();
@@ -74,6 +74,38 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
             CloudRecord cloudRecord = response.readEntity(CloudRecord.class);
             logger.info("getCloudRecordWithSimplifiedUrl: " + target.getUri() + ", response: " + status + ", Returned a list of results!");
             return cloudRecord;
+        }
+        else{
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            logger.error(errorString);
+            switch (status)
+            {
+                case 404:
+                    throw new DoesNotExistException(errorString);
+                case 500:
+                    throw new InternalServerErrorException(errorString);
+                default:
+                    throw new UnsupportedOperationException(errorString);
+            }
+        }
+    }
+
+    @Override
+    public RepresentationVersion getRepresentationWithSimplifiedUrl(String providerId, String recordId, String representationName) throws DoesNotExistException {
+        WebTarget target = client.target(accessorUrl.toString());
+        target = target.path(Constants.DATAPROVIDERS_PATH.getConstant()).path(providerId).path(Constants.RECORDS_PATH.getConstant()).path(recordId)
+                .path(Constants.REPRESENTATIONS_PATH.getConstant()).path(representationName);
+        Response response = target.request(MediaType.APPLICATION_JSON).get();
+
+        short status = (short) response.getStatus();
+
+        if (status == 200) {
+            RepresentationVersion representationVersion = response.readEntity(RepresentationVersion.class);
+            logger.info("getRepresentation: " + target.getUri() + ", response: " + status + ", ProviderId: " + providerId + ", RecordId: " + recordId +
+                    ", Representation: " + representationName + " exists!");
+            logger.info("getRepresentationWithSimplifiedUrl: " + target.getUri() + ", response: " + status + ", Returned a list of results!");
+            return representationVersion;
         }
         else{
             ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
