@@ -165,7 +165,7 @@ public interface UniqueIdentifierServiceAccessor {
      * @throws DoesNotExistException
      * @throws NoContentException
      */
-    DataProvider getDataProvider(String providerId) throws BadRequest, DoesNotExistException, NoContentException;
+    DataProvider getDataProvider(String providerId) throws DoesNotExistException;
 
     /**
      * Delete a Data Provider.

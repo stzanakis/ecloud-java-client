@@ -1,6 +1,7 @@
 package europeana.eu.accessors.base;
 
 import europeana.eu.accessors.UniqueIdentifierServiceAccessor;
+import europeana.eu.commons.Tools;
 import europeana.eu.exceptions.AlreadyExistsException;
 import europeana.eu.exceptions.BadRequest;
 import europeana.eu.exceptions.DoesNotExistException;
@@ -11,12 +12,10 @@ import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 
-import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.NoContentException;
 import javax.ws.rs.core.Response;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -76,18 +75,16 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
             return cloudId;
         }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
+            return null;
         }
     }
 
@@ -105,18 +102,16 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
             return ResultsSlice;
         }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
+            return null;
         }
     }
 
@@ -155,8 +150,7 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
             return cloudIdRepresentation;
         }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
@@ -164,11 +158,10 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
                     throw new DoesNotExistException(errorString);
                 case 409:
                     throw new AlreadyExistsException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
+            return null;
         }
     }
 
@@ -180,24 +173,20 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
 
         short status = (short) response.getStatus();
 
-        if (status == 200) {
+        if (status == 200)
             logger.info("deleteCloudId: " + target.getUri() + ", response: " + status + ", CloudId: " + cloudId + " deleted!");
-            return status;
-        }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
         }
+        return status;
     }
 
     /**
@@ -224,8 +213,7 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
             return cloudId;
         }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
@@ -233,11 +221,10 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
                     throw new DoesNotExistException(errorString);
                 case 409:
                     throw new AlreadyExistsException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
+            return null;
         }
     }
 
@@ -270,8 +257,6 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
 
         Response response = target.request(MediaType.APPLICATION_JSON).get();
 
-//        System.out.println(target.getUri());
-//        System.out.println(response.readEntity(String.class));
         short status = (short) response.getStatus();
 
         if (status == 200) {
@@ -280,18 +265,16 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
             return ResultsSlice;
         }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
+            return null;
         }
     }
 
@@ -314,8 +297,7 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
             return location;
         }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
@@ -323,11 +305,10 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
                     throw new BadRequest(errorString);
                 case 409:
                     throw new AlreadyExistsException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
+            return null;
         }
     }
 
@@ -344,24 +325,20 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
 
         short status = (short) response.getStatus();
 
-        if (status == 204) {
+        if (status == 204)
             logger.info("updateDataProvider: " + target.getUri() + ", response: " + status + ", Provider with providerId: " + providerId + " updated successfully!");
-            return status;
-        }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
         }
+        return status;
     }
 
     @Override
@@ -378,7 +355,7 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
      * Get a set of Data Providers, in slices.
      * It is a wrap up of the public calls of getting Data Providers combined.
      * @param from
-     * @return {@link europeana.eu.model.DataProviderSlice}
+     * @return {@link europeana.eu.model.ResultsSlice}
      * @throws DoesNotExistException
      */
     private ResultsSlice<DataProvider> retrieveProviders(String from) throws DoesNotExistException {
@@ -398,23 +375,21 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
             return dataProviderSlice;
         }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
+            return null;
         }
     }
 
     @Override
-    public DataProvider getDataProvider(String providerId) throws BadRequest, DoesNotExistException, NoContentException {
+    public DataProvider getDataProvider(String providerId) throws DoesNotExistException {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.DATAPROVIDERS_PATH.getConstant()).path(providerId);
         Response response = target.request(MediaType.APPLICATION_JSON).get();
@@ -427,18 +402,16 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
             return dataProvider;
         }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
+            return null;
         }
     }
 
@@ -450,24 +423,20 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
 
         short status = (short) response.getStatus();
 
-        if (status == 200) {
+        if (status == 200)
             logger.info("deleteDataProvider: " + target.getUri() + ", response: " + status + ", Provider with providerId: " + providerId + " deleted!");
-            return status;
-        }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
         }
+        return status;
     }
 
     @Override
@@ -480,24 +449,20 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
 
         short status = (short) response.getStatus();
 
-        if (status == 200) {
+        if (status == 200)
             logger.info("activateDataProvider: " + target.getUri() + ", response: " + status + ", Provider with providerId: " + providerId + " activated successfully!");
-            return status;
-        }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
         }
+        return status;
     }
 
     @Override
@@ -509,24 +474,20 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
 
         short status = (short) response.getStatus();
 
-        if (status == 200) {
+        if (status == 200)
             logger.info("deactivateDataProvider: " + target.getUri() + ", response: " + status + ", Provider with providerId: " + providerId + " deactivated successfully!");
-            return status;
-        }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
         }
+        return status;
     }
 
     @Override
@@ -547,24 +508,20 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
 
         short status = (short) response.getStatus();
 
-        if (status == 200) {
+        if (status == 200)
             logger.info("deleteMappingLocalIdFromCloudId: " + target.getUri() + ", response: " + status + ", Provider with providerId: " + providerId + ", LocalId: " + localId + " deleted!");
-            return status;
-        }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
         }
+        return status;
     }
 
     /**
@@ -594,18 +551,16 @@ public class UniqueIdentifierServiceAccessorBase implements UniqueIdentifierServ
             return ResultsSlice;
         }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
         }
+        return null;
     }
 }

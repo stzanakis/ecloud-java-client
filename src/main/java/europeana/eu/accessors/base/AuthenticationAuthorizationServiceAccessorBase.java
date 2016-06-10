@@ -1,14 +1,14 @@
 package europeana.eu.accessors.base;
 
 import europeana.eu.accessors.AuthenticationAuthorizationServiceAccessor;
+import europeana.eu.commons.Tools;
+import europeana.eu.exceptions.DoesNotExistException;
 import europeana.eu.model.Constants;
-import europeana.eu.model.ErrorInfo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 
-import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
@@ -48,38 +48,33 @@ public class AuthenticationAuthorizationServiceAccessorBase implements Authentic
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.CREATEUSER_PATH.getConstant());
 
-//        if (username != null && !username.equals("") && password != null && !password.equals(""))
-//            target = target.queryParam(Constants.USERNAME_QP.getConstant(), username).queryParam(Constants.PASSWORD_QP.getConstant(), password);
-//        else
-//            throw new UnsupportedOperationException("Please fill in all the parameters.");
-        target = target.queryParam(Constants.USERNAME_QP.getConstant(), username);
+        if (username != null && !username.equals("") && password != null && !password.equals(""))
+            target = target.queryParam(Constants.USERNAME_QP.getConstant(), username).queryParam(Constants.PASSWORD_QP.getConstant(), password);
+        else
+            throw new UnsupportedOperationException("Please fill in all the parameters.");
 
         Response response = target.request().post(null, Response.class);
 
         short status = (short) response.getStatus();
 
-        if (status == 200) {
+        if (status == 200)
             logger.info("createUser: " + target.getUri() + ", response: " + status + ", User created with username: " + username);
-            return status;
-        }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
         }
+        return status;
     }
 
     @Override
-    public short deleteUser(String username) {
+    public short deleteUser(String username) throws Exception {
         WebTarget target = client.target(accessorUrl.toString());
-        target = target.path(Constants.DELETE_PATH.getConstant());
+        target = target.path(Constants.DELETEUSER_PATH.getConstant());
 
         if (username != null && !username.equals(""))
             target = target.queryParam(Constants.USERNAME_QP.getConstant(), username);
@@ -89,23 +84,51 @@ public class AuthenticationAuthorizationServiceAccessorBase implements Authentic
         Response response = target.request().post(null, Response.class);
 
         short status = (short) response.getStatus();
-        System.out.println(response.readEntity(String.class));
 
-        if (status == 200) {
+        if (status == 200)
             logger.info("deleteUser: " + target.getUri() + ", response: " + status + ", User deleted with username: " + username);
-            return status;
-        }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
-                case 500:
-                    throw new InternalServerErrorException(errorString);
+                case 404:
+                    throw new DoesNotExistException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
         }
+        return status;
+    }
+
+    @Override
+    public short updateUser(String username, String password) throws Exception {
+        WebTarget target = client.target(accessorUrl.toString());
+        target = target.path(Constants.UPDATEUSER_PATH.getConstant());
+
+        if (username != null && !username.equals(""))
+            target = target.queryParam(Constants.USERNAME_QP.getConstant(), username).queryParam(Constants.PASSWORD_QP.getConstant(), password);
+        else
+            throw new UnsupportedOperationException("Please fill in all the parameters.");
+
+        Response response = target.request().post(null, Response.class);
+
+        short status = (short) response.getStatus();
+        System.out.println(response.getHeaders());
+
+        if (status == 200)
+            logger.info("updateUser: " + target.getUri() + ", response: " + status + ", User updated with username: " + username);
+        else{
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
+            logger.error(errorString);
+            switch (status)
+            {
+                case 404:
+                    throw new DoesNotExistException(errorString);
+                default:
+                    Tools.generalExceptionHandler(status, errorString);
+            }
+        }
+        return status;
     }
 }

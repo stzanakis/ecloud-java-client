@@ -6,7 +6,7 @@ import java.io.Serializable;
  * @author Simon Tzanakis (Simon.Tzanakis@europeana.eu)
  * @since 2016-05-30
  */
-public class MethodNotAllowedException extends Exception implements Serializable {
+public class MethodNotAllowedException extends RuntimeException implements Serializable {
         private static final long serialVersionUID = 44L;
 
         public MethodNotAllowedException() {
