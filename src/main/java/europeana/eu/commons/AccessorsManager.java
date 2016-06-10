@@ -1,7 +1,9 @@
 package europeana.eu.commons;
 
+import europeana.eu.accessors.AuthenticationAuthorizationServiceAccessor;
 import europeana.eu.accessors.MetadataAndContentServiceAccessor;
 import europeana.eu.accessors.UniqueIdentifierServiceAccessor;
+import europeana.eu.accessors.base.AuthenticationAuthorizationServiceAccessorBase;
 import europeana.eu.accessors.base.MetadataAndContentServiceAccessorBase;
 import europeana.eu.accessors.base.UniqueIdentifierServiceAccessorBase;
 import org.apache.logging.log4j.LogManager;
@@ -21,11 +23,14 @@ public class AccessorsManager {
     private UniqueIdentifierServiceAccessor uniqueIdentifierServiceAccessor;
     private MetadataAndContentServiceAccessor metadataAndContentServiceAccessor;
 
+    private AuthenticationAuthorizationServiceAccessor authenticationAuthorizationServiceAccessor;
+
     public void InitializeAllAccessors(String accessUrl, String username, String password)
     {
         logger.info("Initializing all http clients");
         uniqueIdentifierServiceAccessor = new UniqueIdentifierServiceAccessorBase(accessUrl, username, password);
         metadataAndContentServiceAccessor = new MetadataAndContentServiceAccessorBase(accessUrl, username, password);
+        authenticationAuthorizationServiceAccessor = new AuthenticationAuthorizationServiceAccessorBase(accessUrl, username, password);
         logger.info("Initialized all http clients");
     }
 
@@ -33,6 +38,7 @@ public class AccessorsManager {
     {
         uniqueIdentifierServiceAccessor.close();
         metadataAndContentServiceAccessor.close();
+        authenticationAuthorizationServiceAccessor.close();
     }
 
     public UniqueIdentifierServiceAccessor getUniqueIdentifierServiceAccessor() {
@@ -49,6 +55,14 @@ public class AccessorsManager {
 
     public void setMetadataAndContentServiceAccessor(MetadataAndContentServiceAccessor metadataAndContentServiceAccessor) {
         this.metadataAndContentServiceAccessor = metadataAndContentServiceAccessor;
+    }
+
+    public AuthenticationAuthorizationServiceAccessor getAuthenticationAuthorizationServiceAccessor() {
+        return authenticationAuthorizationServiceAccessor;
+    }
+
+    public void setAuthenticationAuthorizationServiceAccessor(AuthenticationAuthorizationServiceAccessor authenticationAuthorizationServiceAccessor) {
+        this.authenticationAuthorizationServiceAccessor = authenticationAuthorizationServiceAccessor;
     }
 
     public static String getAccessUrl() {

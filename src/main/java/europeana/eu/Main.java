@@ -1,5 +1,6 @@
 package europeana.eu;
 
+import europeana.eu.accessors.AuthenticationAuthorizationServiceAccessor;
 import europeana.eu.accessors.UniqueIdentifierServiceAccessor;
 import europeana.eu.commons.AccessorsManager;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -37,6 +38,10 @@ public class Main {
 //        accessorsManager.InitializeAllAccessors("https://test-cloud.europeana.eu/api",
 //                propertiesConfiguration.getProperty("username").toString(), propertiesConfiguration.getProperty("password").toString());
         UniqueIdentifierServiceAccessor uis = accessorsManager.getUniqueIdentifierServiceAccessor();
+        AuthenticationAuthorizationServiceAccessor aas = accessorsManager.getAuthenticationAuthorizationServiceAccessor();
+
+//aas.createUser("simon1", "simon1");
+
 //        INITIALIZE END
 
 //        uis.createDataProvider("STempProvider10", "So-website-example.com", "So-url-example.com",

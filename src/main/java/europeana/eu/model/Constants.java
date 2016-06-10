@@ -20,6 +20,7 @@ public enum Constants {
     PERMISSIONS_PATH("permissions"),
     USERS_PATH("users"),
     ASSIGNMENTS_PATH("assignments"),
+    CREATEUSER_PATH("create-user"),
     CLOUDID("cloudId"),
     PROVIDERID("providerId"),
     DATASETID("dataSetId"),
@@ -30,6 +31,8 @@ public enum Constants {
     LOCATION_HEADER("Location"),
     FROM("from"),
     TO("to"),
+    USERNAME_QP("username"),
+    PASSWORD_QP("password"),
     MIMETYPE_FIELD("mimeType"),
     FILENAME_FIELD("fileName");
 
