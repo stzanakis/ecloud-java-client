@@ -41,6 +41,7 @@ public class Main {
         AuthenticationAuthorizationServiceAccessor aas = accessorsManager.getAuthenticationAuthorizationServiceAccessor();
 
 //aas.createUser("simon1", "simon1");
+//        aas.deleteUser("simon1");
 
 //        INITIALIZE END
 

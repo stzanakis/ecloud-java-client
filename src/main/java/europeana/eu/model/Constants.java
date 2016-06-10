@@ -21,6 +21,7 @@ public enum Constants {
     USERS_PATH("users"),
     ASSIGNMENTS_PATH("assignments"),
     CREATEUSER_PATH("create-user"),
+    DELETE_PATH("delete-user"),
     CLOUDID("cloudId"),
     PROVIDERID("providerId"),
     DATASETID("dataSetId"),

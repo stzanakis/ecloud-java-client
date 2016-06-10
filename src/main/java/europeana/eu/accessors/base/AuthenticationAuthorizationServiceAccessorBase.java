@@ -48,10 +48,11 @@ public class AuthenticationAuthorizationServiceAccessorBase implements Authentic
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.CREATEUSER_PATH.getConstant());
 
-        if (username != null && !username.equals("") && password != null && !password.equals(""))
-            target = target.queryParam(Constants.USERNAME_QP.getConstant(), username).queryParam(Constants.PASSWORD_QP.getConstant(), password);
-        else
-            throw new UnsupportedOperationException("Please fill in all the parameters.");
+//        if (username != null && !username.equals("") && password != null && !password.equals(""))
+//            target = target.queryParam(Constants.USERNAME_QP.getConstant(), username).queryParam(Constants.PASSWORD_QP.getConstant(), password);
+//        else
+//            throw new UnsupportedOperationException("Please fill in all the parameters.");
+        target = target.queryParam(Constants.USERNAME_QP.getConstant(), username);
 
         Response response = target.request().post(null, Response.class);
 
@@ -59,6 +60,39 @@ public class AuthenticationAuthorizationServiceAccessorBase implements Authentic
 
         if (status == 200) {
             logger.info("createUser: " + target.getUri() + ", response: " + status + ", User created with username: " + username);
+            return status;
+        }
+        else{
+            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
+            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            logger.error(errorString);
+            switch (status)
+            {
+                case 500:
+                    throw new InternalServerErrorException(errorString);
+                default:
+                    throw new UnsupportedOperationException(errorString);
+            }
+        }
+    }
+
+    @Override
+    public short deleteUser(String username) {
+        WebTarget target = client.target(accessorUrl.toString());
+        target = target.path(Constants.DELETE_PATH.getConstant());
+
+        if (username != null && !username.equals(""))
+            target = target.queryParam(Constants.USERNAME_QP.getConstant(), username);
+        else
+            throw new UnsupportedOperationException("Please fill in all the parameters.");
+
+        Response response = target.request().post(null, Response.class);
+
+        short status = (short) response.getStatus();
+        System.out.println(response.readEntity(String.class));
+
+        if (status == 200) {
+            logger.info("deleteUser: " + target.getUri() + ", response: " + status + ", User deleted with username: " + username);
             return status;
         }
         else{

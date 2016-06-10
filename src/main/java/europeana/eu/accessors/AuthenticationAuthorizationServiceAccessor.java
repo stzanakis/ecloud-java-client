@@ -15,6 +15,15 @@ public interface AuthenticationAuthorizationServiceAccessor {
     short createUser(String username, String password);
 
     /**
+     * Deletes a user with the specified username.
+     * @param username
+     * @return HTTP Response code or throws exception
+     */
+    short deleteUser(String username);
+
+
+
+    /**
      * Release all resources
      */
     void close();
