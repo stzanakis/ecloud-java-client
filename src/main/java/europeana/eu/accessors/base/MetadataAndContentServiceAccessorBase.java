@@ -14,7 +14,6 @@ import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
 
-import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
@@ -76,16 +75,14 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
             return resultsSlice;
         }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
+            return null;
         }
     }
 
@@ -110,8 +107,7 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
             return location;
         }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
@@ -119,11 +115,10 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
                     throw new DoesNotExistException(errorString);
                 case 409:
                     throw new AlreadyExistsException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
+            return null;
         }
     }
 
@@ -142,18 +137,16 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
             return resultsSlice;
         }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
+            return null;
         }
     }
 
@@ -171,24 +164,20 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
 
         short status = (short) response.getStatus();
 
-        if (status == 204) {
+        if (status == 204)
             logger.info("createDataSet: " + target.getUri() + ", response: " + status + ", Data Set Description updated!");
-            return status;
-        }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
         }
+        return status;
     }
 
     @Override
@@ -199,24 +188,20 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
         Response response = target.request().delete();
         short status = (short) response.getStatus();
 
-        if (status == 204) {
+        if (status == 204)
             logger.info("deleteDataSet: " + target.getUri() + ", response: " + status + ", ProviderId: " + providerId + ", Data Set: " + dataSetId + " deleted!");
-            return status;
-        }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
         }
+        return status;
     }
 
     @Override
@@ -236,25 +221,21 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
 
         short status = (short) response.getStatus();
 
-        if (status == 204) {
+        if (status == 204)
             logger.info("assignRepresentationVersionToDataSet: " + target.getUri() + ", response: " + status + ", CloudId: " + cloudId + ", RepresentationName: " + representationName
             + ", Version: " + version + " assigned to ProviderId-DataSetId: " + providerId + "-" + dataSetId);
-            return status;
-        }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
         }
+        return status;
     }
 
     @Override
@@ -272,24 +253,20 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
 
         short status = (short) response.getStatus();
 
-        if (status == 204) {
+        if (status == 204)
             logger.info("unassignRepresentationVersionToDataSet: " + target.getUri() + ", response: " + status + ", CloudId: " + cloudId + ", RepresentationName: " + representationName + " unassigned from ProviderId-DataSetId: " + providerId + "-" + dataSetId);
-            return status;
-        }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
         }
+        return status;
     }
 
     @Override
@@ -306,18 +283,16 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
             return cloudRecord;
         }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
+            return null;
         }
     }
 
@@ -337,18 +312,16 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
             return representationVersion;
         }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
+            return null;
         }
     }
 
@@ -372,18 +345,16 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
             return downloadFile.toString();
         }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
+            return null;
         }
     }
 
@@ -403,18 +374,17 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
             return response.getHeaders();
         }
         else{
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status;
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
         }
+        return null;
     }
 
     @Override
@@ -437,18 +407,16 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
             return location;
         }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
+            return null;
         }
     }
 
@@ -466,18 +434,16 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
             return cloudRecord;
         }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
+            return null;
         }
     }
 
@@ -489,25 +455,20 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
 
         short status = (short) response.getStatus();
 
-//        System.out.println(response.readEntity(String.class));
-        if (status == 204) {
+        if (status == 204)
             logger.info("deleteCloudRecordRepresentationsAndVersions: " + target.getUri() + ", response: " + status + ", CloudId: " + cloudId + ", all representations and versions deleted!");
-            return status;
-        }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
         }
+        return status;
     }
 
     @Override
@@ -524,18 +485,16 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
             return representationVersions;
         }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
+            return null;
         }
     }
 
@@ -553,8 +512,7 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
             return representationVersion;
         }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
@@ -562,11 +520,10 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
                     throw new NoContentException(errorString);
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
+            return null;
         }
     }
 
@@ -585,18 +542,16 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
             return representationVersions;
         }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
+            return null;
         }
     }
 
@@ -608,8 +563,6 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
         Response response = target.request(MediaType.APPLICATION_JSON).get();
 
         short status = (short) response.getStatus();
-//        System.out.println(response.readEntity(String.class));
-//        System.out.println(response.getHeaders());
 
         if (status == 200) {
             RepresentationVersion representationVersion = response.readEntity(RepresentationVersion.class);
@@ -617,20 +570,17 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
             return representationVersion;
         }
         else{
-//            System.out.println(response.readEntity(String.class));
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
         }
+        return null;
     }
 
     @Override
@@ -641,25 +591,20 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
 
         short status = (short) response.getStatus();
 
-//        System.out.println(response.readEntity(String.class));
-        if (status == 204) {
+        if (status == 204)
             logger.info("deleteRepresentation: " + target.getUri() + ", response: " + status + ", CloudId: " + cloudId + ", RepresentationName: " + representationName + " deleted!");
-            return status;
-        }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
         }
+        return status;
     }
 
     @Override
@@ -671,24 +616,20 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
 
         short status = (short) response.getStatus();
 
-        if (status == 204) {
+        if (status == 204)
             logger.info("deleteRepresentationVersion: " + target.getUri() + ", response: " + status + ", CloudId: " + cloudId + ", RepresentationName: " + representationName + ", Version: " + version + " deleted!");
-            return status;
-        }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
         }
+        return status;
     }
 
     @Override
@@ -707,18 +648,16 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
             return location;
         }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
+            return null;
         }
     }
 
@@ -733,22 +672,18 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
 
         short status = (short) response.getStatus();
 
-        if (status == 200) {
+        if (status == 200)
             logger.info("updatePermissionsForRepresentationVersion: " + target.getUri() + ", response: " + status + ", Representation version has permissions: " + permission + ", for user: " + toUsername);
-            return status;
-        }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
         }
+        return status;
     }
 
     @Override
@@ -762,22 +697,18 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
 
         short status = (short) response.getStatus();
 
-        if (status == 204) {
+        if (status == 204)
             logger.info("deletePermissionsForRepresentationVersion: " + target.getUri() + ", response: " + status + ", Representation version deleted permissions: " + permission + ", for user: " + toUsername);
-            return status;
-        }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
         }
+        return status;
     }
 
     @Override
@@ -791,22 +722,18 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
         short status = (short) response.getStatus();
 //        System.out.println(response.readEntity(String.class));
 
-        if (status == 200) {
+        if (status == 200)
             logger.info("permitRepresentationVersion: " + target.getUri() + ", response: " + status + ", Representation version is permitted for public access");
-            return status;
-        }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
         }
+        return status;
     }
 
     @Override
@@ -825,19 +752,18 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
             return location;
         }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
+
         }
+        return null;
     }
 
     @Override
@@ -851,7 +777,7 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
     }
 
     @Override
-    public String updateFileToRepresentationVersion(String cloudId, String representationName, String version, String fileName, File file, String mimeType) throws DoesNotExistException, MethodNotAllowedException {
+    public String updateFileToRepresentationVersion(String cloudId, String representationName, String version, String fileName, File file, String mimeType) throws DoesNotExistException {
         WebTarget target = client.register(MultiPartFeature.class).target(accessorUrl.toString());
         target = target.path(Constants.RECORDS_PATH.getConstant()).path(cloudId).path(Constants.REPRESENTATIONS_PATH.getConstant()).path(representationName)
                 .path(Constants.VERSIONS_PATH.getConstant()).path(version).path(Constants.FILES_PATH.getConstant()).path(fileName);
@@ -877,21 +803,17 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
             return location;
         }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 405:
-                    throw new MethodNotAllowedException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
         }
+        return null;
     }
 
     @Override
@@ -923,17 +845,16 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
             return response.getHeaders();
         }
         else{
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status;
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
+            return null;
         }
     }
 
@@ -983,8 +904,7 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
             return downloadFile.toString();
         }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
@@ -992,11 +912,10 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
                     throw new DoesNotExistException(errorString);
                 case 416:
                     throw new RangeHeaderInvalidException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
+            return null;
         }
     }
 
@@ -1043,8 +962,7 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
             return location;
         }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
@@ -1052,15 +970,12 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
                     throw new BadRequest(errorString);
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 405:
-                    throw new MethodNotAllowedException(errorString);
                 case 409:
                     throw new AlreadyExistsException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
+            return null;
         }
     }
 
@@ -1074,25 +989,19 @@ public class MetadataAndContentServiceAccessorBase implements MetadataAndContent
 
         short status = (short) response.getStatus();
 
-        if (status == 204) {
+        if (status == 204)
             logger.info("deleteFileFromRepresentationVersion: " + target.getUri() + ", response: " + status + ", representationName: " + representationName + ", version: " + version + ", fileName: " + fileName + " deleted!");
-            return status;
-        }
         else{
-            ErrorInfo errorInfo = response.readEntity(ErrorInfo.class);
-            String errorString = "Target URI: " + target.getUri() + ", Response code: " + status + ", ErrorCode=" + errorInfo.getErrorCode() + ", Details: " + errorInfo.getDetails();
+            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
             logger.error(errorString);
             switch (status)
             {
                 case 404:
                     throw new DoesNotExistException(errorString);
-                case 405:
-                    throw new MethodNotAllowedException(errorString);
-                case 500:
-                    throw new InternalServerErrorException(errorString);
                 default:
-                    throw new UnsupportedOperationException(errorString);
+                    Tools.generalExceptionHandler(status, errorString);
             }
         }
+        return status;
     }
 }

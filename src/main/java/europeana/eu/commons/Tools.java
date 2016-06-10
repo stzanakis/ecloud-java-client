@@ -22,27 +22,6 @@ import java.util.Map;
  */
 public class Tools {
 
-    public static void marshallTest() throws JAXBException {
-//        DataProviderProperties dataProvider = new DataProviderProperties("SOrganizationName","So-url-example.com","Semail@example.com"
-//                ,"Sdl-url-example.com","SContactPersonName","SRemarks");
-//
-//        JAXBContext jaxbContext =   JAXBContextFactory.createContext(new Class[]{DataProviderProperties.class}, null);
-//
-//        Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-//
-////        System.out.println(jaxbContext);
-//
-//        // output pretty printed
-//        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-//        jaxbMarshaller.setProperty(MarshallerProperties.JSON_INCLUDE_ROOT, false);
-//
-////        jaxbMarshaller.marshal(customer, file);
-////        jaxbMarshaller.marshal(dataProvider, System.out);
-//
-//        jaxbMarshaller.setProperty("eclipselink.media-type", "application/json");
-//        jaxbMarshaller.marshal(dataProvider, System.out);
-    }
-
     public static String marshallAny(Object object) throws JAXBException {
 
         JAXBContext jaxbContext =   JAXBContextFactory.createContext(new Class[]{object.getClass()}, null);
@@ -81,7 +60,7 @@ public class Tools {
 
     public static String parseResponse(String uri, short status, Response response){
 
-        String errorString = null;
+        String errorString;
         MultivaluedMap<String, Object> responseHeaders = response.getHeaders();
         if(responseHeaders.containsKey("Content-Type") && (!responseHeaders.get("Content-Type").get(0).equals("application/xml") && !responseHeaders.get("Content-Type").get(0).equals("application/json")))
             errorString = response.readEntity(String.class);
