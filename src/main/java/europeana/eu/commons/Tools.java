@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
+ * Contains static methods for with helper methods.
  * @author Simon Tzanakis (Simon.Tzanakis@europeana.eu)
  * @since 2016-05-25
  */

@@ -10,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
+ * Manager for controlling all the different accessors.
  * @author Simon Tzanakis (Simon.Tzanakis@europeana.eu)
  * @since 2016-05-25
  */
