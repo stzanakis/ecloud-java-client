@@ -33,8 +33,10 @@ public class Main {
         System.out.println(propertiesConfiguration.getProperty(AccessorsManager.getUsername_key()).toString());
 
         AccessorsManager accessorsManager = new AccessorsManager();
-        accessorsManager.InitializeAllAccessors(AccessorsManager.getAccessUrl(),
-                propertiesConfiguration.getProperty(AccessorsManager.getUsername_key()).toString(), propertiesConfiguration.getProperty(AccessorsManager.getPassword_key()).toString());
+        accessorsManager.InitializeAllAccessors(
+                propertiesConfiguration.getProperty(AccessorsManager.getAccessUrl_key()).toString(),
+                propertiesConfiguration.getProperty(AccessorsManager.getUsername_key()).toString(),
+                propertiesConfiguration.getProperty(AccessorsManager.getPassword_key()).toString());
 //        accessorsManager.InitializeAllAccessors("https://test-cloud.europeana.eu/api",
 //                propertiesConfiguration.getProperty("username").toString(), propertiesConfiguration.getProperty("password").toString());
         UniqueIdentifierServiceAccessor uis = accessorsManager.getUniqueIdentifierServiceAccessor();

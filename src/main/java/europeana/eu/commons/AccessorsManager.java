@@ -16,7 +16,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class AccessorsManager {
     private static final Logger logger = LogManager.getLogger();
-    private final static String accessUrl = "https://test-cloud.europeana.eu/api";
+    private final static String accessUrl_key = "accessUrl";
     private final static String defaultCredentialsPath = "/data/credentials/ecloud-java-client";
     private final static String credentialsFileName = "credentials.properties";
     private final static String username_key = "username_admin";
@@ -66,8 +66,8 @@ public class AccessorsManager {
         this.authenticationAuthorizationServiceAccessor = authenticationAuthorizationServiceAccessor;
     }
 
-    public static String getAccessUrl() {
-        return accessUrl;
+    public static String getAccessUrl_key() {
+        return accessUrl_key;
     }
 
     public static String getDefaultCredentialsPath() {
